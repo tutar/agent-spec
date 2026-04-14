@@ -1,4 +1,4 @@
-# Model Streaming Adapter
+# Model Provider Streaming Adapter
 
 ## 目标
 
@@ -18,7 +18,7 @@
 
 ## 一、职责
 
-`ModelStreamingAdapter` 负责：
+`ModelProviderStreamingAdapter` 负责：
 
 - 消费 provider streaming protocol
 - 归一化 content block / delta / stop 语义
@@ -36,10 +36,13 @@
 
 如果这层不被单独抽象，上层 runtime 会直接耦合 provider 事件语义。
 
+provider stream transport、认证与 wire-shape 边界由
+`ModelProviderAdapter` 统一吸收。
+
 ## 三、推荐最小接口
 
 ```text
-ModelStreamingAdapter
+ModelProviderStreamingAdapter
   - stream(request) -> stream_events
   - normalize_event(provider_event) -> stream_event | message_fragment
   - handle_streaming_fallback(error) -> fallback_decision
@@ -99,7 +102,7 @@ ModelStreamingAdapter
 
 ## 七、与 AgentRuntime 的边界
 
-- `ModelStreamingAdapter`
+- `ModelProviderStreamingAdapter`
   只负责 provider stream -> normalized stream
 - `AgentRuntime`
   负责 turn 级状态推进、tool loop、fallback 协调
@@ -125,6 +128,6 @@ ModelStreamingAdapter
 
 ## 九、规范结论
 
-- 模型流式协议应通过适配层与 runtime 解耦
+- 模型流式协议应通过 `ModelProviderStreamingAdapter` 与 runtime 解耦
 - `streaming_fallback` 必须是显式标准语义
 - usage 和 stop reason 的后到回填必须被规范允许

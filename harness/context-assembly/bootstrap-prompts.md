@@ -159,8 +159,8 @@ bootstrap prompt 应支持将：
   `BootstrapPrompts` 定义 prompt skeleton 的结构；`PromptCacheStrategy` 定义这些结构如何组织成 cache-friendly 输入
 - 与 [context-governance.md](context-governance.md)
   `BootstrapPrompts` 提供可分块输入；`ContextGovernance` 负责预算、compact 和大上下文治理
-- 与 [../model-integration/model-adapter.md](../model-integration/model-adapter.md)
-  `ModelAdapter` 决定如何把 prompt blocks 投影到特定模型协议；不定义 bootstrap prompt 内容
+- 与 [../model-provider/model-provider-adapter.md](../model-provider/model-provider-adapter.md)
+  `ModelProviderAdapter` 决定如何把 prompt blocks 投影到特定模型协议；不定义 bootstrap prompt 内容
 
 ## 默认实现映射
 

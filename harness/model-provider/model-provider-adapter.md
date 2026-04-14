@@ -1,8 +1,8 @@
-# Model Adapter
+# Model Provider Adapter
 
 ## 目标
 
-`ModelAdapter` 负责把不同模型厂商、不同 API 风格、不同能力组合，统一适配到 agent harness 可消费的标准语义。
+`ModelProviderAdapter` 负责把不同模型厂商、不同 API 风格、不同能力组合，统一适配到 agent harness 可消费的标准语义。
 
 它的职责不是重新发明模型协议，而是把模型差异收敛到一层明确边界内，避免这些差异泄漏到 runtime、tool、policy 和 context governance。
 
@@ -15,7 +15,7 @@
 ```text
 Business / Product Logic
   -> Agent Harness
-  -> Model Adapter
+  -> Model Provider Adapter
   -> Vendor SDK / HTTP API
   -> LLM Provider
 ```
@@ -26,7 +26,10 @@ Business / Product Logic
 - 下层保留模型厂商特有协议与优化
 - 模型切换不应迫使 runtime 重写
 
-## Model Adapter 职责
+provider client / transport / auth 是 `ModelProviderAdapter` 的实现关注点，
+不是另一个并列稳定接口。
+
+## Model Provider Adapter 职责
 
 - 发现或声明模型能力
 - 标准化请求参数
@@ -35,10 +38,11 @@ Business / Product Logic
 - 标准化 usage / token / reasoning 统计
 - 标准化错误类型与可恢复性信号
 - 提供原生能力与 harness fallback 的切换入口
+- 吸收 provider transport / auth / endpoint / wire protocol 差异
 
 ## 标准输入
 
-模型适配层至少应接受以下逻辑输入：
+模型 provider 适配层至少应接受以下逻辑输入：
 
 - 标准化 messages
 - 标准化 system instructions
@@ -60,7 +64,7 @@ Business / Product Logic
 
 ## 标准输出
 
-模型适配层对上层至少应统一输出：
+模型 provider 适配层对上层至少应统一输出：
 
 - 文本 delta
 - 完整 assistant message
@@ -132,7 +136,7 @@ Business / Product Logic
 - 原生 usage 不完整时，适配层应补充本地估算
 - 原生 stop reason 不统一时，适配层应映射到标准终止原因
 
-## 不应放在 Model Adapter 的职责
+## 不应放在 Model Provider Adapter 的职责
 
 以下职责不应下沉到模型适配层：
 
@@ -149,7 +153,7 @@ Business / Product Logic
 
 ## 规范结论
 
-- `ModelAdapter` 是多模型兼容的唯一差异吸收层
+- `ModelProviderAdapter` 是多模型兼容的唯一差异吸收层
 - 所有语言实现都应维持同一份标准能力视图
 - 供应商专有字段不得泄漏到上层模块边界
-- 执行环境差异不应被错误下沉到 ModelAdapter
+- 执行环境差异不应被错误下沉到 ModelProviderAdapter

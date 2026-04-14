@@ -93,17 +93,18 @@ Harness
 - 内部状态怎么分层
 - 内部消息与外部事件如何分开
 
-### 2. Model Integration
+### 2. Model Provider
 
-- [model-capability-routing.md](model-integration/model-capability-routing.md)
-- [model-adapter.md](model-integration/model-adapter.md)
-- [model-streaming-adapter.md](model-integration/model-streaming-adapter.md)
+- [model-capability-routing.md](model-provider/model-capability-routing.md)
+- [model-provider-adapter.md](model-provider/model-provider-adapter.md)
+- [model-provider-streaming-adapter.md](model-provider/model-provider-streaming-adapter.md)
 
 这一组回答：
 
 - 不同模型能力如何探测与降级
-- 模型协议差异如何吸收
+- 模型与 provider 协议差异如何吸收
 - 模型 streaming 如何接入 harness
+- provider transport / auth / endpoint 边界如何落在统一 adapter 内
 
 ### 3. Context Assembly
 

@@ -184,7 +184,7 @@ ForkCachePlan
   `ContextProvider` 决定上下文来源；`PromptCacheStrategy` 决定这些上下文如何组织成 cache-friendly 输入
 - 与 [context-governance.md](context-governance.md)
   `ContextGovernance` 处理预算、compact、overflow；`PromptCacheStrategy` 处理 cache reuse 与 cache stability
-- 与 [../model-integration/model-capability-routing.md](../model-integration/model-capability-routing.md)
+- 与 [../model-provider/model-capability-routing.md](../model-provider/model-capability-routing.md)
   模型能力路由决定是否启用 provider-native prompt caching；`PromptCacheStrategy` 负责实际组织输入
 
 ## 默认实现映射

@@ -19,8 +19,8 @@ Agent SDK 的核心目标是管理一轮完整的 agentic turn，而不是只包
 
 ## 标准组件
 
-- `ModelAdapter`
-  负责适配不同模型的原生协议与能力声明。
+- `ModelProviderAdapter`
+  负责适配不同模型和 provider 的协议与能力声明。
 - `Session`
   负责 durable event log、恢复与会话标识。
 - `Harness`
