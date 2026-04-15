@@ -36,6 +36,7 @@
 - background task 与 subagent 常由本机进程承载
 - verifier 常作为本地独立 agent/task 执行
 - direct-call contract 是默认优化路径
+- 应用或系统重启后，不应破坏已 durable session 的 resume 能力
 
 这里的“本地”只描述常见部署优化，不代表接口可以假设所有组件与 harness 共进程。
 相关约束见 [../../harness/deployment-boundaries.md](../../harness/deployment-boundaries.md)。

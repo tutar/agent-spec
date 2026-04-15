@@ -209,6 +209,17 @@ Convenience:
 - capability、lease、network boundary、credential boundary 应显式声明
 - Cloud profile 下应默认允许 remote provisioning 和 reprovision
 
+## 可替换执行面
+
+`Harness` 与 `Sandbox` 都应被视为可替换执行面，而不是必须长期存活的 stateful singleton。
+
+这意味着：
+
+- `Cloud` 下重启、扩缩容或重新创建 harness/sandbox 实例，不应破坏已有 session 或 task 的恢复能力
+- `Local` 下应用重启或系统重启后，也不应破坏已 durable session 的 resume 能力
+- resume 依赖的是 `Session`、checkpoint、task handle、event log 等 durable 边界，而不是某个仍然存活的进程实例
+- 若某个组件被替换，新实例应能通过 stable handle / checkpoint / restore store 继续接管工作
+
 ## 对上层 agent SDK 集成者的含义
 
 上层 agent 不应默认“直接依赖一组库内单例实现”。

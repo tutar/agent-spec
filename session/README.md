@@ -22,6 +22,11 @@
 - `Cloud`
   通常是远端 event log / restore store
 
+它也是 `resume` 的真源：
+
+- `Local` 下应用或系统重启后，应仍可基于本地 durable transcript / working state 恢复
+- `Cloud` 下 harness 或 sandbox 实例被替换后，应仍可基于远端 event log / restore store 恢复
+
 规范上必须明确：
 
 - transcript 不是 memory
@@ -163,5 +168,6 @@ session 体系必须兼容：
 - `Session` 模块主要负责 transcript、restore、working state 和 session memory linkage
 - 长短期记忆的详细规范应下沉到独立文档，而不是挤在总览页里
 - session 语义不应因为 Local、Cloud 的落盘位置不同而漂移
+- session 应作为 harness / sandbox 可替换后的恢复真源
 - `append_events()` 与 `session_checkpoint` 应优先于进程内 transcript 变异
 - direct-call session API 如存在，也必须严格由 event log 语义推导
