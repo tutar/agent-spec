@@ -154,8 +154,8 @@ session 体系必须兼容：
 - [event-log-schema.md](event-log-schema.md)
 - [lifecycle-state.md](lifecycle-state.md)
 - [memory-model.md](memory-model.md)
-- [memory-consolidation.md](memory-consolidation.md)
-- [dream-consolidation.md](dream-consolidation.md)
+- [memory-consolidation.md](memory/memory-consolidation.md)
+- [dream-consolidation.md](memory/dream-consolidation.md)
 
 ## 规范结论
 
