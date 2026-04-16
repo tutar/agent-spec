@@ -37,9 +37,11 @@
 
 - consolidation 可以同步或异步执行
 - recall 结果可以进入 structured context 或 attachment-like context
+- consolidation 可以失败或延迟，但不能破坏 session restore
 
 ## Failure Conditions
 
 - recall 通过篡改 transcript 模拟
 - consolidation 直接覆盖历史会话记录
 - 恢复后 durable memory 不可继续生效
+- consolidation 失败导致 session checkpoint / resume 失效

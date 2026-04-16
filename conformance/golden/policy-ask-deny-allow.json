@@ -1,0 +1,21 @@
+{
+  "artifact_id": "policy-ask-deny-allow.v1",
+  "schema_version": "1.0",
+  "scenario": "policy-ask-deny-allow",
+  "constraints": [
+    "allow must continue into normal tool execution",
+    "ask must project to a structured requires_action object",
+    "deny must not create a resumable pending action",
+    "approval resume must bind back to the original tool_use_id"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "PolicyDecision",
+      "required_fields": ["decision", "reason"]
+    },
+    {
+      "object_name": "RequiresAction",
+      "required_fields": ["tool_name", "request_id", "resumable"]
+    }
+  ]
+}

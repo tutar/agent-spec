@@ -258,6 +258,34 @@ DurableMemoryExtractor
   - extract(transcript_slice, existing_memory_context) -> memory_records
 ```
 
+推荐 `memory_record` 至少包括：
+
+```text
+DurableMemoryRecord
+  - memory_id?
+  - scope
+  - summary
+  - source_session_id?
+  - source_event_refs?
+  - freshness?
+  - metadata?
+```
+
+## 六、失败与延迟语义
+
+`memory consolidation` 作为标准扩展，可以异步、延迟或后台执行，但必须满足：
+
+- consolidation 失败不得破坏 transcript / checkpoint / resume
+- recall 若读取到旧版本 durable memory，行为上允许暂时滞后，但不能造成 session restore 语义漂移
+- 去重、合并、重写 durable memory 时，必须保留可追溯 source metadata 或语义等价引用
+- consolidation 结果应体现在 durable memory store，而不是通过改写历史 transcript 模拟
+
+## 七、规范结论
+
+- `DurableMemoryRecord` 应作为 durable memory 的最小共享对象
+- memory consolidation 是标准扩展，不是 session restore 的前提
+- consolidation 可以失败或延迟，但不能让 session 丢失可恢复性
+
 ```text
 MemoryRecallEngine
   - prefetch(query, runtime_context) -> recall_handle

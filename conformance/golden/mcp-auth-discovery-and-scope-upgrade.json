@@ -1,0 +1,18 @@
+{
+  "case": "mcp-auth-discovery-and-scope-upgrade",
+  "transport": "streamable_http",
+  "auth": {
+    "discovery": "oidc",
+    "initial_scopes": [
+      "mcp.read"
+    ],
+    "upgraded_scopes": [
+      "mcp.read",
+      "mcp.tools.call"
+    ]
+  },
+  "expected": {
+    "session_identity_stable": true,
+    "scope_upgrade_supported": true
+  }
+}

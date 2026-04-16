@@ -1,0 +1,19 @@
+{
+  "case": "mcp-initialize-and-version-negotiation",
+  "protocol_version": "2025-11-25",
+  "transport": "stdio",
+  "client_capabilities": {
+    "roots": false,
+    "sampling": false,
+    "elicitation": false
+  },
+  "server_capabilities": {
+    "tools": true,
+    "prompts": true,
+    "resources": true
+  },
+  "expected": {
+    "initialized_sent": true,
+    "negotiated_capabilities_only": true
+  }
+}

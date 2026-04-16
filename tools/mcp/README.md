@@ -2,101 +2,143 @@
 
 ## 职责
 
-`MCP` 子模块负责定义外部协议接入的稳定接口。
+`MCP` 子模块负责定义 Model Context Protocol 接入的稳定接口。
 
 它的职责不是“提供一个 MCP tool”，而是：
 
-- 连接 MCP server
-- 枚举 MCP tools
-- 枚举 MCP prompts
-- 枚举 MCP resources
-- 在资源语义上发现 MCP skills
-- 把这些外部对象适配到本地 runtime 的 `tool / skill / resource` 模型
+- 建立并维护 MCP client session
+- 完成 protocol version / capability negotiation
+- 通过 `stdio` 或 `Streamable HTTP` 连接 MCP server
+- 处理 HTTP transport 下的 authorization / discovery
+- 枚举和调用 server capabilities
+- 在宿主支持时向 server 暴露 client capabilities
+- 把 MCP 协议对象适配到本地 runtime 的 `tool / command / resource` 模型
+
+当前规范默认对齐 MCP specification `2025-11-25`。参考官方规范：
+
+- <https://modelcontextprotocol.io/specification/2025-11-25/basic>
+- <https://modelcontextprotocol.io/specification/2025-11-25/server>
+- <https://modelcontextprotocol.io/specification/2025-11-25/client>
+
+## 分层
+
+`tools/mcp` 应分成三层，而不是把协议层和本地约定混写：
+
+- 协议客户端层
+  见 [protocol-client.md](protocol-client.md)
+- runtime 适配层
+  见 [runtime-adaptation.md](runtime-adaptation.md)
+- host 扩展层
+  见 [host-extensions.md](host-extensions.md)
+
+这里必须明确：
+
+- MCP core capability 是协议定义的能力
+- runtime adaptation 是宿主把协议对象映射到本地 `Tool / Command / Resource`
+- `mcp skill`、bundle host、UI affordance 属于 host-specific extension，不属于 MCP core
+
+## 阅读结构
+
+- [protocol-client.md](protocol-client.md)
+  协议生命周期、version negotiation、capability negotiation、ping/cancel/progress、shutdown
+- [server-capabilities.md](server-capabilities.md)
+  `tools / prompts / resources / logging / completions / tasks`
+- [client-capabilities.md](client-capabilities.md)
+  `roots / sampling / elicitation / tasks`
+- [transport-and-auth.md](transport-and-auth.md)
+  `stdio`、`Streamable HTTP`、session continuity、OAuth 2.1 / OIDC discovery
+- [runtime-adaptation.md](runtime-adaptation.md)
+  MCP objects 到本地 `tool / command / resource` 的稳定映射
+- [host-extensions.md](host-extensions.md)
+  `mcp skill`、MCPB、UI / trust / install-specific affordance
 
 ## 稳定接口
 
 推荐最小接口：
 
 ```text
-McpClient
-  - connect(server_descriptor)
-  - disconnect(server_id)
-  - list_tools(server_id)
-  - list_prompts(server_id)
-  - list_resources(server_id)
-  - call_tool(server_id, tool_name, input)
-  - get_prompt(server_id, prompt_name, args)
-  - read_resource(server_id, resource_uri)
+McpProtocolClient
+  - initialize(server_descriptor, client_capabilities, client_info)
+  - send_initialized(session_handle)
+  - ping(session_handle)
+  - close(session_handle)
 
-McpToolAdapter
-  - adapt_mcp_tool(server_id, remote_tool)
+McpTransportAdapter
+  - open_stdio(config)
+  - open_http(config)
+  - send(session_handle, message)
+  - receive(session_handle)
+  - close(session_handle)
 
-McpPromptAdapter
-  - adapt_mcp_prompt(server_id, remote_prompt)
+McpAuthorizationAdapter
+  - discover_authorization(server_endpoint)
+  - acquire_token(auth_metadata, scopes?)
+  - refresh_token(token_state)
+  - handle_www_authenticate(challenge, auth_state)
 
-McpSkillAdapter
-  - discover_skills_from_resources(server_id, resources)
-  - adapt_mcp_skill(server_id, remote_skill)
+McpRuntimeAdapter
+  - adapt_tool(server_id, remote_tool)
+  - adapt_prompt(server_id, remote_prompt)
+  - adapt_resource(server_id, remote_resource)
 ```
 
-这里必须区分：
-
-- `MCP` 是协议层
-- `McpToolAdapter` 只是把 MCP tools 适配成 runtime tools
-- MCP prompts 和 MCP skills 不应被吞并进同一个抽象
-
-推荐在规范里显式写出默认落点：
+若宿主支持 MCP client features，还应补：
 
 ```text
-mcp tools   -> Tool
-mcp prompts -> Command
-mcp skills  -> Skill (default carrier may be Command)
+McpRootsProvider
+  - list_roots()
+  - notify_roots_changed()
+
+McpSamplingBridge
+  - handle_sampling_request(server_id, request)
+
+McpElicitationBridge
+  - handle_elicitation_request(server_id, request)
 ```
 
-## 默认实现
+## 默认实现映射
 
 当前代码库中的默认实现是：
 
 - [services/mcp/client.ts](../../../cc/services/mcp/client.ts)
-  MCP 主客户端，负责连接 server 并拉取 tools/prompts/resources/skills
+  MCP 主客户端，负责连接 server 并拉取 tools/prompts/resources
 - [services/mcp/utils.ts](../../../cc/services/mcp/utils.ts)
   处理 server 维度的筛选、命名和 prompt/skill 区分
 - [tools/MCPTool/MCPTool.ts](../../../cc/tools/MCPTool/MCPTool.ts)
-  作为默认 `McpToolAdapter` 的底座
+  作为默认 `McpRuntimeAdapter` 中 tool 映射的一部分
 - [tools/ListMcpResourcesTool/ListMcpResourcesTool.ts](../../../cc/tools/ListMcpResourcesTool/ListMcpResourcesTool.ts)
   暴露 resources 枚举能力
 - [tools/ReadMcpResourceTool/ReadMcpResourceTool.ts](../../../cc/tools/ReadMcpResourceTool/ReadMcpResourceTool.ts)
   暴露 resource 读取能力
 
-## 要解决的问题
-
-- 如何把 MCP 协议接入和本地 tool/skill 抽象解耦
-- 如何同时支持 tools、prompts、resources 三类协议对象
-- 如何在 resources 之上发现 skill，而不是错误地把所有 prompt 都当成 skill
-- 如何让不同 MCP server 的能力接入后仍保留来源边界
-- 如何给权限系统、UI、tool execution 提供统一但不失真的对象模型
+这些实现可以作为参考映射，但不代表跨语言 SDK 必须复刻同样的包结构。
 
 ## 当前源码映射
 
-源码里的实现已经明确分了几条链路：
+源码里的默认实现已经体现了三条链路：
 
 - `fetchToolsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中通过 `tools/list` 拉取工具，并包装成 `Tool`
 - `fetchCommandsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中通过 `prompts/list` 拉取 MCP prompts，并包装成 `Command(type='prompt')`
 - `fetchResourcesForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中通过 `resources/list` 拉取资源
-- `fetchMcpSkillsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中被单独调用，注释明确写的是从 `skill://` resources 发现 skills
 
-源码中的关键洞察：
+另外，当前源码还包含一个本地扩展约定：
 
-- MCP prompt 和 MCP skill 都会进入 `mcp.commands`
-- 区分方式不是 `type`，而是 `loadedFrom === 'mcp'`
-- MCP prompt 的命名形态是 `mcp__<server>__<prompt>`
-- MCP skill 的命名形态是 `<server>:<skill>`
+- `fetchMcpSkillsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中单独从 `skill://` resources 发现 skills
 
-这些规则集中体现在 [services/mcp/utils.ts](../../../cc/services/mcp/utils.ts)。
+这条链路应视为 host-specific extension，而不是 MCP `2025-11-25` core requirement。
+
+## 要解决的问题
+
+- 如何把 MCP 协议接入和本地 `tool / command / resource` 抽象解耦
+- 如何同时支持 lifecycle、transport、authorization、server features、client features
+- 如何支持 `tools / prompts / resources` 之外的 `logging / completions / tasks`
+- 如何让 `roots / sampling / elicitation` 在宿主支持时稳定暴露
+- 如何在保留来源边界的前提下把 MCP objects 接入本地 runtime
+- 如何避免把 host 私有扩展错误提升成 MCP core 合规要求
 
 ## 规范结论
 
 - `MCP` 应在 `tools` 域下保留为独立稳定子接口
-- MCP tools、prompts、resources、skills 必须分别建模，再在 runtime 中汇合
-- 不能把“MCP 兼容”简化成“支持一批远端 tools”
-- 不能把 `mcp prompts` 与 `mcp skills` 合并成同一个对象语义
+- 不能把 “MCP 兼容” 简化成 “支持一批远端 tools”
+- 必须区分协议客户端层、runtime 适配层和 host 扩展层
+- `mcp skill` 发现、MCPB、UI-specific affordance 可以存在，但必须明确标为 host extension

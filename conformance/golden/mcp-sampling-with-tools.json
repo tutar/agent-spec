@@ -1,0 +1,21 @@
+{
+  "case": "mcp-sampling-with-tools",
+  "protocol_version": "2025-11-25",
+  "client_capabilities": {
+    "sampling": true,
+    "sampling_tools": true
+  },
+  "request": {
+    "request_id": "mcp-sample-1",
+    "tools": [
+      {
+        "name": "lookup_workspace"
+      }
+    ],
+    "tool_choice": "auto"
+  },
+  "expected": {
+    "policy_reviewable": true,
+    "request_id_stable": true
+  }
+}

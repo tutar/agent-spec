@@ -39,15 +39,18 @@
 - 每个 `tool_use` 必须有且仅有一个最终 `tool_result`
 - `tool_result` 必须能被映射回对应的 `tool_use_id`
 - tool result 进入后，本轮 assistant 能继续完成
+- 若结果被外存化，`tool_result` 必须带稳定引用或语义等价对象
 
 ## Allowed Variance
 
 - tool 可以流式返回 progress
 - 具体工具输出内容不参与本 case 合规判断
 - tool 调用次数允许为 1 次或多次，但每次配对必须完整
+- 实现可以选择 batch executor 或 streaming executor，但终态语义必须一致
 
 ## Failure Conditions
 
 - `tool_use` 与 `tool_result` 配对丢失
 - tool 执行完成后 turn 无法继续
 - 非并发安全工具被错误并发执行
+- compact / resume 后同一 `tool_use` 的结果引用漂移

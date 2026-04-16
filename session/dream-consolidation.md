@@ -77,6 +77,7 @@ DreamConsolidationResult
   - updated_index_ref?
   - summary
   - status: completed | no_change | failed | killed
+  - trigger: manual | automatic
 
 DreamScheduler
   - should_trigger(now, memory_state, session_activity) -> boolean
@@ -104,6 +105,9 @@ DreamRunner
 - 对 memory 的基本操作语义
 - 对 index / topic memory 的处理目标
 - 对最终结果对象的定义
+
+推荐直接复用 [memory-consolidation.md](memory-consolidation.md) 中的 `ConsolidationResult` 语义，
+仅额外补 `trigger` 或语义等价字段。
 
 ### 2. Dream 必须是 consolidation，不是普通 extraction
 
@@ -136,6 +140,12 @@ dream 的职责应聚焦于：
 - aborted run rollback
 - 下一次重试时机
 
+Automatic Dream 的失败不得影响：
+
+- session transcript restore
+- durable memory 的已提交视图
+- 后续普通 turn 的继续运行
+
 ### 5. Dream 应允许作为受限 subagent 执行
 
 推荐权限面：
@@ -154,7 +164,7 @@ dream 的职责应聚焦于：
   `Dream Consolidation` 主要作用于 durable memory，而不是 short-term session memory
 - 与 [../orchestration/agent-orchestration/task-manager.md](../orchestration/agent-orchestration/task-manager.md)
   `Auto Dream` 可作为后台 task 落地，但 task lifecycle 不等于 dream 语义本身
-- 与 [../tools/reflection-and-verification-commands.md](../tools/reflection-and-verification-commands.md)
+- 与 [../tools/command-surface/reflection-and-verification-commands.md](../tools/command-surface/reflection-and-verification-commands.md)
   `Dream` 是 memory reflection，不是 correctness verification
 
 ## 默认实现映射
@@ -178,3 +188,4 @@ dream 的职责应聚焦于：
 - 规范应同时覆盖 `manual /dream` 与 `autoDream`
 - `autoDream` 是调度模式，`dream` 是 consolidation 语义
 - dream 的默认执行形态可以是受限 subagent + task surface
+- `DreamConsolidationResult` 应与 `ConsolidationResult` 共享字段与终态语义

@@ -91,7 +91,8 @@
 - `ToolExecutor`
 - `StreamingToolExecutor`
 - `SkillRegistry`
-- `McpClient`
+- `McpProtocolClient`
+- `McpRuntimeAdapter`
 - `CommandModel`
 
 ### 不属于该模块

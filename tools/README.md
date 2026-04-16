@@ -6,7 +6,7 @@
 
 模块总览见 [../module-overview.md](../module-overview.md)，术语归属见 [../terminology-and-ownership.md](../terminology-and-ownership.md)。
 
-这个模块包含三层：
+这个模块包含三层执行主线：
 
 - tool definition
 - tool registry
@@ -19,7 +19,7 @@
 - `skill`
   提示词/工作流型能力，面向发现、加载、激活和模型调用桥接
 - `mcp`
-  外部协议接入能力，面向 `tools / prompts / resources / skills` 的统一接入
+  外部协议接入能力，面向 MCP lifecycle、transport、auth、`tools / prompts / resources / tasks` 的统一接入
 - `command`
   `tools` 域内的共享对象模型，用来承载 prompt/local/ui 型入口对象及 skill 的默认运行时表示
 
@@ -91,6 +91,26 @@ ToolExecutor
   - run_tools(tool_calls, context)
 ```
 
+为保证执行与恢复闭合，推荐补充共享对象：
+
+```text
+ToolExecutionHandle
+  - execution_id
+  - tool_use_ids[]
+  - started_at
+  - session_id?
+  - task_id?
+```
+
+```text
+PersistedToolResultRef
+  - tool_use_id
+  - storage_ref
+  - preview?
+  - original_size?
+  - media_type?
+```
+
 为满足生态兼容，推荐在 `Tools` 域下再补三组接口：
 
 ```text
@@ -108,14 +128,19 @@ SkillRegistry
   - load_skill(skill_id)
   - activate_skill(skill_id, context)
 
-McpClient
-  - connect(server_descriptor)
+McpProtocolClient
+  - initialize(server_descriptor)
   - list_tools()
   - list_resources()
   - list_prompts()
   - call_tool()
   - read_resource()
   - get_prompt()
+
+McpRuntimeAdapter
+  - adapt_tool()
+  - adapt_prompt()
+  - adapt_resource()
 ```
 
 桌面端可再补：
@@ -174,6 +199,7 @@ McpBundleHost
 - 如何在不新增顶层模块的前提下，把 `command` 这种共享对象模型写清楚
 - 如何让 command-like review capability 通过 orchestration 执行而不混淆模块边界
 - 如何避免 SDK 自建一个与 Skills/MCP 生态割裂的封闭工具系统
+- 如何让 lifecycle、transport、auth、server/client capabilities 在不同 host 下保持一致
 - 如何让桌面端把本地 MCP server 分发与安装纳入同一套规范
 - 如何让同一 tool/skill/mcp 语义同时适配 Local、Cloud
 
@@ -183,6 +209,7 @@ McpBundleHost
 - registry 不是静态数组，而是 capability assembly
 - executor 不负责 hand 生命周期，只负责调用编排
 - tool result 应支持大结果外存化与恢复
+- batch executor 与 streaming executor 应共享同一终态、错误和 context mutation 语义
 - `tool / skill / mcp` 应在能力域内并列建模，再在模型可见能力层汇合
 - `command` 是共享对象模型，不是新的顶层能力模块
 - command-like capability 可以把 orchestration 作为默认执行后端
@@ -199,22 +226,69 @@ McpBundleHost
 - command model 不等于顶层模块
 - review capability 不等于 Agent Skills
 
-## 目录内文档
+## 当前需要优先稳定的主线
 
-- [builtin-tool-baseline.md](builtin-tool-baseline.md)
-- [tool-definition.md](tool-definition.md)
-- [tool-executor.md](tool-executor.md)
-- [tool-streaming-execution.md](tool-streaming-execution.md)
-- [policy-engine.md](policy-engine.md)
-- [command-model.md](command-model.md)
-- [reflection-and-verification-commands.md](reflection-and-verification-commands.md)
+对 SDK 落地来说，`Tools` 规范应优先闭合这条主线：
+
+1. `ToolDefinition`
+2. `PolicyDecision`
+3. `ToolRegistry`
+4. `ToolExecutor / StreamingToolExecutor`
+5. `PersistedToolResultRef`
+6. command / skill / mcp 的 exposure boundary
+
+若这条主线未闭合，实现者就不得不在 registry、执行、恢复、权限和命令面之间自行补设计。
+
+## 阅读结构
+
+### 1. 执行型工具主线
+
+- [tool-model/README.md](tool-model/README.md)
+- [tool-model/tool-definition.md](tool-model/tool-definition.md)
+- [tool-model/tool-registry.md](tool-model/tool-registry.md)
+- [tool-model/policy-engine.md](tool-model/policy-engine.md)
+- [tool-model/tool-executor.md](tool-model/tool-executor.md)
+- [tool-model/tool-streaming-execution.md](tool-model/tool-streaming-execution.md)
+
+这一组回答：
+
+- 执行型 tool 如何被定义
+- 如何被 registry 装配
+- 如何被 policy 审查
+- 如何被 batch / streaming 执行
+- 如何保持可观察与可恢复
+
+### 2. 命令与工作流入口主线
+
+- [command-surface/README.md](command-surface/README.md)
+- [command-surface/command-model.md](command-surface/command-model.md)
+- [command-surface/reflection-and-verification-commands.md](command-surface/reflection-and-verification-commands.md)
+
+这一组回答：
+
+- command surface 是什么
+- prompt / local / review capability 如何承载
+- command-like capability 如何与 orchestration 桥接
+
+### 3. Baseline 与生态接入
+
+- [builtin/README.md](builtin/README.md)
+- [builtin/builtin-tool-baseline.md](builtin/builtin-tool-baseline.md)
 - [skills/README.md](skills/README.md)
 - [mcp/README.md](mcp/README.md)
+
+这一组回答：
+
+- coding-oriented host 的 baseline tools 是什么
+- skills 如何被导入、披露、激活并进入 runtime
+- MCP protocol client 如何协商并接入 server
+- MCP objects 如何被适配并投影到本地 runtime
+- 哪些 `mcp skill` / bundle 语义属于 host extension，而不是 MCP core
 
 ## 外部规范
 
 - Agent Skills specification: <https://agentskills.io/specification>
-- Model Context Protocol specification: <https://modelcontextprotocol.io/specification/2025-06-18>
+- Model Context Protocol specification: <https://modelcontextprotocol.io/specification/2025-11-25>
 - MCP Bundles (`.mcpb`) for desktop hosts: <https://github.com/modelcontextprotocol/mcpb>
 
 ## 规范结论
@@ -229,3 +303,4 @@ McpBundleHost
 - tools 语义应跨 Local、Cloud 保持一致，只允许 registry/host 形态变化
 - 宿主侧统一 command surface 可以混合展示 built-in commands 与 bundled skills，但不能抹平其来源差异
 - built-in tools 不应只写成抽象概念，baseline 应单独定义
+- `ToolRegistry`、`ToolExecutor`、`StreamingToolExecutor` 与大结果持久化引用必须共同形成可恢复的执行语义

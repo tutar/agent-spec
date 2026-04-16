@@ -17,6 +17,26 @@
 - baseline 工具应尽量覆盖代码代理最常见的闭环能力
 - 不属于 baseline 的平台工具、实验工具、厂商特有工具不应混入这里
 
+## 每类 baseline 工具都应补足的统一约束
+
+无论具体工具类型如何，baseline 文档都应回答四件事：
+
+- 最小语义契约
+- policy sensitivity
+- result persistence expectation
+- context mutation expectation
+
+推荐默认分类：
+
+- `read_only`
+  例如 `Read / Glob / Grep / WebSearch`
+- `mutating`
+  例如 `Write / Edit / Bash`
+- `interactive`
+  例如 `AskUserQuestion`
+- `orchestration_bridge`
+  例如 `Agent / Skill`
+
 ## 分层
 
 ### 1. Required Builtin Tools
@@ -55,6 +75,12 @@
 - `Cloud`
   可是 remote workspace read，但必须保留路径、错误、权限语义
 
+规范补充：
+
+- 默认属于 `read_only`
+- 默认应支持并发安全执行
+- 若结果超限，应允许通过 `PersistedToolResultRef` 暴露稳定引用
+
 ### Write
 
 职责：
@@ -70,6 +96,12 @@
 
 - 必须区分“创建/覆盖写入”和增量编辑
 - 必须受 sandbox / policy 约束
+
+规范补充：
+
+- 默认属于 `mutating`
+- 默认不应被视为并发安全
+- 若执行阶段生成上下文修改，应通过 staged `ContextModifierCommit` 进入统一提交链路
 
 ### Edit
 
@@ -88,6 +120,12 @@
 - 应支持对现有文件进行结构化或行级局部变更
 - 应保留失败、冲突、定位不到目标等错误语义
 
+规范补充：
+
+- 默认属于 `mutating`
+- 默认不应被视为并发安全
+- 应与 conflict / not_found / validation 类错误区分明确
+
 ### Glob
 
 职责：
@@ -105,6 +143,11 @@
 - 可以是本地文件系统 glob，也可以是远端 workspace search
 - 语义上应返回文件匹配结果，而不是全文搜索结果
 
+规范补充：
+
+- 默认属于 `read_only`
+- 默认可并发
+
 ### Grep
 
 职责：
@@ -121,6 +164,11 @@
 
 - 语义上应是内容搜索，不是文件名搜索
 - 可由本地 grep、索引搜索、远端搜索后端实现
+
+规范补充：
+
+- 默认属于 `read_only`
+- 大结果应支持外存化引用，而不是无上限注入上下文
 
 ### Bash
 
@@ -146,6 +194,13 @@
 - 规范稳定的是“命令执行语义”，不要求一定叫 Bash，也不要求一定是 Unix shell
 - Windows/PowerShell 或远端 execution proxy 也可以作为等价实现
 
+规范补充：
+
+- 默认属于 `mutating`
+- 默认 policy sensitivity 最高
+- 默认结果易超限，应优先支持 `PersistedToolResultRef`
+- context mutation 与外部副作用语义必须与 `ToolExecutor` / `Sandbox` / `PolicyEngine` 对齐
+
 ### WebFetch
 
 职责：
@@ -161,6 +216,11 @@
 
 - 应保留 URL 定向获取语义
 - 应受网络 policy / sandbox / allowlist 控制
+
+规范补充：
+
+- 默认属于 `read_only`
+- 结果可能超限，应支持 preview + stable ref 语义
 
 ### WebSearch
 
@@ -178,6 +238,11 @@
 - 可由 provider-native search、外部搜索 API、host-integrated search 提供
 - 对上层应保持“搜索结果列表”语义，而不是直接网页正文
 
+规范补充：
+
+- 默认属于 `read_only`
+- 不应伪装成 `WebFetch`
+
 ### Agent
 
 职责：
@@ -193,6 +258,12 @@
 
 - 至少应支持一种标准 agent spawn 语义
 - 应与 orchestration/task lifecycle 对齐
+
+规范补充：
+
+- 默认属于 `orchestration_bridge`
+- 它返回的不是普通文件结果，而是 agent/task linkage 或语义等价对象
+- policy、interrupt、resume 语义必须和 orchestration 一致
 
 ### Skill
 
@@ -211,6 +282,12 @@
 - `Skill` 是调用桥，不要求 skill 自身是 tool 对象
 - 应支持本地 skills、plugin skills、MCP skills 等多来源能力
 
+规范补充：
+
+- 默认属于 `orchestration_bridge`
+- 不应抹平 skill 原始来源
+- 作为 bridge tool 时，应继续保留 command / skill surface 的原语义
+
 ### AskUserQuestion
 
 职责：
@@ -227,6 +304,12 @@
 
 - 应与 gateway / interaction loop / requires_action 配合
 - 不要求 UI 形式相同，但要保留“结构化问题 -> 用户答复”的语义
+
+规范补充：
+
+- 默认属于 `interactive`
+- 不应被建模为 destructive mutating tool
+- 应直接对齐 canonical `RequiresAction`
 
 ## Recommended Builtin Tools
 
@@ -308,3 +391,4 @@
 - baseline 工具应明确枚举，并说明职责与等价实现要求
 - 规范稳定的是工具语义，而不是具体宿主 backend
 - `Local / Cloud` 可以实现不同，但应共享同一 baseline 行为
+- baseline 工具文档必须同时回答 policy、persistence、context mutation 和 host variance 边界

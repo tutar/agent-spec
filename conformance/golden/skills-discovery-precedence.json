@@ -1,0 +1,16 @@
+{
+  "artifact_id": "skills-discovery-precedence.v1",
+  "schema_version": "1.0",
+  "scenario": "skills-discovery-precedence",
+  "constraints": [
+    "skill precedence must be deterministic across scopes",
+    "shadowed skills must produce diagnostics or equivalent warnings",
+    "catalog disclosure must only expose the winning skill"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "ImportedSkillManifest",
+      "required_fields": ["name", "description", "source", "diagnostics"]
+    }
+  ]
+}

@@ -47,6 +47,19 @@ CompatibilityFixture
   - assertions
 ```
 
+### 4. Object Fixture
+
+用于验证 canonical object 的最小字段、可序列化性和兼容语义。
+
+```text
+ObjectFixture
+  - artifact_id
+  - schema_version
+  - object_name
+  - payload
+  - invariants
+```
+
 ## 推荐场景
 
 - tool execution
@@ -56,6 +69,12 @@ CompatibilityFixture
 - memory recall injection
 - background task completion
 - remote task status sync
+- policy decision serialization
+- persisted tool result resume
+- memory consolidation background safety
+- skills discovery precedence
+- skills activation wrapping
+- skills context protection
 
 当前规范目录下的第一批工件样本位于：
 
@@ -65,6 +84,12 @@ CompatibilityFixture
 - [conformance/golden/session-resume.event-log.json](conformance/golden/session-resume.event-log.json)
 - [conformance/golden/sandbox-deny.events.json](conformance/golden/sandbox-deny.events.json)
 - [conformance/golden/memory-recall-and-consolidation.json](conformance/golden/memory-recall-and-consolidation.json)
+- [conformance/golden/policy-ask-deny-allow.json](conformance/golden/policy-ask-deny-allow.json)
+- [conformance/golden/persisted-tool-result-resume.json](conformance/golden/persisted-tool-result-resume.json)
+- [conformance/golden/memory-consolidation-background-safety.json](conformance/golden/memory-consolidation-background-safety.json)
+- [conformance/golden/skills-discovery-precedence.json](conformance/golden/skills-discovery-precedence.json)
+- [conformance/golden/skills-activation-wrapping.json](conformance/golden/skills-activation-wrapping.json)
+- [conformance/golden/skills-context-protection.json](conformance/golden/skills-context-protection.json)
 - [conformance/golden/cloud-wake-and-reprovision.json](conformance/golden/cloud-wake-and-reprovision.json)
 - [conformance/golden/prompt-cache-stable-prefix.json](conformance/golden/prompt-cache-stable-prefix.json)
 - [conformance/golden/prompt-cache-dynamic-suffix.json](conformance/golden/prompt-cache-dynamic-suffix.json)
@@ -76,3 +101,5 @@ CompatibilityFixture
 
 - 测试工件应脱离具体语言实现
 - 所有语言 SDK 应共享同一套录制样本和重放样本语义
+- canonical object fixture 应优先覆盖 `PolicyDecision`、`ResumeSnapshot`、`DurableMemoryRecord`、`PersistedToolResultRef`
+- skills 相关 object fixture 应优先覆盖 `ImportedSkillManifest`、`SkillCatalogEntry`、`SkillActivationResult`

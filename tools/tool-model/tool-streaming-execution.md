@@ -53,6 +53,7 @@ ToolExecutionUpdate
   - progress_message?
   - result_message?
   - context_modifier?
+  - persisted_ref?
 ```
 
 ## 四、必须支持的能力
@@ -64,6 +65,7 @@ ToolExecutionUpdate
 - sibling error 传播
 - streaming fallback 后 discard
 - 保持结果发射顺序可控
+- 与 batch executor 共享结果持久化和 context modifier commit 语义
 
 ## 五、Abort Reason
 
@@ -93,6 +95,7 @@ ToolExecutionUpdate
 - streaming 模式下优先使用增量执行器
 - non-streaming 或 turn-end batch 模式下使用普通执行器
 - 两者共享同一套 tool definition、权限和 context mutation 语义
+- 两者必须共享同一套 terminal state、error class、persisted result 和 context commit 语义
 
 ## 七、与 AgentRuntime 的关系
 
@@ -132,3 +135,4 @@ ToolExecutionUpdate
 - progress、result、abort reason 必须显式建模
 - batch execution 与 streaming execution 应共享语义，但不应强行合并为同一种执行器
 - `streaming_fallback`、`user_interrupted`、`sibling_error` 等 abort reason 应能映射到统一 terminal/error 语义，见 [../harness/runtime-core/failure-and-terminal-states.md](../harness/runtime-core/failure-and-terminal-states.md)
+- streaming executor 不得发明与 batch executor 不一致的 persisted result 或 context commit 语义

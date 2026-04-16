@@ -85,7 +85,7 @@ VerificationResult
 - verifier 默认只读项目目录
 - verifier 输出结构化 evidence + verdict
 - 主 agent 在汇报完成前应等待 verifier 结果
-- capability surface 由 [../../tools/reflection-and-verification-commands.md](../../tools/reflection-and-verification-commands.md) 定义
+- capability surface 由 [../../tools/command-surface/reflection-and-verification-commands.md](../../tools/command-surface/reflection-and-verification-commands.md) 定义
 
 ## 默认实现映射
 

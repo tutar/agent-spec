@@ -14,13 +14,29 @@
 
 - [cases/basic-turn.md](cases/basic-turn.md)
 - [cases/tool-call-roundtrip.md](cases/tool-call-roundtrip.md)
+- [cases/policy-ask-deny-allow.md](cases/policy-ask-deny-allow.md)
 - [cases/requires-action-approval.md](cases/requires-action-approval.md)
 - [cases/session-resume.md](cases/session-resume.md)
+- [cases/persisted-tool-result-resume.md](cases/persisted-tool-result-resume.md)
+- [cases/skills-discovery-precedence.md](cases/skills-discovery-precedence.md)
+- [cases/skills-activation-wrapping.md](cases/skills-activation-wrapping.md)
+- [cases/skills-context-protection.md](cases/skills-context-protection.md)
 - [cases/background-agent.md](cases/background-agent.md)
 - [cases/hosting-profile-equivalence.md](cases/hosting-profile-equivalence.md)
 - [cases/mcp-tool-adaptation.md](cases/mcp-tool-adaptation.md)
+- [cases/mcp-initialize-and-version-negotiation.md](cases/mcp-initialize-and-version-negotiation.md)
+- [cases/mcp-streamable-http-post-and-sse.md](cases/mcp-streamable-http-post-and-sse.md)
+- [cases/mcp-roots-list-and-list-changed.md](cases/mcp-roots-list-and-list-changed.md)
+- [cases/mcp-sampling-with-tools.md](cases/mcp-sampling-with-tools.md)
+- [cases/mcp-elicitation-form-vs-url.md](cases/mcp-elicitation-form-vs-url.md)
+- [cases/mcp-resource-subscribe-and-list-changed.md](cases/mcp-resource-subscribe-and-list-changed.md)
+- [cases/mcp-prompt-pagination-and-get.md](cases/mcp-prompt-pagination-and-get.md)
+- [cases/mcp-tool-pagination-and-call.md](cases/mcp-tool-pagination-and-call.md)
+- [cases/mcp-auth-discovery-and-scope-upgrade.md](cases/mcp-auth-discovery-and-scope-upgrade.md)
+- [cases/mcp-host-extension-skill-discovery.md](cases/mcp-host-extension-skill-discovery.md)
 - [cases/sandbox-deny.md](cases/sandbox-deny.md)
 - [cases/memory-recall-and-consolidation.md](cases/memory-recall-and-consolidation.md)
+- [cases/memory-consolidation-background-safety.md](cases/memory-consolidation-background-safety.md)
 - [cases/cloud-wake-and-reprovision.md](cases/cloud-wake-and-reprovision.md)
 - [cases/prompt-cache-stable-prefix.md](cases/prompt-cache-stable-prefix.md)
 - [cases/prompt-cache-dynamic-suffix.md](cases/prompt-cache-dynamic-suffix.md)
@@ -33,12 +49,21 @@
 - [golden/session-resume.event-log.json](golden/session-resume.event-log.json)
 - [golden/sandbox-deny.events.json](golden/sandbox-deny.events.json)
 - [golden/memory-recall-and-consolidation.json](golden/memory-recall-and-consolidation.json)
+- [golden/policy-ask-deny-allow.json](golden/policy-ask-deny-allow.json)
+- [golden/persisted-tool-result-resume.json](golden/persisted-tool-result-resume.json)
+- [golden/memory-consolidation-background-safety.json](golden/memory-consolidation-background-safety.json)
+- [golden/skills-discovery-precedence.json](golden/skills-discovery-precedence.json)
+- [golden/skills-activation-wrapping.json](golden/skills-activation-wrapping.json)
+- [golden/skills-context-protection.json](golden/skills-context-protection.json)
 - [golden/cloud-wake-and-reprovision.json](golden/cloud-wake-and-reprovision.json)
 - [golden/prompt-cache-stable-prefix.json](golden/prompt-cache-stable-prefix.json)
 - [golden/prompt-cache-dynamic-suffix.json](golden/prompt-cache-dynamic-suffix.json)
 - [golden/prompt-cache-fork-sharing.json](golden/prompt-cache-fork-sharing.json)
 - [golden/prompt-cache-break-detection.json](golden/prompt-cache-break-detection.json)
 - [golden/prompt-cache-strategy-equivalence.json](golden/prompt-cache-strategy-equivalence.json)
+- [golden/mcp-initialize-and-version-negotiation.json](golden/mcp-initialize-and-version-negotiation.json)
+- [golden/mcp-sampling-with-tools.json](golden/mcp-sampling-with-tools.json)
+- [golden/mcp-auth-discovery-and-scope-upgrade.json](golden/mcp-auth-discovery-and-scope-upgrade.json)
 
 ## 测试层次
 
@@ -97,12 +122,46 @@
 若要宣称支持 MCP compatibility，还应通过：
 
 - `mcp-tool-adaptation`
+- `mcp-initialize-and-version-negotiation`
+- `mcp-streamable-http-post-and-sse`
+- `mcp-prompt-pagination-and-get`
+- `mcp-tool-pagination-and-call`
+
+若要宣称支持 MCP client features，还应通过：
+
+- `mcp-roots-list-and-list-changed`
+- `mcp-sampling-with-tools`
+- `mcp-elicitation-form-vs-url`
+
+若要宣称支持 MCP resource observation 或 HTTP auth，还应通过：
+
+- `mcp-resource-subscribe-and-list-changed`
+- `mcp-auth-discovery-and-scope-upgrade`
+
+若要宣称支持 host-specific MCP extensions，还应通过：
+
+- `mcp-host-extension-skill-discovery`
+
+若要宣称支持 Agent Skills specification 导入，还应通过：
+
+- `skills-discovery-precedence`
+- `skills-activation-wrapping`
+- `skills-context-protection`
 
 若要宣称支持 sandbox、memory consolidation、cloud managed-agent profile，还应通过：
 
 - `sandbox-deny`
 - `memory-recall-and-consolidation`
+- `memory-consolidation-background-safety`
 - `cloud-wake-and-reprovision`
+
+若要宣称支持结构化 policy engine，还应通过：
+
+- `policy-ask-deny-allow`
+
+若要宣称支持大结果外存化与稳定恢复，还应通过：
+
+- `persisted-tool-result-resume`
 
 若要宣称支持 prompt-cache-aware harness，还应通过：
 

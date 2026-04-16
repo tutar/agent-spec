@@ -90,6 +90,26 @@ local slash  -> Command
 review flow  -> Command (may delegate to Orchestration)
 ```
 
+## Exposure Boundary
+
+为了避免不同 surface 混淆，推荐至少保持以下边界：
+
+- `Tool`
+  可以直接暴露给模型进行 schema-based invocation
+- `Skill`
+  默认先作为 skill / command 暴露；是否桥接成 tool 由宿主决定
+- `MCP prompt`
+  默认属于 command surface，不应自动伪装成 tool
+- `MCP resource`
+  默认不属于 tool；若要暴露给模型，通常先经过 adapter / command / context provider
+- `local command`
+  默认不属于 tool，除非宿主显式桥接
+
+若某项能力被桥接到多个 surface：
+
+- 原始来源必须可追溯
+- visibility / policy / invoke path 仍需保留差异
+
 ## 当前源码映射
 
 - [skills/loadSkillsDir.ts](../../cc/skills/loadSkillsDir.ts)
@@ -105,3 +125,4 @@ review flow  -> Command (may delegate to Orchestration)
 - `Command` 不应升级为新的顶层模块
 - command-like capability 可以委托 orchestration 执行，但其入口语义仍属于 `Tools`
 - 各语言 SDK 可以不用复刻当前源码的命名，但必须保留等价语义分层
+- SDK 不应因为统一 command surface 而抹平 skill / mcp prompt / local command / review capability 的来源差异

@@ -21,12 +21,14 @@
 
 - 恢复后 session 能重新进入 `running`
 - 恢复后新的 turn 能正常完成并回到 `idle`
+- 若恢复前处于 `requires_action`，恢复后必须回到同一结构化阻塞语义
 
 ## Expected Persistent Effects
 
 - 恢复前消息可被继续引用
 - 恢复后新的消息被追加，而不是覆盖旧记录
 - 关联 side state 不应无故丢失
+- compact boundary、pending action、branch refs 如存在，恢复后仍可追溯
 
 ## Host Notes
 
@@ -40,3 +42,4 @@
 - 恢复后 session 被视为新会话
 - transcript 顺序丢失或覆盖
 - restore 只恢复消息文本，不恢复可继续运行状态
+- `requires_action` 只剩下文本提示，缺失原 `tool_use` 绑定

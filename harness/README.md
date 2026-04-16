@@ -19,6 +19,12 @@
 - 在 `Local` 场景下，通常作为本地 turn runner
 - 在 `Cloud` 场景下，通常作为可横向扩展的远端 turn runner
 
+本规范中的 `Harness` 采用 `Local-first` 抽取方式：
+
+- 默认实现通常与本地 session、tool registry、execution sandbox 同机协作
+- 但稳定接口不得要求同机、同进程或同网络边界
+- 所有 direct-call 优化都应被视为实现细节，而不是接口语义
+
 ## 稳定接口
 
 推荐最小接口：
@@ -29,7 +35,48 @@ Harness
   - build_model_input(session_slice, context_providers) -> model_input
   - handle_model_output(output) -> next_actions
   - route_tool_call(tool_call) -> tool_result
+  - emit_runtime_event(event) -> projected_event
 ```
+
+这些接口是跨语言语义契约，而不是某个语言 SDK 中必须逐字出现的方法名。
+
+### 核心能力
+
+宣称实现 `Harness` 模块时，至少应具备：
+
+- turn / interaction 推进能力
+- model input 组装能力
+- model capability routing
+- runtime event 发射
+- tool continuation routing
+- terminal state 收敛
+
+### 标准扩展
+
+推荐把下列能力作为 `Harness` 标准扩展实现：
+
+- `ContextGovernance`
+  - context budget
+  - overflow recovery
+  - auto compact
+  - budget continuation
+- `PromptCacheStrategy`
+  - stable prefix
+  - dynamic suffix
+  - fork sharing
+  - cache break detection
+  - strategy equivalence
+- `Streaming`
+  - assistant delta
+  - tool-use streaming continuation
+  - withheld error / recovery
+- `PostTurnProcessing`
+  - verification
+  - reflection
+  - summarization
+  - observability projection
+
+这些扩展可以采用不同算法和底层技术，但必须保持触发时机、外部可观察行为和恢复语义一致。
 
 ## 默认实现
 
@@ -50,10 +97,15 @@ Harness
 4. `query()` 在模型返回 tool use 时调用 tool executor
 5. 结果回填消息链，继续下一轮或结束
 
+这里的 `QueryEngine + query()` 只是当前本地默认实现。
+
+各语言 SDK 可以选择同步循环、异步状态机、actor model 或 service-oriented runner，只要对外保持同等 turn 语义即可。
+
 ## 要解决的问题
 
 - 如何把一次模型请求扩展成多轮 agent 事务
 - 如何在 tool use、context compact、fallback 之间保持语义连续
+- 如何把 prompt cache、streaming、post-turn processing 等优化沉淀为可替换扩展
 - 如何让模型能力演进时，harness 可以改变而接口不必一起改变
 - 如何让 harness 崩溃时，session 仍然可被新 harness 接管
 - 如何在 Local、Cloud 两种宿主形态下保持同一 turn 语义
@@ -162,3 +214,4 @@ Harness
 - harness 的稳定接口应先满足跨进程/跨部署边界语义，再允许提供同进程优化 binding
 - harness 相关状态应至少区分 `ProcessState`、`InteractionState` 与各领域状态投影
 - harness 规范必须同时适配 Local、Cloud 两种 host
+- prompt cache、context governance、streaming 与 post-turn processing 应优先建模为标准扩展，而不是隐含在某个默认实现内部

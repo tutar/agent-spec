@@ -37,6 +37,15 @@ ToolExecutionEvent
   - payload
 ```
 
+```text
+ContextModifierCommit
+  - execution_id
+  - tool_use_id
+  - stage: staged | committed | discarded
+  - order
+  - modifier_ref?
+```
+
 如果本地宿主需要更简单的调用方式，可以额外提供：
 
 ```text
@@ -59,6 +68,7 @@ ToolExecutor
 - 在执行后统一合并 context mutation
 - 用户中断时按工具的 `interruptBehavior` 处理
 - 某个并行工具失败时取消兄弟工具
+- 工具结果被外存化后保留稳定 `persisted_ref`
 
 ## 不属于 ToolExecutor 的职责
 
@@ -81,6 +91,8 @@ ToolExecutor
 8. 回收 `tool_result`
 9. 应用 context modifier
 
+若工具结果体积超限或宿主策略要求外存化，应在 `tool_result` 中返回稳定引用，而不是要求下游重新生成完整内容。
+
 其中：
 
 - `tool_started / tool_progress / tool_result / tool_failed / tool_cancelled`
@@ -98,6 +110,12 @@ ToolExecutor
 
 因此建议把 context 修改当作单独阶段处理。
 
+规范上应进一步要求：
+
+- 并发工具只能先产生 staged modifier
+- commit 顺序必须可预测，通常按 `tool_use` 原始顺序
+- sibling error、discard、取消导致未提交 modifier 时，必须显式废弃而不是静默忽略
+
 ## 取消模型
 
 SDK 应至少区分：
@@ -106,6 +124,14 @@ SDK 应至少区分：
   用户新输入到来时可中止当前工具
 - `block`
   当前工具必须跑完，新输入等待
+
+## 与结果持久化的关系
+
+`ToolExecutor` 不需要规定底层存储介质，但需要保证：
+
+- 大结果可通过 `PersistedToolResultRef` 暴露稳定引用
+- resume 后能够重建相同的结果引用语义
+- compact / sidechain / branch restore 不会让同一 `tool_use_id` 漂移到不同外部结果
 
 ## 当前仓库映射
 
@@ -122,3 +148,4 @@ SDK 应至少区分：
 - `execute_stream()` 应是第一性接口
 - direct-call `execute()` 如存在，也必须严格由事件流语义推导
 - tool terminal state 与 error class 应与 [../harness/runtime-core/failure-and-terminal-states.md](../harness/runtime-core/failure-and-terminal-states.md) 对齐
+- context modifier 必须具备 staged / committed / discarded 的事务语义

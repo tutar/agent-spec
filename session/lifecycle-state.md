@@ -74,6 +74,12 @@ RequiresAction
 - 恢复具体动作上下文
 - 直接驱动 approval / question / plan-review UI
 
+`requires_action` 与 `Session restore` 的关系必须明确：
+
+- `requires_action` 是 lifecycle state
+- pending action binding 是 `WorkingState` / `ResumeSnapshot` 的一部分
+- `wake()` 后若 action 尚未完成，系统必须恢复到同一阻塞语义，而不是仅恢复一条描述文本
+
 ## 四、推荐接口
 
 ```text
@@ -121,6 +127,7 @@ SessionExternalMetadata
 - `requires_action` 必须带结构化 details
 - `idle` 应在真实完成当前 turn 后发出，而不是在中间停顿时误发
 - 不同客户端应共享同一 lifecycle 语义，而不是各自猜测
+- lifecycle state 不应替代 restore state；恢复时必须同时恢复 pending action 的结构化绑定
 
 ## 七、默认实现映射
 

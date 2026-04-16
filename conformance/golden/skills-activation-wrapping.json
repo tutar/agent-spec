@@ -1,0 +1,20 @@
+{
+  "artifact_id": "skills-activation-wrapping.v1",
+  "schema_version": "1.0",
+  "scenario": "skills-activation-wrapping",
+  "constraints": [
+    "catalog disclosure must be lighter-weight than activation disclosure",
+    "activation must return a structured skill result or equivalent wrapper",
+    "resource listing must not imply eager resource loading"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "SkillCatalogEntry",
+      "required_fields": ["name", "description", "source", "invocable_by_model"]
+    },
+    {
+      "object_name": "SkillActivationResult",
+      "required_fields": ["skill_name", "body", "skill_root", "activation_mode"]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "artifact_id": "memory-consolidation-background-safety.v1",
+  "schema_version": "1.0",
+  "scenario": "memory-consolidation-background-safety",
+  "constraints": [
+    "background consolidation failure must not break session restore",
+    "uncommitted memory must not become visible to recall",
+    "lock conflict must not produce partial durable memory state"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "DurableMemoryRecord",
+      "required_fields": ["scope", "summary"]
+    },
+    {
+      "object_name": "ConsolidationResult",
+      "required_fields": ["status", "updated_memory_refs", "pruned_memory_refs"]
+    }
+  ]
+}

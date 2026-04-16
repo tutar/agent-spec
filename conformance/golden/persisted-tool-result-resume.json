@@ -1,0 +1,16 @@
+{
+  "artifact_id": "persisted-tool-result-resume.v1",
+  "schema_version": "1.0",
+  "scenario": "persisted-tool-result-resume",
+  "constraints": [
+    "large tool results may be externalized behind a stable persisted reference",
+    "compact must not require regenerating the original large result",
+    "resume must preserve the same tool_use_id to persisted reference mapping"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "PersistedToolResultRef",
+      "required_fields": ["tool_use_id", "storage_ref"]
+    }
+  ]
+}
