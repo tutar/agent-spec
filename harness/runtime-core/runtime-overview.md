@@ -25,12 +25,14 @@ Agent SDK 的核心目标是管理一轮完整的 agentic turn，而不是只包
   负责 durable event log、恢复与会话标识。
 - `Harness`
   负责调用模型、塑形上下文、路由工具与推进 agent loop。
+- `HarnessInstance`
+  负责承载某个 session-bound harness worker 的实例身份与状态。
 - `Sandbox / Hands`
   负责执行代码、编辑文件或访问外部资源的可替换执行面。
 - `ContextProvider`
   负责提供系统、用户、记忆、附件等上下文来源。
 - `AgentRuntime`
-  负责 harness 内部的 turn 级状态机和消息推进。
+  负责 `HarnessInstance` 内部的 turn 级状态机和消息推进。
 - `ToolRegistry`
   负责能力装配和工具可见性控制。
 - `ToolExecutor`
@@ -88,6 +90,7 @@ SDK 应统一对外暴露事件流，而不是只返回最终文本。
 - runtime 必须支持中断和恢复。
 - runtime 必须支持权限阻塞。
 - runtime 必须支持长会话上下文治理。
+- gateway 若管理多个并发 worker，应把它们建模为多个 `HarnessInstance`，而不是多个顶层 `AgentRuntime`
 
 ## 当前仓库映射
 

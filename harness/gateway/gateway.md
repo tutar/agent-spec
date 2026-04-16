@@ -2,7 +2,7 @@
 
 ## 职责
 
-`Gateway` 负责把外部 channel 与内部 agent runtime 连接起来。
+`Gateway` 负责把外部 channel 与内部 harness worker 连接起来。
 
 它位于 `ChannelAdapter` 与 `Harness` 之间，负责：
 
@@ -76,6 +76,13 @@ ChatIdentity
   - chat_id
   - channel_instance_id
   - external_conversation_id
+
+HarnessInstance
+  - harness_instance_id
+  - agent_id
+  - gateway_id
+  - session_id?
+  - status
 ```
 
 ## 设计要求
@@ -91,6 +98,7 @@ ChatIdentity
 - 一个 chat 只能绑定一个 session
 - 一个 gateway 可以同时挂多个同类型 channel instance，也可以同时挂多个异构 channel
 - gateway 是 agent 对外的唯一接入总线，不应再被降格成单一 bridge 变体
+- gateway 直接管理的是 `HarnessInstance`，而不是 `AgentRuntime`
 - `supplement_input` 属于 input，不属于 control
 - `interrupt` 属于显式 control，不与 supplement input 混用
 - `tool_progress` 应作为标准 runtime egress event 由 gateway 投影
@@ -108,7 +116,7 @@ ChatIdentity
 3. `ControlRouting`
    负责处理 interrupt / permission-response / mode-change 等控制流
 4. `SessionBindingAndProjection`
-   负责 channel 与 session/runtime 的绑定及输出投影
+   负责 channel 与 session / harness instance 的绑定及输出投影
 
 ## 与其它模块的边界
 
@@ -118,6 +126,7 @@ ChatIdentity
 - 不等于 `Orchestration`
 - 不等于 `ChannelAdapter`
 - `Gateway` 与 `Agent` 在产品语义上是 `1:1`
+- `Gateway` 不直接拥有 `AgentRuntime`；`AgentRuntime` 属于 `HarnessInstance` 内部
 
 它位于 `ChannelAdapter` 与 `Harness` 之间，承担统一入口边界。
 
@@ -140,4 +149,4 @@ ChatIdentity
 - remote-control 只是当前默认实现，不应限制规范抽象
 - 所有外部 chat/channel 接入都应优先复用这层网关边界
 - harness 不应内建各 channel 的服务端逻辑
-- 一个 gateway 应能同时管理多个 channel、chat、session 与 harness
+- 一个 gateway 应能同时管理多个 channel、chat、session 与 harness instances

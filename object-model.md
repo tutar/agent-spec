@@ -342,6 +342,16 @@ ChatSessionBinding
 ## Session Ownership And Lease Objects
 
 ```text
+HarnessInstance
+  - harness_instance_id
+  - agent_id
+  - gateway_id
+  - session_id?
+  - runtime_state_ref?
+  - status: starting | active | recovering | stopped | failed
+```
+
+```text
 SessionHarnessLease
   - session_id
   - harness_instance_id
@@ -365,9 +375,11 @@ AgentLongTermMemoryRef
 
 约束：
 
+- `Gateway` 管理的是 `HarnessInstance`，不是 `AgentRuntime`
 - `1 Session = 1 ShortTermMemoryRef`
 - `1 Agent = 1 AgentLongTermMemoryRef`
 - `SessionHarnessLease` 是单活 lease，不是并发 owner 集合
+- `HarnessInstance` 是 worker/object identity；`AgentRuntime` 是其内部 turn loop
 - `resume` 应恢复或转移 lease，而不是复制出第二个 active session writer
 
 ## MCP Session And Capability Objects

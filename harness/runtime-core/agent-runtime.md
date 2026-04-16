@@ -6,7 +6,7 @@
 
 它的职责不是调用一次模型，而是维持从“输入消息”到“最终停机状态”的完整推进过程。
 
-这里的 `AgentRuntime` 应明确理解为 harness 内部的 loop，而不是整个 managed-agent 系统的全部。它依赖 session 提供 durable history，依赖 sandbox/hands 提供执行能力。
+这里的 `AgentRuntime` 应明确理解为 `HarnessInstance` 内部的 loop，而不是整个 managed-agent 系统的全部。它依赖 session 提供 durable history，依赖 sandbox/hands 提供执行能力。
 
 ## 标准接口
 
@@ -41,6 +41,7 @@ AgentRuntime
 - sandbox provisioning 或重建
 - 凭据持有与 vault 访问
 - remote hand 的网络拓扑管理
+- gateway-side worker identity or lease ownership
 
 这些应分别归属 `Session`、`Sandbox / Hands`、`Security Boundary` 和 `Managed Orchestration`。
 
@@ -90,3 +91,4 @@ AgentRuntime
 - runtime 必须把模型能力差异屏蔽在 adapter 层之后
 - runtime 是 harness 的一部分，不应吞并 session 或 sandbox 的职责
 - runtime 的 terminal state、error class、retryability 应与其它层共享同一套术语
+- gateway 管理的是 `HarnessInstance`；`AgentRuntime` 只是该实例内部的 turn state machine

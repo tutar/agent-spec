@@ -11,6 +11,7 @@
 | Term | Meaning | Owned By | Not Owned By | Notes |
 | --- | --- | --- | --- | --- |
 | `AgentRuntime` | 从输入到终态的 turn/interaction 执行内核 | `Harness` | `Session`, `Gateway` | runtime 是 harness 的一部分，不是独立顶层模块 |
+| `HarnessInstance` | 某个 session-bound harness worker 的实例身份对象 | `Harness` | `Session`, `Gateway` | gateway 管理实例；runtime 是实例内部 loop |
 | `Gateway` | channel 与 harness 之间的双向交互边界 | `Harness` | `Session`, `Orchestration` | 负责 input normalization、control routing、egress projection |
 | `ChannelAdapter` | 具体 channel 的协议边缘适配层 | `Harness` | `Session`, `Tools` | 在 gateway 外缘，不负责 turn eval |
 | `InteractionLoop` | gateway 与 runtime 之间的标准交互循环 | `Harness` | `Session`, `Sandbox` | supplement input 属于当前 interaction |
@@ -86,6 +87,12 @@
 
 - `Gateway` vs `AgentRuntime`
   `Gateway` 协调入口和外投；`AgentRuntime` 推进 turn 本体。
+
+- `HarnessInstance` vs `AgentRuntime`
+  前者是 gateway 可管理的 worker identity；后者是该 worker 内部的 turn loop。
+
+- `SessionHandle` vs `HarnessInstance`
+  前者是 adapter/gateway 侧承载句柄；后者是运行 worker 的规范身份对象。
 
 - `Transcript` vs `ShortTermSessionMemory`
   transcript 是原始 durable history；short-term memory 是 continuity summary。
