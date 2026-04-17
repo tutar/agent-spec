@@ -69,15 +69,10 @@ ReviewResult
 
 当前代码库的默认实现重点在 verifier agent：
 
-- [tools/AgentTool/built-in/verificationAgent.ts](../../cc/tools/AgentTool/built-in/verificationAgent.ts)
   内置 verification specialist，要求独立运行命令、拿到证据、输出 `VERDICT`
-- [tools/AgentTool/builtInAgents.ts](../../cc/tools/AgentTool/builtInAgents.ts)
   注册 built-in verifier
-- [commands/init-verifiers.ts](../../cc/commands/init-verifiers.ts)
   初始化项目级 verifier command / prompt 能力
-- [tools/TodoWriteTool/TodoWriteTool.ts](../../cc/tools/TodoWriteTool/TodoWriteTool.ts)
   在任务收尾阶段推动 verifier 进入标准流程
-- [tools/TaskUpdateTool/TaskUpdateTool.ts](../../cc/tools/TaskUpdateTool/TaskUpdateTool.ts)
   在多任务收尾时要求验证步骤
 
 当前默认实现表明：

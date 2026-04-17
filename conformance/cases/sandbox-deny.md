@@ -33,7 +33,7 @@
 ## Expected Semantics
 
 - sandbox deny 不应被吞成普通 stdout/stderr 文本
-- deny 必须保留结构化分类，供 gateway / UI / SDK 使用
+- deny 必须保留结构化分类，供 gateway / UI / agent 使用
 - deny 发生后，不应破坏 session 的后续可继续性
 
 ## Host Notes

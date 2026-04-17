@@ -12,7 +12,7 @@
 
 - 如何统一管理后台 shell、agent、remote agent、workflow、monitor 等异步执行对象
 - 如何为这些对象提供统一的状态机、输出句柄、通知和终止语义
-- 如何让 UI、SDK、session restore 不必理解每种执行对象的内部细节
+- 如何让 UI、agent、session restore 不必理解每种执行对象的内部细节
 - 如何把 agent loop、shell process、remote session 包装成同一层控制面对象
 
 ## 核心模型
@@ -148,23 +148,14 @@ TaskOutputStore
 
 ## 默认实现映射
 
-- 基础 runtime task 抽象见 [Task.ts](../../../cc/Task.ts)
-- task registry 见 [tasks.ts](../../../cc/tasks.ts)
-- 统一任务框架见 [utils/task/framework.ts](../../../cc/utils/task/framework.ts)
-- 任务状态联合类型见 [tasks/types.ts](../../../cc/tasks/types.ts)
 
 典型默认实现：
 
 - `local_bash`
-  [tasks/LocalShellTask/LocalShellTask.tsx](../../../cc/tasks/LocalShellTask/LocalShellTask.tsx)
 - `local_agent`
-  [tasks/LocalAgentTask/LocalAgentTask.tsx](../../../cc/tasks/LocalAgentTask/LocalAgentTask.tsx)
 - `remote_agent`
-  [tasks/RemoteAgentTask/RemoteAgentTask.tsx](../../../cc/tasks/RemoteAgentTask/RemoteAgentTask.tsx)
 - `in_process_teammate`
-  [tasks/InProcessTeammateTask/types.ts](../../../cc/tasks/InProcessTeammateTask/types.ts)
 - `dream`
-  [tasks/DreamTask/DreamTask.ts](../../../cc/tasks/DreamTask/DreamTask.ts)
 
 默认实现特征：
 

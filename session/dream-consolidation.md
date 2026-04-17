@@ -33,7 +33,7 @@
 - slash command
 - skill invocation
 - GUI action
-- SDK API call
+- agent API call
 
 特点：
 
@@ -173,11 +173,6 @@ Automatic Dream 的失败不得影响：
 
 当前仓库中的默认实现映射为：
 
-- 自动调度与执行见 [../../services/autoDream/autoDream.ts](../../cc/services/autoDream/autoDream.ts)
-- dream prompt 见 [../../services/autoDream/consolidationPrompt.ts](../../cc/services/autoDream/consolidationPrompt.ts)
-- 锁与时间戳语义见 [../../services/autoDream/consolidationLock.ts](../../cc/services/autoDream/consolidationLock.ts)
-- 后台任务表面见 [../../tasks/DreamTask/DreamTask.ts](../../cc/tasks/DreamTask/DreamTask.ts)
-- memory 路径与 daily log/index 语义见 [../../memdir/paths.ts](../../cc/memdir/paths.ts)
 
 当前代码库还明确保留了手动 `/dream` 概念：
 

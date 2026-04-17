@@ -21,7 +21,7 @@
 
 ## 稳定接口
 
-规范层不要求所有语言 SDK 都暴露名为 `Command` 的公共类型，但要求保留等价语义。
+规范层不要求所有语言 agent 实现都暴露名为 `Command` 的公共类型，但要求保留等价语义。
 
 推荐最小语义：
 
@@ -51,9 +51,7 @@ Command
 
 当前代码库中的默认对象模型在：
 
-- [types/command.ts](../../cc/types/command.ts)
   定义 `PromptCommand`、`LocalCommand`、`LocalJSXCommand` 及统一 `Command`
-- [commands.ts](../../cc/commands.ts)
   负责命令装配、筛选和对模型可见性的整理
 
 源码里的关键事实是：
@@ -112,11 +110,8 @@ review flow  -> Command (may delegate to Orchestration)
 
 ## 当前源码映射
 
-- [skills/loadSkillsDir.ts](../../cc/skills/loadSkillsDir.ts)
   通过 `createSkillCommand()` 构造 skill 对应的 command
-- [services/mcp/client.ts](../../cc/services/mcp/client.ts)
   通过 `fetchCommandsForClient()` 构造 mcp prompt 对应的 command
-- [tools/SkillTool/SkillTool.ts](../../cc/tools/SkillTool/SkillTool.ts)
   把 command 形态的 skill 暴露给模型调用
 
 ## 规范结论
@@ -124,5 +119,5 @@ review flow  -> Command (may delegate to Orchestration)
 - `Command` 应进入 spec，但仅作为 `tools` 域内共享抽象
 - `Command` 不应升级为新的顶层模块
 - command-like capability 可以委托 orchestration 执行，但其入口语义仍属于 `Tools`
-- 各语言 SDK 可以不用复刻当前源码的命名，但必须保留等价语义分层
-- SDK 不应因为统一 command surface 而抹平 skill / mcp prompt / local command / review capability 的来源差异
+- 各语言 agent 实现可以不用复刻当前源码的命名，但必须保留等价语义分层
+- agent 不应因为统一 command surface 而抹平 skill / mcp prompt / local command / review capability 的来源差异

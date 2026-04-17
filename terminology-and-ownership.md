@@ -55,7 +55,7 @@
 | --- | --- | --- | --- | --- |
 | `ExecutionSandbox` | 命令或代码执行隔离层 | `Sandbox` | `Tools` | tool 可以使用 sandbox，但不拥有它 |
 | `EnvironmentSandbox` | 环境能力与资源边界层 | `Sandbox` | `Session` | 负责网络、凭证、文件系统边界 |
-| `SecurityBoundary` | 可执行能力的结构化安全描述 | `Sandbox` | `Gateway` | 供 UI / SDK / policy 使用 |
+| `SecurityBoundary` | 可执行能力的结构化安全描述 | `Sandbox` | `Gateway` | 供 UI / agent / policy 使用 |
 | `CapabilityModel` | sandbox 能做什么、不能做什么的统一模型 | `Sandbox` | `Harness` | 是执行面能力，不是 tool capability |
 
 ## Orchestration Terms

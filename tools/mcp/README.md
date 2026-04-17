@@ -96,36 +96,17 @@ McpElicitationBridge
   - handle_elicitation_request(server_id, request)
 ```
 
-## 默认实现映射
+## 默认实现取向
 
-当前代码库中的默认实现是：
+默认实现通常会把 MCP 分成三条链路：
 
-- [services/mcp/client.ts](../../../cc/services/mcp/client.ts)
-  MCP 主客户端，负责连接 server 并拉取 tools/prompts/resources
-- [services/mcp/utils.ts](../../../cc/services/mcp/utils.ts)
-  处理 server 维度的筛选、命名和 prompt/skill 区分
-- [tools/MCPTool/MCPTool.ts](../../../cc/tools/MCPTool/MCPTool.ts)
-  作为默认 `McpRuntimeAdapter` 中 tool 映射的一部分
-- [tools/ListMcpResourcesTool/ListMcpResourcesTool.ts](../../../cc/tools/ListMcpResourcesTool/ListMcpResourcesTool.ts)
-  暴露 resources 枚举能力
-- [tools/ReadMcpResourceTool/ReadMcpResourceTool.ts](../../../cc/tools/ReadMcpResourceTool/ReadMcpResourceTool.ts)
-  暴露 resource 读取能力
+- protocol client
+- runtime adaptation
+- host extension
 
-这些实现可以作为参考映射，但不代表跨语言 SDK 必须复刻同样的包结构。
+实现者可以按宿主需求把这三条链路装配为同进程组件、独立服务或混合模式，但不应改变它们的角色边界。
 
-## 当前源码映射
-
-源码里的默认实现已经体现了三条链路：
-
-- `fetchToolsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中通过 `tools/list` 拉取工具，并包装成 `Tool`
-- `fetchCommandsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中通过 `prompts/list` 拉取 MCP prompts，并包装成 `Command(type='prompt')`
-- `fetchResourcesForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中通过 `resources/list` 拉取资源
-
-另外，当前源码还包含一个本地扩展约定：
-
-- `fetchMcpSkillsForClient()` 在 [services/mcp/client.ts](../../../cc/services/mcp/client.ts) 中单独从 `skill://` resources 发现 skills
-
-这条链路应视为 host-specific extension，而不是 MCP `2025-11-25` core requirement。
+其中 `mcp skill`、bundle host、安装与信任流程等能力应始终视为 host-specific extension，而不是 MCP `2025-11-25` core requirement。
 
 ## 要解决的问题
 

@@ -166,12 +166,6 @@ bootstrap prompt 应支持将：
 
 当前仓库中的默认实现映射为：
 
-- 默认 prompt section 注册见 [constants/prompts.ts](../../../cc/constants/prompts.ts)
-- section 缓存与解析见 [constants/systemPromptSections.ts](../../../cc/constants/systemPromptSections.ts)
-- 优先级合成见 [utils/systemPrompt.ts](../../../cc/utils/systemPrompt.ts)
-- query 前三段装配见 [utils/queryContext.ts](../../../cc/utils/queryContext.ts)
-- systemContext 追加见 [query.ts](../../../cc/query.ts) 和 [utils/api.ts](../../../cc/utils/api.ts)
-- prompt block 切分与 cache scope 投影见 [utils/api.ts](../../../cc/utils/api.ts) 和 [services/api/claude.ts](../../../cc/services/api/claude.ts)
 
 ## 规范结论
 

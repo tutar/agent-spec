@@ -43,24 +43,16 @@
 
 另外，`reflection / verification` 这类 review capability 对 harness 来说也可呈现为 command-like capability，但它们不属于 Agent Skills 生态对象。它们的默认执行后端可以委托给 orchestration 中的 verifier task / subagent。
 
-当前源码已经体现了这层区分：
-
-- `Tool` 是 [Tool.ts](../../cc/Tool.ts)
-- `Skill` 是独立能力语义接口，默认由 [types/command.ts](../../cc/types/command.ts) 中的 `Command(type='prompt')` 承载
-- `Command` 的默认对象模型定义在 [types/command.ts](../../cc/types/command.ts)
-- `MCP` 是 [services/mcp/client.ts](../../cc/services/mcp/client.ts) 驱动的协议接入层
-- [tools/SkillTool/SkillTool.ts](../../cc/tools/SkillTool/SkillTool.ts) 只是把 `Skill` 暴露给模型调用的桥接 tool，不是 skill 本身
-
 ## 生态兼容要求
 
-`Tools` 模块不是封闭接口，默认应满足外部生态兼容性，以保证采用本规范的 SDK 可以直接复用现有工具与技能生态。
+`Tools` 模块不是封闭接口，默认应满足外部生态兼容性，以保证采用本规范的 agent 实现可以直接复用现有工具与技能生态。
 
 推荐分为三层兼容：
 
 - `Skills`
-  兼容 Agent Skills 规范，使 SDK 能发现、加载和执行标准 skill 目录。
+  兼容 Agent Skills 规范，使 agent 实现能发现、加载和执行标准 skill 目录。
 - `MCP`
-  兼容 Model Context Protocol，使 SDK 能作为 MCP client 接入标准 MCP servers。
+  兼容 Model Context Protocol，使 agent 实现能作为 MCP client 接入标准 MCP servers。
 - `MCPB`
   若是桌面端实现，兼容 MCP Bundles（`.mcpb`），支持本地 MCP server 的分发、安装与加载。
 
@@ -154,38 +146,20 @@ McpBundleHost
   - uninstall_bundle(bundle_id)
 ```
 
-## 默认实现
+## 默认实现取向
 
-当前代码库中的默认实现是：
+现有 agent runtime 通常会把工具域拆成三条主线：
 
-- [Tool.ts](../../cc/Tool.ts)
-  定义工具契约、权限接口、并发与中断语义
-- [tools.ts](../../cc/tools.ts)
-  组装 builtin tools、feature-gated tools、MCP tools，并注册 `SkillTool`
-- [types/command.ts](../../cc/types/command.ts)
-  定义默认 `Command` 共享对象模型
-- [commands.ts](../../cc/commands.ts)
-  组装本地命令、skills、MCP commands，并做可见性筛选
-- [services/tools/toolOrchestration.ts](../../cc/services/tools/toolOrchestration.ts)
-  按并发安全性分批执行
-- [services/tools/StreamingToolExecutor.ts](../../cc/services/tools/StreamingToolExecutor.ts)
-  处理流式 tool use、取消传播和结果有序发射
+- declaration / registry
+- policy / execution
+- ecosystem adaptation
 
-默认执行平面上的代表工具包括：
+默认执行平面一般会包含 shell、subagent、skill bridge 一类高频能力，但规范只要求这些能力语义可表达，不要求具体工具清单或装配方式一致。
 
-- [tools/BashTool/BashTool.tsx](../../cc/tools/BashTool/BashTool.tsx)
-  默认 shell 执行能力
-- [tools/AgentTool/AgentTool.tsx](../../cc/tools/AgentTool/AgentTool.tsx)
-  默认子 agent / orchestration 入口
-- [tools/SkillTool/SkillTool.ts](../../cc/tools/SkillTool/SkillTool.ts)
-  skill invocation bridge，负责把 skill 暴露成模型可调用入口
-
-与外部生态的默认映射是：
+与外部生态的默认兼容目标是：
 
 - Agent Skills
-  当前仓库已有 `skills/` 目录结构与 `SKILL.md` 驱动模式，默认实现落在 [skills/loadSkillsDir.ts](../../cc/skills/loadSkillsDir.ts)
 - MCP
-  当前仓库已有 MCP client、resource、prompt、tool 集成路径，默认实现落在 [services/mcp/client.ts](../../cc/services/mcp/client.ts)
 - MCPB
   当前仓库暂无完整桌面 bundle host 规范实现，但规范上应为桌面端预留 bundle install/load/verify/update 能力
 
@@ -198,7 +172,7 @@ McpBundleHost
 - 如何避免把 `skill`、`mcp`、`tool` 三种不同来源混成一个抽象
 - 如何在不新增顶层模块的前提下，把 `command` 这种共享对象模型写清楚
 - 如何让 command-like review capability 通过 orchestration 执行而不混淆模块边界
-- 如何避免 SDK 自建一个与 Skills/MCP 生态割裂的封闭工具系统
+- 如何避免 agent 自建一个与 Skills/MCP 生态割裂的封闭工具系统
 - 如何让 lifecycle、transport、auth、server/client capabilities 在不同 host 下保持一致
 - 如何让桌面端把本地 MCP server 分发与安装纳入同一套规范
 - 如何让同一 tool/skill/mcp 语义同时适配 Local、Cloud
@@ -228,7 +202,7 @@ McpBundleHost
 
 ## 当前需要优先稳定的主线
 
-对 SDK 落地来说，`Tools` 规范应优先闭合这条主线：
+对 agent 实现落地来说，`Tools` 规范应优先闭合这条主线：
 
 1. `ToolDefinition`
 2. `PolicyDecision`
@@ -296,7 +270,7 @@ McpBundleHost
 - tools 是模型与外部世界之间的能力层
 - tools 模块必须同时面向模型、运行时、策略和恢复设计
 - 默认实现可变，但 `definition / registry / executor` 三层边界应保持稳定
-- 采用本规范的 SDK 默认应兼容 Skills 与 MCP 生态
+- 采用本规范的 agent 默认应兼容 Skills 与 MCP 生态
 - 桌面端实现默认应进一步兼容 MCP Bundles 生态
 - `skill` 与 `mcp` 应作为 `tools` 域下的独立稳定子接口保留
 - `command` 应作为 `tools` 域内的共享对象模型进入 spec

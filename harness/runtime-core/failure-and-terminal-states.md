@@ -2,7 +2,7 @@
 
 ## 目标
 
-本文档统一 Agent SDK 中几类最容易分叉的语义：
+本文档统一 agent runtime 中几类最容易分叉的语义：
 
 - terminal state
 - error class
@@ -14,7 +14,7 @@
 
 ## 一、核心原则
 
-SDK 应区分三层东西：
+agent 应区分三层东西：
 
 - `event`
   运行过程中的增量事实
@@ -59,7 +59,7 @@ TerminalState
 推荐最小错误分类：
 
 ```text
-SdkErrorClass
+AgentErrorClass
   - auth_error
   - permission_denied
   - rate_limited
@@ -84,8 +84,8 @@ SdkErrorClass
 推荐标准对象：
 
 ```text
-SdkError
-  - class: SdkErrorClass
+AgentError
+  - class: AgentErrorClass
   - message
   - retryable: boolean
   - terminal: boolean
@@ -161,13 +161,13 @@ SdkError
 
 ### Runtime
 
-- terminal state 必须稳定投影给上层 SDK client
+- terminal state 必须稳定投影给上层 agent client
 - model/provider error 必须先归一化，再参与状态机决策
 - `requires_action` 应作为 terminal-like stop reason 暂停 turn
 
 ### ToolExecutor
 
-- 工具失败应优先发 `tool_failed` 事件，并附 `SdkError`
+- 工具失败应优先发 `tool_failed` 事件，并附 `AgentError`
 - 工具取消应优先发 `tool_cancelled` 事件，而不是伪装成失败
 - sibling error 导致的停止应保留取消来源
 
@@ -223,4 +223,4 @@ timed_out
 - terminal state、error class、retryable 应成为统一稳定语义
 - `requires_action` 不是失败，`cancelled` 不等于 `aborted`
 - 任何层级的 direct-call facade 都不得改变 core streaming contract 的错误与结束语义
-- 如果某个实现无法稳定表达这些状态，它就还不适合成为 SDK 的核心实现边界
+- 如果某个实现无法稳定表达这些状态，它就还不适合成为 agent 的核心实现边界

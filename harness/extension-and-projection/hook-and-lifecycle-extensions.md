@@ -143,18 +143,11 @@ PermissionHookEffect
 
 当前仓库中的默认实现映射为：
 
-- 核心执行器见 [utils/hooks.ts](../../../cc/utils/hooks.ts)
-- stop hook 投影见 [query/stopHooks.ts](../../../cc/query/stopHooks.ts)
-- session-scoped hooks 见 [utils/hooks/sessionHooks.ts](../../../cc/utils/hooks/sessionHooks.ts)
-- hook 事件广播见 [utils/hooks/hookEvents.ts](../../../cc/utils/hooks/hookEvents.ts)
-- frontmatter hook 注册见 [utils/hooks/registerFrontmatterHooks.ts](../../../cc/utils/hooks/registerFrontmatterHooks.ts)
-- permission hook 投影见 [hooks/toolPermission/PermissionContext.ts](../../../cc/hooks/toolPermission/PermissionContext.ts)
-- 内部 post-sampling hook registry 见 [utils/hooks/postSamplingHooks.ts](../../../cc/utils/hooks/postSamplingHooks.ts)
 
 ## 规范结论
 
 - hooks 应被建模为 lifecycle extension plane
-- 任何需要在 turn、tool、approval、session 边界插入控制逻辑的 SDK，都应保留 hook 接口
+- 任何需要在 turn、tool、approval、session 边界插入控制逻辑的 agent，都应保留 hook 接口
 - hook 是运行时控制面，不是模型能力面
 - hook runtime 应支持并行执行与多通道结果聚合
 - hook runtime 应支持 event-specific matching model

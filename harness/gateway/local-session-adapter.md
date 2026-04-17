@@ -42,8 +42,6 @@ SessionHandle
 
 ## 默认实现映射
 
-- 子进程适配见 [bridge/sessionRunner.ts](../../../cc/bridge/sessionRunner.ts)
-- 相关句柄定义见 [bridge/types.ts](../../../cc/bridge/types.ts)
 
 ## 规范结论
 

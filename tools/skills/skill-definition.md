@@ -104,8 +104,6 @@ SkillDefinition
 
 当前本地默认实现主要映射到：
 
-- [../../../cc/skills/loadSkillsDir.ts](../../../cc/skills/loadSkillsDir.ts)
-- [../../../cc/utils/frontmatterParser.ts](../../../cc/utils/frontmatterParser.ts)
 
 源码中的关键信号包括：
 

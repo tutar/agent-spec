@@ -109,13 +109,9 @@ hands 应是可枚举、可路由的 execution targets。
 
 当前代码库中的默认 orchestration 实现是“task-first orchestration”：
 
-- [tasks.ts](../../cc/tasks.ts)
   负责汇总当前支持的 task types
-- [tasks/LocalAgentTask/LocalAgentTask.tsx](../../cc/tasks/LocalAgentTask/LocalAgentTask.tsx)
   承担本地子 agent 生命周期
-- [tasks/RemoteAgentTask/RemoteAgentTask.tsx](../../cc/tasks/RemoteAgentTask/RemoteAgentTask.tsx)
   承担远端 agent 生命周期
-- [tools/AgentTool/runAgent.ts](../../cc/tools/AgentTool/runAgent.ts)
   作为默认的 subagent orchestration entry
 
 默认模式的特点是：

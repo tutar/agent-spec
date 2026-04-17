@@ -68,9 +68,7 @@
 
 当前代码库中的默认实现主要落在 `Execution Sandbox`：
 
-- [tools/BashTool/BashTool.tsx](../../cc/tools/BashTool/BashTool.tsx)
   作为默认 shell execution entry
-- [utils/sandbox/sandbox-adapter.ts](../../cc/utils/sandbox/sandbox-adapter.ts)
   作为外部 sandbox runtime 的适配层
 
 它主要体现的是：
@@ -105,7 +103,7 @@
 
 ## 桌面端分发要求
 
-若 SDK 面向桌面端产品，推荐把本地 MCP server 的安装与加载纳入 sandbox/execution 边界，而不是作为 ad-hoc 插件系统单独实现。
+若 agent 面向桌面端产品，推荐把本地 MCP server 的安装与加载纳入 sandbox/execution 边界，而不是作为 ad-hoc 插件系统单独实现。
 
 默认兼容目标是 MCP Bundles（`.mcpb`）：
 

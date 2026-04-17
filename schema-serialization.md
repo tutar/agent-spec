@@ -40,7 +40,7 @@ SchemaEnvelope
 
 - `RuntimeEvent`
 - `TerminalState`
-- `SdkError`
+- `AgentError`
 - `RequiresAction`
 - `PolicyDecision`
 - `TaskEvent`

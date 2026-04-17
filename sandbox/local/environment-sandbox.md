@@ -57,9 +57,7 @@ LocalEnvironmentBoundary
 
 更接近的默认落点是：
 
-- [utils/sandbox/sandbox-adapter.ts](../../../cc/utils/sandbox/sandbox-adapter.ts)
   把本地文件系统与权限限制投影到执行配置
-- [tools/BashTool/BashTool.tsx](../../../cc/tools/BashTool/BashTool.tsx)
   在命令执行链中消费这些限制
 
 这意味着当前默认实现仍以 `Execution Sandbox` 为主，而本地环境级边界更多通过路径和权限配置表达。

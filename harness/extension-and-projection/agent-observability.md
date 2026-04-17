@@ -10,7 +10,7 @@
 - session lifecycle projection
 - task / background agent progress projection
 - tracing span 生命周期
-- 对外 SDK / IDE / dashboard 的状态投影
+- 对外 agent / IDE / dashboard 的状态投影
 
 它不负责：
 
@@ -77,7 +77,7 @@ AgentObservability
 - OTel
 - vendor tracing backend
 - IDE runtime viewer
-- custom SDK event queue
+- custom agent event queue
 
 但规范不应强绑具体平台。
 
@@ -91,13 +91,6 @@ AgentObservability
 
 ## 默认实现映射
 
-- session signal 见 [utils/sessionState.ts](../../../cc/utils/sessionState.ts)
-- task progress 投影见 [utils/task/sdkProgress.ts](../../../cc/utils/task/sdkProgress.ts) 和 [tasks/LocalAgentTask/LocalAgentTask.tsx](../../../cc/tasks/LocalAgentTask/LocalAgentTask.tsx)
-- task lifecycle / attachment 见 [utils/task/framework.ts](../../../cc/utils/task/framework.ts)
-- turn usage / result 汇总见 [QueryEngine.ts](../../../cc/QueryEngine.ts)
-- tracing span 见 [utils/telemetry/sessionTracing.ts](../../../cc/utils/telemetry/sessionTracing.ts)
-- detailed context tracing 见 [utils/telemetry/betaSessionTracing.ts](../../../cc/utils/telemetry/betaSessionTracing.ts)
-- headless latency profiling 见 [utils/headlessProfiler.ts](../../../cc/utils/headlessProfiler.ts)
 
 ## 规范结论
 

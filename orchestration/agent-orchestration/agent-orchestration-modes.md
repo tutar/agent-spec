@@ -2,7 +2,7 @@
 
 ## 目标
 
-本文档把源码中已经存在的 agent 编排方式抽象成跨语言 SDK 可复用的标准模式。
+本文档把源码中已经存在的 agent 编排方式抽象成跨语言 agent 实现可复用的标准模式。
 
 它不描述某个具体实现类，而是定义：
 
@@ -227,13 +227,9 @@ Orchestrator
 当前仓库里，这四种模式已有比较完整的默认实现映射：
 
 - `sync_worker`
-  [tools/AgentTool/AgentTool.tsx](../../cc/tools/AgentTool/AgentTool.tsx) + [tools/AgentTool/runAgent.ts](../../cc/tools/AgentTool/runAgent.ts)
 - `background_task`
-  [tasks/LocalAgentTask/LocalAgentTask.tsx](../../cc/tasks/LocalAgentTask/LocalAgentTask.tsx)
 - `persistent_teammate`
-  [tools/shared/spawnMultiAgent.ts](../../cc/tools/shared/spawnMultiAgent.ts) + [tasks/InProcessTeammateTask/InProcessTeammateTask.tsx](../../cc/tasks/InProcessTeammateTask/InProcessTeammateTask.tsx)
 - `remote_task`
-  [tasks/RemoteAgentTask/RemoteAgentTask.tsx](../../cc/tasks/RemoteAgentTask/RemoteAgentTask.tsx)
 
 ## 规范结论
 

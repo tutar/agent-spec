@@ -2,9 +2,9 @@
 
 ## 目标
 
-Agent SDK 的核心目标是管理一轮完整的 agentic turn，而不是只包装一次模型调用。
+agent runtime 的核心目标是管理一轮完整的 agentic turn，而不是只包装一次模型调用。
 
-这里的 SDK 是跨语言的 agent harness。它不预设具体编程语言，也不预设底层只有一种模型能力形态。
+这里的 agent 是跨语言的 agent harness。它不预设具体编程语言，也不预设底层只有一种模型能力形态。
 
 更准确地说，这是一套 `meta-harness` 规范：它希望稳定的是 agent 周围的接口，而不是某一代 harness 自己的实现细节。
 
@@ -63,7 +63,7 @@ User/Input
 
 ## 标准事件模型
 
-SDK 应统一对外暴露事件流，而不是只返回最终文本。
+agent 应统一对外暴露事件流，而不是只返回最终文本。
 
 建议最小事件集：
 
@@ -94,10 +94,6 @@ SDK 应统一对外暴露事件流，而不是只返回最终文本。
 
 ## 当前仓库映射
 
-- 主循环入口见 [query.ts](../../../cc/query.ts)
-- 上下文入口见 [context.ts](../../../cc/context.ts)
-- 工具装配入口见 [tools.ts](../../../cc/tools.ts)
-- 任务抽象见 [Task.ts](../../../cc/Task.ts)
 
 ## 规范结论
 

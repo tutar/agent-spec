@@ -199,19 +199,12 @@ SessionBranchStore
 
 当前代码库中的默认 session 实现由这些部分组成：
 
-- [bootstrap/state.ts](../../cc/bootstrap/state.ts)
   identity
-- [utils/sessionState.ts](../../cc/utils/sessionState.ts)
   runtime state
-- [utils/sessionStorage.ts](../../cc/utils/sessionStorage.ts)
   transcript + sidechain storage
-- [utils/sessionRestore.ts](../../cc/utils/sessionRestore.ts)
   restore
-- [services/SessionMemory/sessionMemory.ts](../../cc/services/SessionMemory/sessionMemory.ts)
   short-term session memory
-- [memdir/findRelevantMemories.ts](../../cc/memdir/findRelevantMemories.ts)
   durable memory recall linkage
-- [tools/AgentTool/agentMemory.ts](../../cc/tools/AgentTool/agentMemory.ts)
   agent-scoped durable memory
 
 默认落点上：
@@ -222,7 +215,6 @@ SessionBranchStore
 - durable memory 通过 recall/linkage 接入，而不承担 restore 责任
 - harness 可以重启，但 session 关联的 short-term memory 不得丢失
 
-这里的 JSONL、sidechain 文件与当前恢复流程只代表 `cc` 的本地默认实现，不构成跨语言 SDK 的介质要求。
 
 ## 要解决的问题
 

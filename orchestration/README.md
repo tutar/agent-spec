@@ -42,17 +42,11 @@ Orchestrator
 
 当前代码库中的默认 orchestration 实现是 task-first orchestration：
 
-- [tasks.ts](../../cc/tasks.ts)
   汇总当前支持的 task types
-- [tasks/LocalAgentTask/LocalAgentTask.tsx](../../cc/tasks/LocalAgentTask/LocalAgentTask.tsx)
   承担本地子 agent 生命周期
-- [tasks/InProcessTeammateTask/InProcessTeammateTask.tsx](../../cc/tasks/InProcessTeammateTask/InProcessTeammateTask.tsx)
   承担长期存活 teammate 生命周期
-- [tasks/RemoteAgentTask/RemoteAgentTask.tsx](../../cc/tasks/RemoteAgentTask/RemoteAgentTask.tsx)
   承担远端 agent 生命周期
-- [tools/AgentTool/AgentTool.tsx](../../cc/tools/AgentTool/AgentTool.tsx)
   作为 agent spawn routing 入口
-- [tools/AgentTool/runAgent.ts](../../cc/tools/AgentTool/runAgent.ts)
   作为默认本地 agent loop 执行内核
 
 ## 要解决的问题

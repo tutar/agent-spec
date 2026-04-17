@@ -51,9 +51,6 @@ SkillContextManager
 
 当前本地默认实现的相关信号主要散落在：
 
-- [../../../cc/skills/loadSkillsDir.ts](../../../cc/skills/loadSkillsDir.ts)
-- [../../../cc/commands.ts](../../../cc/commands.ts)
-- [../../../cc/tools/SkillTool/SkillTool.ts](../../../cc/tools/SkillTool/SkillTool.ts)
 
 以及与 context governance、permission allowlisting、forked execution 相关的运行时实现。
 

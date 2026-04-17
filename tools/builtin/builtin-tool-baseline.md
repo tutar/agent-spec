@@ -41,7 +41,7 @@
 
 ### 1. Required Builtin Tools
 
-这些工具应视为 coding-oriented agent SDK 的默认 baseline。
+这些工具应视为 coding-oriented agent agent 的默认 baseline。
 
 实现可以提供等价能力，但不应改变工具语义。
 
@@ -367,7 +367,6 @@
 
 ## 默认实现映射
 
-当前仓库中的默认映射见 [../../tools.ts](../../cc/tools.ts)。
 
 其中最接近 baseline 的内置工具包括：
 

@@ -89,11 +89,6 @@ VerificationResult
 
 ## 默认实现映射
 
-- built-in verifier 见 [tools/AgentTool/built-in/verificationAgent.ts](../../../cc/tools/AgentTool/built-in/verificationAgent.ts)
-- verifier agent 注册见 [tools/AgentTool/builtInAgents.ts](../../../cc/tools/AgentTool/builtInAgents.ts)
-- 主 prompt 中的验证契约见 [constants/prompts.ts](../../../cc/constants/prompts.ts)
-- 关闭任务后的验证提醒见 [tools/TodoWriteTool/TodoWriteTool.ts](../../../cc/tools/TodoWriteTool/TodoWriteTool.ts) 和 [tools/TaskUpdateTool/TaskUpdateTool.ts](../../../cc/tools/TaskUpdateTool/TaskUpdateTool.ts)
-- verifier command 初始化见 [commands/init-verifiers.ts](../../../cc/commands/init-verifiers.ts)
 
 ## 规范结论
 

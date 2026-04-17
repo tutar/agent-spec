@@ -134,14 +134,6 @@ HarnessInstance
 
 当前仓库中的默认实现主要是 remote-control 变体：
 
-- 入口包装见 [bridge/initReplBridge.ts](../../../cc/bridge/initReplBridge.ts)
-- bridge core 见 [bridge/replBridge.ts](../../../cc/bridge/replBridge.ts)
-- env-less core 见 [bridge/remoteBridgeCore.ts](../../../cc/bridge/remoteBridgeCore.ts)
-- transport abstraction 见 [bridge/replBridgeTransport.ts](../../../cc/bridge/replBridgeTransport.ts)
-- ingress projection 见 [bridge/bridgeMessaging.ts](../../../cc/bridge/bridgeMessaging.ts)
-- inbound normalization 见 [bridge/inboundMessages.ts](../../../cc/bridge/inboundMessages.ts)
-- inbound attachments 见 [bridge/inboundAttachments.ts](../../../cc/bridge/inboundAttachments.ts)
-- local session adapter 见 [bridge/sessionRunner.ts](../../../cc/bridge/sessionRunner.ts)
 
 ## 规范结论
 

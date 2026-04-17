@@ -116,7 +116,7 @@ ForkCachePlan
 
 ### 5. 必须支持 cache break detection
 
-若 provider 返回 cache read / write 使用量或等价指标，SDK 应允许：
+若 provider 返回 cache read / write 使用量或等价指标，agent 应允许：
 
 - 检测异常 cache miss
 - 判断是预期变化还是异常 break
@@ -167,7 +167,7 @@ ForkCachePlan
 
 用于底层 provider 没有原生 prompt cache 或能力不足时。
 
-这时 SDK 仍应尽量做：
+这时 agent 仍应尽量做：
 
 - stable prefix construction
 - dynamic suffix isolation
@@ -191,12 +191,6 @@ ForkCachePlan
 
 当前仓库中的默认实现映射为：
 
-- system prompt section cache 见 [../../../constants/systemPromptSections.ts](../../../cc/constants/systemPromptSections.ts)
-- static / dynamic boundary 见 [../../../constants/prompts.ts](../../../cc/constants/prompts.ts)
-- system prompt block 切分见 [../../../utils/api.ts](../../../cc/utils/api.ts)
-- provider-native cache marker / cache reference 投影见 [../../../services/api/claude.ts](../../../cc/services/api/claude.ts)
-- cache break detection 见 [../../../services/api/promptCacheBreakDetection.ts](../../../cc/services/api/promptCacheBreakDetection.ts)
-- fork cache sharing 见 [../../../utils/forkedAgent.ts](../../../cc/utils/forkedAgent.ts) 与 [../../../tools/AgentTool/forkSubagent.ts](../../../cc/tools/AgentTool/forkSubagent.ts)
 
 当前默认实现应视为：
 

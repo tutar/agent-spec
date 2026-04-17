@@ -7,7 +7,7 @@
 这些资产不绑定具体语言实现，也不绑定单一宿主形态，而是用于验证：
 
 - `Local / Cloud` 两种 host 下的外部行为是否等价
-- 不同语言 SDK 是否保持相同的 runtime 语义
+- 不同语言 agent 实现是否保持相同的 runtime 语义
 - `Harness / Session / Tools / Sandbox / Orchestration` 五个模块的接口语义是否被正确实现
 
 ## 目录结构
@@ -109,7 +109,7 @@
 
 ## 最低覆盖要求
 
-一个语言 SDK 若要宣称实现本规范，至少应能通过：
+一个语言 agent 实现若要宣称实现本规范，至少应能通过：
 
 - `basic-turn`
 - `tool-call-roundtrip`

@@ -36,7 +36,7 @@
 ## Allowed Variance
 
 - 可以是本地后台任务，也可以是 remote background task
-- 任务通知可以通过 hook、SDK event transport 或 gateway egress 投影
+- 任务通知可以通过 hook、agent event transport 或 gateway egress 投影
 
 ## Failure Conditions
 

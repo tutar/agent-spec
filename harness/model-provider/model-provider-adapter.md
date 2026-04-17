@@ -16,7 +16,7 @@
 Business / Product Logic
   -> Agent Harness
   -> Model Provider Adapter
-  -> Vendor SDK / HTTP API
+  -> vendor client / HTTP API
   -> LLM Provider
 ```
 

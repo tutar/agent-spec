@@ -19,7 +19,7 @@
 
 - sampling request 可进入宿主审批或 policy 审查
 - 未声明支持 `tools` 时，不得接受带工具的 sampling request
-- 结果与本地 `RequiresAction` / `SdkError` 语义兼容
+- 结果与本地 `RequiresAction` / `AgentError` 语义兼容
 
 ## Failure Conditions
 

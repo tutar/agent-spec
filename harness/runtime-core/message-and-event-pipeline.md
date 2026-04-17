@@ -93,7 +93,7 @@ StreamEvent
 
 它负责：
 
-- 给 SDK / IDE / viewer 暴露稳定事件流
+- 给 agent / IDE / viewer 暴露稳定事件流
 - 屏蔽内部消息实现细节
 - 将内部 boundary / task / requires_action 等语义投影为稳定外部事件
 
@@ -146,7 +146,7 @@ UserInput
 
 - 可以存在于内部消息层
 - 可以进入 transcript 或影响 transcript
-- 但不一定应原样出现在外部 SDK 协议中
+- 但不一定应原样出现在外部 agent 协议中
 
 ## 八、投影规则
 
@@ -171,22 +171,18 @@ UserInput
 
 ### 输入与会话投影边界
 
-- [QueryEngine.ts](../../../cc/QueryEngine.ts)
 
 默认实现特征：
 
 - 在进入 query loop 前写 transcript
 - 持有会话级 `mutableMessages`
-- 将内部对象投影为 SDK message
+- 将内部对象投影为 agent message
 
 ### 内部消息工厂与变换
 
-- [utils/messages.ts](../../../cc/utils/messages.ts)
-- [utils/messages/mappers.ts](../../../cc/utils/messages/mappers.ts)
 
 ### Turn 级消息推进状态机
 
-- [query.ts](../../../cc/query.ts)
 
 默认实现特征：
 

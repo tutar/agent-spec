@@ -2,7 +2,7 @@
 
 ## 目标
 
-本文件定义 SDK 如何把不同来源的能力组织成统一的宿主可见能力面。
+本文件定义 agent 如何把不同来源的能力组织成统一的宿主可见能力面。
 
 它要解决的问题不是某个具体 UI 页面，而是：
 
@@ -14,7 +14,7 @@
 
 ### 1. Builtin Capability
 
-随宿主或 SDK 本体分发的能力。
+随宿主或 agent 本体分发的能力。
 
 典型包括：
 
@@ -180,12 +180,6 @@ InvocableEntry
 
 当前仓库中的默认实现映射为：
 
-- built-in commands 注册表见 [../commands.ts](../cc/commands.ts)
-- built-in tools 注册表见 [../tools.ts](../cc/tools.ts)
-- bundled skills 注册表见 [../skills/bundledSkills.ts](../cc/skills/bundledSkills.ts) 与 [../skills/bundled/index.ts](../cc/skills/bundled/index.ts)
-- skills / deprecated commands / plugin skills 加载见 [../skills/loadSkillsDir.ts](../cc/skills/loadSkillsDir.ts)
-- plugin command 加载见 [../utils/plugins/loadPluginCommands.ts](../cc/utils/plugins/loadPluginCommands.ts)
-- built-in plugin registry 见 [../plugins/builtinPlugins.ts](../cc/plugins/builtinPlugins.ts)
 
 从当前仓库可见：
 

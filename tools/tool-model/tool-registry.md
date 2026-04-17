@@ -63,8 +63,6 @@ ToolRecord
 
 ## 当前仓库映射
 
-- 默认工具装配见 [../../cc/tools.ts](../../cc/tools.ts)
-- command 装配见 [../../cc/commands.ts](../../cc/commands.ts)
 
 ## 规范结论
 

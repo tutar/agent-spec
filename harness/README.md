@@ -38,7 +38,7 @@ Harness
   - emit_runtime_event(event) -> projected_event
 ```
 
-这些接口是跨语言语义契约，而不是某个语言 SDK 中必须逐字出现的方法名。
+这些接口是跨语言语义契约，而不是某个语言 agent 实现中必须逐字出现的方法名。
 
 ### 核心能力
 
@@ -78,28 +78,11 @@ Harness
 
 这些扩展可以采用不同算法和底层技术，但必须保持触发时机、外部可观察行为和恢复语义一致。
 
-## 默认实现
+## 默认实现取向
 
-当前代码库中的默认 harness 由以下几层拼起来：
+默认落点仍然是本地 turn runner 与本地 session、tool registry、execution sandbox 的协作路径，但这些都只是装配选择，不构成规范约束。
 
-- [QueryEngine.ts](../../cc/QueryEngine.ts)
-  负责会话级输入处理、消息持有、transcript 落盘、query 驱动
-- [query.ts](../../cc/query.ts)
-  负责核心 agent loop、tool use 回路、budget/compact/recovery
-- [context.ts](../../cc/context.ts)
-  负责 system/user context 提供
-
-默认路径是：
-
-1. `QueryEngine` 接收用户输入
-2. 先写入 transcript，保证 session 可恢复
-3. 调 `query()` 推进 turn
-4. `query()` 在模型返回 tool use 时调用 tool executor
-5. 结果回填消息链，继续下一轮或结束
-
-这里的 `QueryEngine + query()` 只是当前本地默认实现。
-
-各语言 SDK 可以选择同步循环、异步状态机、actor model 或 service-oriented runner，只要对外保持同等 turn 语义即可。
+各语言 agent 实现可以选择同步循环、异步状态机、actor model 或 service-oriented runner，只要对外保持同等 turn 语义即可。
 
 ## 要解决的问题
 
@@ -197,14 +180,14 @@ Harness
 - [agent-observability.md](extension-and-projection/agent-observability.md)
 - [hook-and-lifecycle-extensions.md](extension-and-projection/hook-and-lifecycle-extensions.md)
 - [post-turn-processing.md](extension-and-projection/post-turn-processing.md)
-- [sdk-event-transport.md](extension-and-projection/sdk-event-transport.md)
+- [agent-event-transport.md](extension-and-projection/agent-event-transport.md)
 
 这一组回答：
 
 - agent 运行状态、进度、usage、trace 如何投影
 - lifecycle hook 如何扩展 harness
 - turn 结束后的后处理如何触发和编排
-- runtime state 如何投影给外部 SDK client
+- runtime state 如何投影给外部 agent client
 
 ## 规范结论
 

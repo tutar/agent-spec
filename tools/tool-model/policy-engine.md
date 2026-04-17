@@ -38,7 +38,7 @@ canonical 对齐要求：
 - `ask`
   最终应投影为 canonical `RequiresAction`
 - `deny`
-  最终应投影为 canonical `SdkError(permission_denied)` 或语义等价对象
+  最终应投影为 canonical `AgentError(permission_denied)` 或语义等价对象
 - `allow`
   不应携带伪阻塞态
 
@@ -66,7 +66,7 @@ canonical 字段表见 [../object-model.md](../object-model.md)。
 - 权限原因必须可解释
 - 审批请求必须可序列化
 - 非交互会话必须支持自动拒绝或安全降级
-- 即使底层模型原生支持某些敏感能力，权限裁决仍应由 SDK 控制
+- 即使底层模型原生支持某些敏感能力，权限裁决仍应由 agent 控制
 - `ask` 与 `requires_action` 必须分层：前者是策略决策，后者是 session 阻塞态投影
 - 拒绝过多时应允许从自动拒绝退化到 prompting
 - 工具中断语义不应混进权限结果，而应由执行层单独建模
@@ -164,10 +164,6 @@ DenialFallbackPolicy
 
 ## 当前仓库映射
 
-- 权限主逻辑见 [utils/permissions/permissions.ts](../../cc/utils/permissions/permissions.ts)
-- 拒绝追踪见 [utils/permissions/denialTracking.ts](../../cc/utils/permissions/denialTracking.ts)
-- 会话阻塞态见 [utils/sessionState.ts](../../cc/utils/sessionState.ts)
-- 工具中断语义见 [Tool.ts](../../cc/Tool.ts) 和 [services/tools/StreamingToolExecutor.ts](../../cc/services/tools/StreamingToolExecutor.ts)
 
 ## 规范结论
 
@@ -178,5 +174,5 @@ DenialFallbackPolicy
 - denial tracking 应被视为策略退化机制
 - 所有策略判定都必须可追踪、可解释
 - 权限责任不能下放给底层模型
-- policy 产生的 `requires_action` 和 `permission_denied` 应分别映射到 canonical `RequiresAction` 与 `SdkError`
+- policy 产生的 `requires_action` 和 `permission_denied` 应分别映射到 canonical `RequiresAction` 与 `AgentError`
 - `PolicyDecision` 应成为 `Tools` 模块的稳定共享对象之一

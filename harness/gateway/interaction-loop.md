@@ -54,22 +54,15 @@ ContinuationController
 当前仓库中的 CLI 默认实现可映射为：
 
 - `Input`
-  [screens/REPL.tsx](../../../cc/screens/REPL.tsx)
 - `Eval`
-  [QueryEngine.ts](../../../cc/QueryEngine.ts) + [query.ts](../../../cc/query.ts)
 - `Projection`
-  [components/Messages.tsx](../../../cc/components/Messages.tsx) 及相关消息组件
 - `Continuation`
-  [screens/REPL.tsx](../../../cc/screens/REPL.tsx) 中持续存在的 session-bound loop
 
 remote-control / bridge 变体则映射为：
 
 - `Input`
-  [bridge/inboundMessages.ts](../../../cc/bridge/inboundMessages.ts)
 - `Projection`
-  [bridge/bridgeMessaging.ts](../../../cc/bridge/bridgeMessaging.ts)
 - `Transport`
-  [bridge/replBridgeTransport.ts](../../../cc/bridge/replBridgeTransport.ts)
 
 ## 规范结论
 

@@ -118,7 +118,7 @@ ToolExecutor
 
 ## 取消模型
 
-SDK 应至少区分：
+agent 应至少区分：
 
 - `cancel`
   用户新输入到来时可中止当前工具
@@ -135,8 +135,6 @@ SDK 应至少区分：
 
 ## 当前仓库映射
 
-- 批处理编排见 [services/tools/toolOrchestration.ts](../../cc/services/tools/toolOrchestration.ts)
-- 流式执行器见 [services/tools/StreamingToolExecutor.ts](../../cc/services/tools/StreamingToolExecutor.ts)
 
 ## 规范结论
 

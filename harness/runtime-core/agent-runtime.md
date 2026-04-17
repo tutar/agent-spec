@@ -79,8 +79,6 @@ AgentRuntime
 
 ## 当前仓库映射
 
-- 主循环实现见 [query.ts](../../../cc/query.ts)
-- turn 预算见 [query/tokenBudget.ts](../../../cc/query/tokenBudget.ts)
 
 ## 规范结论
 

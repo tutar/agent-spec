@@ -94,7 +94,7 @@ DeltaContextPlan
 - `CLAUDE.md` / rules / instructions 默认落到 `memory`
 - 文件、资源、delta、hook 输出等上下文放在 `attachments`
 - 只在命中特定条件时加载的 skills / memories / instructions 放在 `dynamic`
-- 当底层模型支持原生 server-side attachment 或 cache 时，优先使用模型能力；语义不足的部分再由 SDK 补齐
+- 当底层模型支持原生 server-side attachment 或 cache 时，优先使用模型能力；语义不足的部分再由 agent 补齐
 - 若底层 provider 支持 prompt caching 或等价机制，应与 `PromptCacheStrategy` 协同保证 stable prefix，而不是只透传 provider 开关
 - 主线程与子代理可拥有不同的 attachment 装配面
 - 高频变化能力信息优先走 delta attachment，而不是重写 system prompt
@@ -113,12 +113,6 @@ DeltaContextPlan
 
 ## 当前仓库映射
 
-- [utils/systemPrompt.ts](../../../cc/utils/systemPrompt.ts) 负责 system prompt composition
-- [context.ts](../../../cc/context.ts) 负责结构化 system/user context
-- [utils/api.ts](../../../cc/utils/api.ts) 负责把 system/user context 投影进模型输入
-- [utils/attachments.ts](../../../cc/utils/attachments.ts) 负责 attachment context assembly
-- [utils/claudemd.ts](../../../cc/utils/claudemd.ts) 负责 memory / instructions discovery
-- [utils/analyzeContext.ts](../../../cc/utils/analyzeContext.ts) 提供上下文构成分析
 - [prompt-cache-strategy.md](prompt-cache-strategy.md) 负责把这些上下文进一步组织成 cache-friendly 输入
 
 ## 规范结论

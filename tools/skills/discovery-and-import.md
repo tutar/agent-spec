@@ -127,8 +127,6 @@ project-level skills 不应在不可信仓库中默认静默启用。
 
 当前本地默认实现主要映射到：
 
-- [../../../cc/skills/loadSkillsDir.ts](../../../cc/skills/loadSkillsDir.ts)
-- [../../../cc/skills/bundledSkills.ts](../../../cc/skills/bundledSkills.ts)
 
 源码中的关键信号包括：
 

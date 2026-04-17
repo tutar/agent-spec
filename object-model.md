@@ -4,7 +4,7 @@
 
 本文件定义跨语言共享的核心标准对象。
 
-这些对象不是某个语言 SDK 的具体类型，而是所有实现都应保持语义一致的 canonical model。
+这些对象不是某个语言 agent 实现的具体类型，而是所有实现都应保持语义一致的 canonical model。
 
 ## 设计原则
 
@@ -102,16 +102,16 @@ TerminalState
 
 - `status` 必须与 [harness/runtime-core/failure-and-terminal-states.md](harness/runtime-core/failure-and-terminal-states.md) 中的统一终止态保持一致
 - `retryable` 必须显式
-- `error` 如存在，应使用统一 `SdkError`
+- `error` 如存在，应使用统一 `AgentError`
 
 一个实现即使内部没有 `TerminalState` 结构体，也必须能对外给出语义等价对象。
 
-## SdkError
+## AgentError
 
 用于表达跨 runtime / tool / task / session 的统一错误对象。
 
 ```text
-SdkError
+AgentError
   - class
   - message
   - retryable
@@ -195,7 +195,7 @@ PolicyDecision
 - `passthrough` 仅允许策略链内部使用
 - 对外最终结果只能是 `allow / deny / ask`
 - `ask` 最终应能映射到 canonical `RequiresAction`
-- `deny` 最终应能映射到 canonical `SdkError(permission_denied)`
+- `deny` 最终应能映射到 canonical `AgentError(permission_denied)`
 
 ## SessionCheckpoint
 
@@ -610,7 +610,7 @@ ToolResult
 
 约束：
 
-- 若 `success=false`，应优先通过 `error: SdkError` 表达失败原因
+- 若 `success=false`，应优先通过 `error: AgentError` 表达失败原因
 - tool 的 `progress/result/failed/cancelled` 过程语义应通过 `RuntimeEvent` 或 `ToolExecutionEvent` 表达，而不全部压缩进 `ToolResult`
 
 ## PersistedToolResultRef
@@ -768,7 +768,7 @@ SessionCheckpoint
 
 ## 规范结论
 
-- `RuntimeEvent`、`TerminalState`、`SdkError`、`RequiresAction`、`ToolResult`、`CapabilityView`、`TaskRecord`、`TaskEvent`、`SessionCheckpoint` 应作为跨语言共享对象保留
+- `RuntimeEvent`、`TerminalState`、`AgentError`、`RequiresAction`、`ToolResult`、`CapabilityView`、`TaskRecord`、`TaskEvent`、`SessionCheckpoint` 应作为跨语言共享对象保留
 - `PersistedToolResultRef` 与 `ContextModifierCommit` 也应作为跨语言共享对象保留
 - 这些对象的语义必须独立于具体文件组织和类型系统
 - `object-model.md` 应成为各子模块引用的 canonical field table，而不是各自发明局部变体

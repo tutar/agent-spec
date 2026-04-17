@@ -2,7 +2,7 @@
 
 ## 目标
 
-这一页定义 Agent SDK 在不同部署拓扑下的稳定约束。
+这一页定义 agent runtime 在不同部署拓扑下的稳定约束。
 
 它回答的不是 UI 形态差异，而是更底层的问题：
 
@@ -15,14 +15,14 @@
 
 ## 核心结论
 
-Agent SDK 必须先按 `out-of-process / remote-capable` 语义设计，再提供 `in-process` 优化实现。
+agent runtime 必须先按 `out-of-process / remote-capable` 语义设计，再提供 `in-process` 优化实现。
 
 换句话说：
 
 - `in-process` 是一种 binding 优化，不应成为接口默认语义
 - `Cloud` 不是 “Local runtime + 远程工具”
 - `Local` 不等于单进程；它只是单机部署，仍然允许多进程或本地 IPC
-- 只有当接口在跨进程场景下仍然成立时，两种 hosting profile 才真正共享同一套 SDK 语义
+- 只有当接口在跨进程场景下仍然成立时，两种 hosting profile 才真正共享同一套 agent 语义
 
 ## 两层模型
 
@@ -126,7 +126,7 @@ Convenience:
 - progress 语义不同
 - recovery / retry 语义不同
 
-最终会演化成两套 SDK，而不是一套可移植的 SDK。
+最终会演化成两套 agent，而不是一套可移植的 agent。
 
 因此更合适的规则是：
 
@@ -220,7 +220,7 @@ Convenience:
 - resume 依赖的是 `Session`、checkpoint、task handle、event log 等 durable 边界，而不是某个仍然存活的进程实例
 - 若某个组件被替换，新实例应能通过 stable handle / checkpoint / restore store 继续接管工作
 
-## 对上层 agent SDK 集成者的含义
+## 对上层 agent agent 集成者的含义
 
 上层 agent 不应默认“直接依赖一组库内单例实现”。
 
@@ -257,5 +257,5 @@ Shared semantic layer
 - 组件接口必须先满足 distributed semantics，再允许本地优化
 - 默认实现可以是单进程，但默认语义不能是单进程
 - 上层 agent 应依赖稳定接口与 binding，而不是绑定某个默认实现的对象模型
-- 如果某个接口无法在 remote/distributed 场景下成立，它就不应成为 SDK 的核心稳定接口
+- 如果某个接口无法在 remote/distributed 场景下成立，它就不应成为 agent 的核心稳定接口
 - direct-call API 可以存在，但必须是 core streaming contract 的严格包装

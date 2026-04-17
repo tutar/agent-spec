@@ -63,11 +63,8 @@ ExecutionSandboxViolation
 
 当前代码库的默认实现主要落在这一层：
 
-- [utils/sandbox/sandbox-adapter.ts](../../cc/utils/sandbox/sandbox-adapter.ts)
   把 settings / permissions 投影成 `SandboxRuntimeConfig`
-- [tools/BashTool/shouldUseSandbox.ts](../../cc/tools/BashTool/shouldUseSandbox.ts)
   决定某次 Bash 执行是否进入沙箱
-- [tools/BashTool/BashTool.tsx](../../cc/tools/BashTool/BashTool.tsx)
   在 Bash 执行链中使用 sandbox wrapper
 
 从源码可以看出，当前默认实现是：

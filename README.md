@@ -1,8 +1,7 @@
-# Agent SDK Spec
+# Agent Spec
 
-本目录是一套面向多语言 Agent SDK 实现者的规范包。
+本目录是一套面向多语言 agent 实现者的规范包。
 
-它不是 `cc` 源码的逐文件讲解，也不是某个 TypeScript SDK 的 API 参考，而是从当前 `cc` 的本地 agent harness 中抽取出的稳定模块边界、共享对象模型和一致性要求。
 
 本规范默认面向 `Local-first` 宿主形态：
 
@@ -24,7 +23,7 @@
 - 默认实现
 - 要解决的问题
 
-目标不是沉淀某个具体语言或某一版 harness 的实现细节，而是形成一套可向下指导多语言 SDK、向上承接不同模型与基础设施能力的稳定接口规范。
+目标不是沉淀某个具体语言或某一版 harness 的实现细节，而是形成一套可向下指导多语言 agent 实现、向上承接不同模型与基础设施能力的稳定接口规范。
 
 ## 规范定位
 
@@ -32,7 +31,7 @@
 
 - 五个核心模块的稳定语义边界
 - 跨模块共享的 canonical object model
-- `Local-first` 默认实现映射
+- `Local-first` 默认语义
 - 核心能力与标准扩展能力的分层
 - 跨语言 conformance 规则与 golden cases
 
@@ -43,7 +42,6 @@
 - `标准扩展`
   推荐沉淀的高级能力，如 prompt cache、memory consolidation、background agent；允许采用不同技术方案，但行为语义必须兼容
 
-默认参考实现映射来自当前仓库中的 `cc/` 源码，但这些映射只用于解释默认落点，不构成 SDK API 设计约束。
 
 ## 阅读入口
 
@@ -120,23 +118,13 @@
 - `command` 会作为 `tools` 域内共享抽象出现，但不升级为第六个顶层模块。
 - 当前流行优化方案应优先沉淀为标准扩展，而不是直接绑死某一种实现算法。
 
-## 与当前代码的默认映射
+## 关于实现落点
 
-以下映射仅用于说明当前 `cc` 的默认实现如何落到规范边界上。
+本规范保留 `Local-first` 的默认宿主落点，但不把任何单一工程结构、类名或实现布局写成规范前提。
 
-它们是参考实现，不是要求各语言 SDK 复制的目录结构或类名。
-
-- Harness: [QueryEngine.ts](../cc/QueryEngine.ts), [query.ts](../cc/query.ts), [context.ts](../cc/context.ts)
-  Harness 侧还包含入口网关抽象，当前默认映射到 [bridge/initReplBridge.ts](../cc/bridge/initReplBridge.ts), [bridge/replBridge.ts](../cc/bridge/replBridge.ts), [bridge/bridgeMessaging.ts](../cc/bridge/bridgeMessaging.ts), [bridge/replBridgeTransport.ts](../cc/bridge/replBridgeTransport.ts)
-- Session: [bootstrap/state.ts](../cc/bootstrap/state.ts), [utils/sessionStorage.ts](../cc/utils/sessionStorage.ts), [utils/sessionRestore.ts](../cc/utils/sessionRestore.ts), [utils/sessionState.ts](../cc/utils/sessionState.ts)
-- Tools: [Tool.ts](../cc/Tool.ts), [tools.ts](../cc/tools.ts), [services/tools/toolOrchestration.ts](../cc/services/tools/toolOrchestration.ts), [services/tools/StreamingToolExecutor.ts](../cc/services/tools/StreamingToolExecutor.ts)
-  `tools` 域下还包含 `skills`、`mcp` 两个稳定子接口，以及 `command` 共享对象模型；默认映射分别位于 [skills/loadSkillsDir.ts](../cc/skills/loadSkillsDir.ts)、[services/mcp/client.ts](../cc/services/mcp/client.ts)、[types/command.ts](../cc/types/command.ts)
-- Sandbox: [tools/BashTool/BashTool.tsx](../cc/tools/BashTool/BashTool.tsx), [tasks/LocalShellTask/LocalShellTask.tsx](../cc/tasks/LocalShellTask/LocalShellTask.tsx), [utils/sandbox/sandbox-adapter.ts](../cc/utils/sandbox/sandbox-adapter.ts)
-- Orchestration: [tasks.ts](../cc/tasks.ts), [tasks/LocalAgentTask/LocalAgentTask.tsx](../cc/tasks/LocalAgentTask/LocalAgentTask.tsx), [tasks/RemoteAgentTask/RemoteAgentTask.tsx](../cc/tasks/RemoteAgentTask/RemoteAgentTask.tsx), [tools/AgentTool/runAgent.ts](../cc/tools/AgentTool/runAgent.ts)
-  `orchestration` 域下默认还包含标准 agent 编排模式，映射到 [tools/AgentTool/AgentTool.tsx](../cc/tools/AgentTool/AgentTool.tsx)、[tasks/InProcessTeammateTask/InProcessTeammateTask.tsx](../cc/tasks/InProcessTeammateTask/InProcessTeammateTask.tsx)、[tools/shared/spawnMultiAgent.ts](../cc/tools/shared/spawnMultiAgent.ts)
+实现者可以参考常见 agent runtime 的装配方式来理解模块边界，但合规目标始终是行为语义一致，而不是目录结构一致。
 
 ## 关于源码分析材料
 
-本规范以当前仓库中可见的 `agent-sdk-spec/` 和 `cc/` 源码为权威来源。
 
 如果其他说明文档或 README 引用了当前快照中不存在的分析材料，应将其视为背景说明，而不是规范前提。规范内容必须能够在不依赖缺失文档的前提下独立成立。

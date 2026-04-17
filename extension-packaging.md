@@ -69,13 +69,9 @@ BuiltinExtensionPackage
 
 当前仓库中的默认实现映射为：
 
-- marketplace / intent 见 [../utils/plugins/marketplaceManager.ts](../cc/utils/plugins/marketplaceManager.ts)
-- plugin materialization 见 [../utils/plugins/pluginLoader.ts](../cc/utils/plugins/pluginLoader.ts)
-- active refresh 见 [../utils/plugins/refresh.ts](../cc/utils/plugins/refresh.ts)
-- built-in plugin registry 见 [../plugins/builtinPlugins.ts](../cc/plugins/builtinPlugins.ts)
 
 ## 规范结论
 
 - plugin/extension packaging 是平台扩展层，不是 runtime 核心 loop
-- 但对于需要生态分发的 SDK，它应成为共享规范的一部分
+- 但对于需要生态分发的 agent，它应成为共享规范的一部分
 - 宿主自带扩展包应被视为该层的可选能力，而不是硬编码特例

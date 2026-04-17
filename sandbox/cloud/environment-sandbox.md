@@ -73,11 +73,8 @@ EnvironmentSandboxStatus
 
 当前代码库没有完整、统一的 `Cloud Environment Sandbox` 顶层实现，但存在相关默认映射：
 
-- [bridge/sessionRunner.ts](../../cc/bridge/sessionRunner.ts)
   本地/子进程 session 承载
-- [tools/AgentTool/AgentTool.tsx](../../cc/tools/AgentTool/AgentTool.tsx)
   agent isolation routing
-- [utils/teleport.tsx](../../cc/utils/teleport.tsx)
   remote/teleport 场景下的 workspace/environment 迁移
 
 因此当前仓库更接近：

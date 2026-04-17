@@ -65,10 +65,6 @@ InboundEnvelope
 
 当前仓库里的默认实现还没有把 `ChannelAdapter` 作为独立源码目录完全抽出，但已有清晰映射：
 
-- CLI REPL 作为本地 channel host，见 [screens/REPL.tsx](../../../cc/screens/REPL.tsx)
-- remote-control / bridge 入口，见 [bridge/initReplBridge.ts](../../../cc/bridge/initReplBridge.ts)
-- channel notification / permission relay，见 [services/mcp/channelNotification.ts](../../../cc/services/mcp/channelNotification.ts)
-- channel permission relay，见 [services/mcp/channelPermissions.ts](../../../cc/services/mcp/channelPermissions.ts)
 
 ## 规范结论
 

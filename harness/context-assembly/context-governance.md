@@ -33,7 +33,7 @@ ContextGovernance
 - 在 `prompt_too_long` 后触发 reactive compact
 - 对超长工具输出做文件持久化，仅回传 preview
 - 对当前 turn 维护单独的 token budget tracker
-- 若底层模型原生支持 prompt cache、server-side truncation 或 context window 管理，SDK 应优先接入这些能力，但仍保留统一预算与恢复语义
+- 若底层模型原生支持 prompt cache、server-side truncation 或 context window 管理，agent 应优先接入这些能力，但仍保留统一预算与恢复语义
 
 ## 与 Session 的边界
 
@@ -68,10 +68,6 @@ ContextGovernance
 
 ## 当前仓库映射
 
-- 自动 compact 见 [services/compact/autoCompact.ts](../../../cc/services/compact/autoCompact.ts)
-- turn 预算见 [query/tokenBudget.ts](../../../cc/query/tokenBudget.ts)
-- 工具结果外存化见 [utils/toolResultStorage.ts](../../../cc/utils/toolResultStorage.ts)
-- 上下文构成分析见 [utils/analyzeContext.ts](../../../cc/utils/analyzeContext.ts)
 
 ## 规范结论
 

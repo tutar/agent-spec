@@ -133,14 +133,13 @@ SessionExternalMetadata
 
 本仓库当前默认实现映射到：
 
-- [utils/sessionState.ts](../../cc/utils/sessionState.ts)
 
 默认实现特征：
 
 - 最小状态集为 `idle / running / requires_action`
 - `requires_action` 具备结构化 details
 - lifecycle state 可同步到 external metadata
-- 可镜像到 SDK event stream
+- 可镜像到 agent event stream
 
 ## 八、规范结论
 

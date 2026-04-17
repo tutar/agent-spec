@@ -65,12 +65,12 @@ McpAuthorizationAdapter
 约束：
 
 - HTTP auth 规范不应错误套用到 `stdio`
-- auth discovery 失败必须明确映射成 `SdkError(source=transport | auth)`
+- auth discovery 失败必须明确映射成 `AgentError(source=transport | auth)`
 - session continuity 与 token state 应分离，不应把 token 刷新当成新 MCP session
 
 ## Security
 
-SDK 规范至少应明确：
+agent 规范至少应明确：
 
 - HTTP origin validation
 - localhost / loopback binding guidance

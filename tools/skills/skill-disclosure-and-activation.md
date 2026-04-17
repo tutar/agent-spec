@@ -122,9 +122,6 @@ skill 在进入 catalog 或 activation tool 前，应先完成过滤：
 
 当前本地默认实现主要映射到：
 
-- [../../../cc/skills/loadSkillsDir.ts](../../../cc/skills/loadSkillsDir.ts)
-- [../../../cc/commands.ts](../../../cc/commands.ts)
-- [../../../cc/tools/SkillTool/SkillTool.ts](../../../cc/tools/SkillTool/SkillTool.ts)
 
 ## 规范结论
 

@@ -115,11 +115,9 @@ ToolExecutionUpdate
 
 本仓库当前默认实现映射到：
 
-- [services/tools/StreamingToolExecutor.ts](../../cc/services/tools/StreamingToolExecutor.ts)
 
 关联批量执行实现：
 
-- [services/tools/toolOrchestration.ts](../../cc/services/tools/toolOrchestration.ts)
 
 默认实现特征：
 

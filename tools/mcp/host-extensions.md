@@ -18,7 +18,6 @@
 
 ## `mcp skill`
 
-当前 `cc` 源码中的：
 
 - `fetchMcpSkillsForClient()` 从 `skill://` resources 发现 skills
 

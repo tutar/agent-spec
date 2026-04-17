@@ -4,7 +4,7 @@
 
 本文件定义跨语言共享的测试工件格式。
 
-这些工件用于验证不同 SDK 实现是否保持一致行为。
+这些工件用于验证不同 agent 实现是否保持一致行为。
 
 ## 工件类型
 
@@ -102,7 +102,7 @@ ObjectFixture
 ## 规范结论
 
 - 测试工件应脱离具体语言实现
-- 所有语言 SDK 应共享同一套录制样本和重放样本语义
+- 所有语言 agent 实现 应共享同一套录制样本和重放样本语义
 - canonical object fixture 应优先覆盖 `PolicyDecision`、`ResumeSnapshot`、`DurableMemoryRecord`、`PersistedToolResultRef`
 - memory injection object fixture 应优先覆盖 `DurableMemoryInjectionSource`、`LoadedMemoryInjection`
 - skills 相关 object fixture 应优先覆盖 `ImportedSkillManifest`、`SkillCatalogEntry`、`SkillActivationResult`

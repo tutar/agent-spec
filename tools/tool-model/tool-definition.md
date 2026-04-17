@@ -66,11 +66,11 @@ ToolDefinition
 - 工具必须声明最大结果策略
 - 工具必须自带权限检查入口
 - 工具输入必须有机器可读 schema
-- 若底层模型已原生支持 tool calling，SDK 应直接复用其调用协议，而不是再造一套模型侧协议
-- 若底层模型不支持，SDK 应允许用 prompt 协议或 planner 协议模拟工具调用
+- 若底层模型已原生支持 tool calling，agent 应直接复用其调用协议，而不是再造一套模型侧协议
+- 若底层模型不支持，agent 应允许用 prompt 协议或 planner 协议模拟工具调用
 - 输入校验失败应优先映射为 validation / protocol error，而不是伪装成业务执行失败
 - `check_permissions()` 应返回策略判定或语义等价对象，而不是只返回 UI 文案
-- 工具成功结果与工具失败结果都必须能映射到 canonical `ToolResult` / `SdkError`
+- 工具成功结果与工具失败结果都必须能映射到 canonical `ToolResult` / `AgentError`
 
 ## 输出语义
 
@@ -92,7 +92,7 @@ ToolResult
 - `persisted_ref`
   用于大结果外存化后保留稳定引用
 - `error`
-  应使用 canonical `SdkError` 或语义等价对象
+  应使用 canonical `AgentError` 或语义等价对象
 
 失败至少应区分：
 
@@ -103,12 +103,10 @@ ToolResult
 
 ## 当前仓库映射
 
-- 统一契约见 [Tool.ts](../../cc/Tool.ts)
-- 工具注册表见 [tools.ts](../../cc/tools.ts)
 
 ## 规范结论
 
-- SDK 不应接受“只有 execute 的工具”
+- agent 不应接受“只有 execute 的工具”
 - 工具定义必须带元数据
 - 工具定义必须与 runtime/policy/executor 对齐
 - 工具定义必须独立于具体语言的类型系统

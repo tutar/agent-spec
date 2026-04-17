@@ -50,11 +50,11 @@ McpProtocolClient
 - client 只能使用双方都声明过的 capability
 - 若 server 返回不同 `protocolVersion`，client 必须明确接受、降级或断开
 - `notifications/initialized` 不是可选优化，而是 lifecycle 的一部分
-- `cancel_request` 必须与本地 `SdkError(source=transport | tool)` 语义兼容
+- `cancel_request` 必须与本地 `AgentError(source=transport | tool)` 语义兼容
 
 ## 协议级通用能力
 
-一个面向 SDK 的 MCP client 还应统一处理：
+一个面向 agent 的 MCP client 还应统一处理：
 
 - ping / health probing
 - progress 通知投影

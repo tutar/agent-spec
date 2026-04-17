@@ -145,11 +145,6 @@ SkillActivationResult
 
 当前代码库中的默认实现主要映射到：
 
-- [skills/loadSkillsDir.ts](../../../cc/skills/loadSkillsDir.ts)
-- [utils/frontmatterParser.ts](../../../cc/utils/frontmatterParser.ts)
-- [types/command.ts](../../../cc/types/command.ts)
-- [commands.ts](../../../cc/commands.ts)
-- [tools/SkillTool/SkillTool.ts](../../../cc/tools/SkillTool/SkillTool.ts)
 
 源码里的关键判断是：
 
@@ -160,11 +155,7 @@ SkillActivationResult
 
 ## 当前源码映射
 
-- `createSkillCommand()` 在 [skills/loadSkillsDir.ts](../../../cc/skills/loadSkillsDir.ts) 中把 skill 转成 `Command(type='prompt')`
 - `loadedFrom` 用于区分 skill 来源，包含 `skills / plugin / managed / bundled / mcp`
-- `parseFrontmatter()` 在 [utils/frontmatterParser.ts](../../../cc/utils/frontmatterParser.ts) 中提供宽松 YAML retry
-- `getSkillToolCommands()` 在 [commands.ts](../../../cc/commands.ts) 中筛选模型可见 skill
-- `SkillTool` 在 [tools/SkillTool/SkillTool.ts](../../../cc/tools/SkillTool/SkillTool.ts) 中调用 skill，并在必要时 fork sub-agent
 
 因此，当前源码里的关系应理解为：
 
