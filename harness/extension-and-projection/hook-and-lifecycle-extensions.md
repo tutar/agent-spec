@@ -90,6 +90,32 @@ hook 运行结果可以投影到多个平面，但必须保持语义分层：
 
 禁止把这些投影混成一个字符串消息。
 
+另外，lifecycle 扩展产出的 `additional_context` 不应被视为可以直接绕过 context assembly 的隐式输入。
+
+推荐最小桥接对象：
+
+```text
+LifecycleContextEffect
+  - lifecycle_scope: session_start | agent_start | turn | compact | stop
+  - content
+  - first_turn_only?
+  - reentry_policy?
+  - transcript_visibility
+  - provenance
+```
+
+默认语义：
+
+- session-start hook output -> session-start context
+- agent-start hook output -> agent-start context
+- 其他 lifecycle output -> 由对应上下文平面决定落点
+
+实现必须保证：
+
+- lifecycle 产物先进入 context assembly，再进入模型输入
+- lifecycle 产物接受与普通上下文相同的 dedup、budget、governance、provenance 规则
+- lifecycle 扩展不得通过旁路直接污染 bootstrap prompt 或 transcript
+
 权限型 hook 结果推荐至少支持：
 
 ```text

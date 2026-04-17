@@ -72,6 +72,27 @@ DeltaContextPlan
   - emit_delta_attachment()
 ```
 
+推荐再补：
+
+```text
+WorkspaceContext
+  - primary_workspace
+  - additional_workspaces[]
+  - repo_snapshot?
+  - execution_environment
+  - platform
+  - shell
+  - current_date
+
+StartupContextPlan
+  - session_start
+  - first_turn_only
+  - reentry
+  - agent_start
+  - dedup_policy
+  - transcript_visibility
+```
+
 ## 设计要求
 
 - 每个上下文源都应独立缓存，不要做全量缓存
@@ -86,12 +107,77 @@ DeltaContextPlan
 - attachment assembly 应允许稳定顺序，而不是无序集合
 - memory recall 应允许独立的 session budget 与 prefetch/collect 生命周期
 - discovery、listing、delta、recall 这几种动态上下文语义应被区分
+- workspace / environment 信息必须被显式建模，不得只作为零散字符串隐藏在 prompt 文本中
+- workspace 标识与高波动环境状态必须分层
+- repo / workspace 状态默认应被视为 snapshot，而不是持续同步状态
+- harness 必须允许 startup-only context 作为独立语义进入模型输入
+- startup-only context 必须支持一次性注入、去重和 resume / reentry 重新宣布策略
+- session-start context 与 agent-start context 必须分开建模
+- lifecycle 扩展产出的 additional context 必须先进入 context assembly，再进入模型输入
+
+## 必要补充语义
+
+### 1. workspace / environment context
+
+实现必须支持独立的 `workspace / environment context` 语义层。
+
+它通常包含：
+
+- primary workspace
+- additional workspaces
+- repository / worktree snapshot
+- platform / shell / execution environment
+- current date / time basis
+
+推荐归属：
+
+- 结构稳定、跨轮共享的信息进入 structured context
+- 高频变化的能力 listing、连接状态、delta 进入 attachment 或 dynamic context
+
+不推荐把 workspace 信息完全塞进 bootstrap prompt 文本中再丢失结构。
+
+### 2. startup-only context
+
+实现必须允许只在启动期或 turn-zero 生效的上下文语义，至少包括：
+
+- session-start context
+- first-turn discovery context
+- initial listing context
+- mode-entry context
+- reentry context
+
+这类上下文不等于 bootstrap prompt，也不等于普通 attachment。
+
+推荐默认要求：
+
+- 可以只注入一次
+- 可以在 resume / reentry 时按策略重放
+- 必须有 dedup policy
+- 必须声明 transcript visibility
+
+### 3. agent-start context
+
+主会话的 session-start context 与 delegated agent 的 agent-start context 应是两种不同语义。
+
+agent-start context 可以承载：
+
+- role-local startup instructions
+- delegation briefing additions
+- team / coordination bootstrap
+- agent-local lifecycle outputs
+
+但它不应：
+
+- 污染主会话的 session-start context
+- 被误当成 agent prompt 本体
+- 绕过 context governance / provenance
 
 ## 默认策略
 
 - system prompt composition 单独处理 agent / coordinator / custom prompt 叠加
 - Git 状态一类信息放在 `system`
 - `CLAUDE.md` / rules / instructions 默认落到 `memory`
+- workspace、附加 workspace、platform、shell、日期等默认落到 structured context
 - 文件、资源、delta、hook 输出等上下文放在 `attachments`
 - 只在命中特定条件时加载的 skills / memories / instructions 放在 `dynamic`
 - 当底层模型支持原生 server-side attachment 或 cache 时，优先使用模型能力；语义不足的部分再由 agent 补齐
@@ -100,6 +186,8 @@ DeltaContextPlan
 - 高频变化能力信息优先走 delta attachment，而不是重写 system prompt
 - relevant memory 应走独立 recall 管线，而不是普通附件拼接
 - skill discovery、skill listing 与 capability delta 应按不同目标建模
+- session-start context 与 agent-start context 默认视为 startup-only context，而不是 bootstrap prompt 的隐式扩展
+- turn-zero briefing 默认走 startup-only context，而不是 agent prompt 本体
 
 ## 不推荐做法
 
@@ -126,3 +214,6 @@ DeltaContextPlan
 - dynamic context 必须允许 recall / discovery / listing / delta 分层
 - 上下文必须可被治理系统单独分析和裁剪
 - 上下文接口必须语言无关
+- workspace / environment context 必须被显式建模
+- startup-only context 必须是独立语义层
+- session-start context 与 agent-start context 必须分开建模

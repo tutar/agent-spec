@@ -143,6 +143,50 @@ bootstrap prompt 应支持将：
 
 实现不应把这些动态段偷偷混入静态前缀中。
 
+### 7. 必须区分 agent prompt 与首轮一次性引导
+
+`agent prompt` 是 bootstrap prompt 内的稳定语义层，用来表达：
+
+- identity / role
+- operating mode
+- domain-specific behavior contract
+- 与 default prompt 的覆盖或叠加关系
+
+它不应用来承载只在首轮生效的一次性引导，例如：
+
+- session-start 产物
+- agent-start 产物
+- turn-zero briefing
+- 首轮用户 bootstrap 指令
+
+这些语义应通过独立的 startup / initial-turn context 平面进入模型输入，而不是通过变异 agent prompt 本体实现。
+
+### 8. 必须允许 initial user bootstrap 与 bootstrap prompt 分离
+
+部分实现需要在第一轮用户输入前，注入一次性 task kickoff 或 agent-specific briefing。
+
+这类内容应被建模为 `initial user bootstrap`，而不是：
+
+- bootstrap prompt 的一部分
+- agent prompt 的隐式变体
+- durable transcript 的替代物
+
+推荐最小对象：
+
+```text
+InitialUserBootstrap
+  - content
+  - first_turn_only
+  - transcript_visibility
+  - dedup_policy
+```
+
+实现必须明确：
+
+- 它只在首轮或显式 reentry 时注入
+- 它属于用户侧 bootstrap，而不是 system skeleton
+- 它可以与 agent prompt 并存，但二者职责不同
+
 ## 推荐默认策略
 
 - 默认 prompt 由静态 section 和动态 section 两组组成
@@ -150,6 +194,8 @@ bootstrap prompt 应支持将：
 - 动态 section 延后解析，并支持独立失效
 - append prompt 永远在最终尾部
 - custom prompt 应是完整替换，除非调用方明确要求 layered merge
+- agent prompt 视为稳定 prompt layer；首轮额外引导默认走 `initial user bootstrap`
+- environment summary 可在 bootstrap prompt 中投影为 section，但其归属应先由 structured context 层定义
 
 ## 与其它模块的边界
 
@@ -173,3 +219,5 @@ bootstrap prompt 应支持将：
 - bootstrap prompt 应以 section 为基本单元，而不是单一字符串
 - bootstrap prompt 应支持优先级覆盖、section 级缓存与边界切分
 - bootstrap prompt 应与 structured context、attachment context、memory recall 分开建模
+- agent prompt 应被建模为稳定语义层，而不是首轮一次性引导容器
+- initial user bootstrap 应与 bootstrap prompt、agent prompt 分开建模
