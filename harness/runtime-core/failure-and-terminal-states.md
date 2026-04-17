@@ -130,7 +130,6 @@ AgentError
 - 用户点停止: `cancelled`
 - sibling tool 失败后取消兄弟执行: `cancelled`
 - streaming fallback 后丢弃旧 executor: `aborted`
-- desktop runtime 退出但 session 可恢复: `aborted`
 - cloud worker 丢失租约后停止本地执行: `aborted`
 
 ## 七、Retryability 规则
