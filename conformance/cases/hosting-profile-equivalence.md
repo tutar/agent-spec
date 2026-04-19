@@ -4,6 +4,12 @@
 
 验证同一规范语义在 `Local / Cloud` 两种 host 下保持一致。
 
+当前语义锚点：
+
+- `module-overview.md`
+- `orchestration/cloud/README.md`
+- `harness/deployment-boundaries.md`
+
 ## Preconditions
 
 - 两种 host profile 都实现了相同版本的 spec
@@ -32,6 +38,7 @@
 - `requires_action` 结构
 - `tool_use -> tool_result` 配对规则
 - resume 后的继续执行语义
+- `Local-first` 默认实现不会改变 `Cloud-compatible` 边界语义
 
 ## Allowed Variance
 

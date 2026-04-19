@@ -4,6 +4,11 @@
 
 验证 teammate 的普通执行输出默认不会自动回灌给 leader。
 
+当前语义锚点：
+
+- `harness/multi-agent/message-routing.md`
+- `harness/multi-agent/view-and-transcript-projection.md`
+
 ## Preconditions
 
 - runtime 支持 leader + teammate 模型
@@ -19,7 +24,7 @@
 
 - teammate 可以继续推进自己的工作
 - leader 不会自动收到该 teammate 的全量输出
-- 若需要回流，必须通过显式 message、notification 或 viewed transcript 通道
+- 若需要回流，必须通过显式 mailbox message、task notification 或 viewed transcript 通道
 
 ## Failure Conditions
 

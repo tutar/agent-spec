@@ -67,17 +67,17 @@
 - `skills/`
 - `mcp/`
 
-其中 [harness/README.md](harness/README.md) 已进一步按 7 组子主题组织：
+其中 [harness/README.md](harness/README.md) 已进一步按多组子主题组织：
 
 - Runtime Core
 - Model Provider
-- Context Assembly
+- Context Engineering
 - Gateway
 - Extension And Projection
 - Task
 - Multi-Agent
 
-在 `Context Assembly` 子主题下，现已单独补充 bootstrap prompt 规范，用于稳定 system prompt skeleton、section cache 与 static/dynamic boundary。
+在 `Context Engineering` 子主题下，现已将 bootstrap prompt、structured context、attachment assembly、startup context、context governance、prompt cache 统一收敛为一组规范，用于稳定模型可见输入的对象模型与装配流水线。
 
 另外，反思相关能力已按职责拆入现有模块，而不是新增顶层 `reflection` 模块：
 

@@ -170,7 +170,7 @@ tool invocation 在执行前应至少经过：
 - resume 后的补脑
 - compact 后的语义漂移
 
-相关规范见 [context-assembly/context-governance.md](context-assembly/context-governance.md)。
+相关规范见 [context-engineering/context-governance.md](context-engineering/context-governance.md)。
 
 ### 7. Faithful Reporting Guardrails
 

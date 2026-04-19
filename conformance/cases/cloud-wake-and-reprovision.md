@@ -4,12 +4,18 @@
 
 验证云端宿主下的 `wake / reprovision / resume` 语义。
 
+当前语义锚点：
+
+- `orchestration/cloud/README.md`
+- `orchestration/cloud/managed-orchestration.md`
+- `harness/deployment-boundaries.md`
+
 ## Preconditions
 
 - host profile 为 `Cloud`
 - session durable state 与 execution environment 解耦
 - runtime 支持 wake/resume
-- runtime 支持 environment reprovision 或 hand reprovision
+- runtime 支持 execution target reprovision 或 hand reprovision
 
 ## Ingress
 

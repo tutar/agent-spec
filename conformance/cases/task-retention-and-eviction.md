@@ -4,6 +4,11 @@
 
 验证 task 的 terminal notification 去重、观察者持有与回收边界。
 
+当前语义锚点：
+
+- `harness/task/task-lifecycle.md`
+- `harness/task/task-model.md`
+
 ## Preconditions
 
 - runtime 支持 task notification 或语义等价投影
@@ -31,6 +36,7 @@
 - kill path、finally path、restore replay 不会导致双发 terminal notification
 - foreground/background 切换或 observer 附着/脱离不改变 task identity
 - 回收是资源管理动作，不会改写已经投影给外部的 terminal 事实
+- output store 清理若与 task state 驱逐分阶段发生，也不得早于恢复语义边界
 
 ## Allowed Variance
 

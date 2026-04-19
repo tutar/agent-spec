@@ -4,6 +4,12 @@
 
 验证 MCP 接入后的能力映射语义。
 
+当前语义锚点：
+
+- `tools/mcp/README.md`
+- `tools/mcp/runtime-adaptation.md`
+- `tools/mcp/host-extensions.md`
+
 ## Preconditions
 
 - runtime 支持 MCP
@@ -39,4 +45,5 @@
 
 - 把 MCP prompt 映射成 tool
 - 把 host-specific `mcp skill` extension 误写成 core MCP requirement
+- 把 bundle host / install / trust flow 误写成 MCP core requirement
 - MCP tool 无法参与标准 tool lifecycle

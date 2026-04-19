@@ -1,0 +1,24 @@
+{
+  "artifact_id": "context-planes-and-projection.v1",
+  "schema_version": "1.0",
+  "scenario": "context-planes-and-projection",
+  "constraints": [
+    "model-visible input is partitioned into system_prompt, message_stream, attachment_stream, capability_surface, and request_metadata or semantic equivalents",
+    "system_context and user_context are projected through distinct injection mechanisms",
+    "tool schemas or equivalent capability descriptors remain part of model-visible context",
+    "attachment context remains distinct from durable transcript semantics"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "ContextAssemblyInput",
+      "required_fields": [
+        "bootstrap_prompt_sections",
+        "system_context",
+        "user_context",
+        "attachments",
+        "capability_surface",
+        "request_metadata"
+      ]
+    }
+  ]
+}

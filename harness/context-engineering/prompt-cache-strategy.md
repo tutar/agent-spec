@@ -19,20 +19,6 @@
 - context governance 的预算策略本身
 - provider client 的认证与传输
 
-## 要解决的问题
-
-即使底层 provider 原生支持 prompt caching，如果 harness 不主动稳定 prompt 结构，也会持续丢失缓存命中。
-
-典型失败模式包括：
-
-- system prompt 每轮字节级变化
-- 动态上下文混入静态前缀
-- TTL / scope 在会话中途切换
-- fork agent 改变 cache-critical 参数
-- tool result 回填方式不稳定
-
-因此，prompt caching 不应只被视为 provider 功能，而应被视为 harness 的上下文装配策略之一。
-
 ## 稳定接口
 
 推荐最小接口：
@@ -57,13 +43,17 @@ CachePolicy
   - supports_prefix_reuse
   - supports_message_level_markers
   - supports_tool_result_reference
+```
 
+```text
 CacheablePromptPlan
   - stable_prefix
   - dynamic_suffix
   - cache_breakpoints[]
   - cache_sensitive_fields[]
+```
 
+```text
 ForkCachePlan
   - share_parent_prefix
   - inherited_cache_critical_params[]
@@ -85,21 +75,12 @@ ForkCachePlan
 
 规范不应把某个 provider 的私有字段直接写成通用标准。
 
-例如：
-
-- Anthropic 的 `cache_control`
-- Anthropic 的 `cache_reference`
-
-这些都只能出现在默认实现映射中，而不应成为跨语言、跨 provider 的稳定接口字段名。
-
 ### 3. 必须显式建模静态前缀与动态后缀
 
 实现至少应能区分：
 
 - cacheable stable prefix
 - session / turn dynamic suffix
-
-否则 provider 即使支持 prefix cache，也难以稳定命中。
 
 ### 4. 必须支持 cache-critical 参数稳定
 
@@ -126,42 +107,15 @@ ForkCachePlan
 
 `Local / Cloud` 两种 host 都应共享同一套 prompt cache 语义。
 
-允许不同 host：
-
-- 使用不同 transport
-- 使用不同 session store
-- 使用不同 sandbox
-
-但不允许因此改变：
-
-- stable prefix 的定义
-- cache break 的语义
-- fork cache sharing 的语义
-
 ## 推荐策略分层
 
 ### 1. Anthropic Native Strategy
 
 用于底层 provider 原生提供 Anthropic-style prompt caching 语义时。
 
-特征通常包括：
-
-- prefix-level cache marker
-- request block ordering 敏感
-- message / tool result 也可参与缓存
-- provider 返回 cache read / write usage
-
-当前仓库默认实现属于这一类。
-
 ### 2. OpenClaw-Mediated Strategy
 
-用于底层 provider 能力不统一，但系统通过 OpenClaw 一类中间层统一了 prompt cache 语义。
-
-特征通常包括：
-
-- provider-native cache 能力被上提为统一策略接口
-- harness 面向统一 cache policy，而不是直接写 provider 私有参数
-- 可覆盖 OpenAI / Anthropic / Gemini 等不同 provider
+用于底层 provider 能力不统一，但系统通过中间层统一了 prompt cache 语义。
 
 ### 3. Fallback Strategy
 
@@ -174,12 +128,14 @@ ForkCachePlan
 - fork parameter stability
 - cache-break-sensitive context assembly
 
-即使没有真正的 server-side cache，也能减少无效重组与未来迁移成本。
-
 ## 与其它模块的边界
 
 - 与 [bootstrap-prompts.md](bootstrap-prompts.md)
   `BootstrapPrompts` 定义 system prompt skeleton；`PromptCacheStrategy` 定义如何让这些 skeleton 更适合被缓存复用
+- 与 [context-input-model.md](context-input-model.md)
+  本页只关心 cache-friendly 组织，不重新定义输入对象模型
+- 与 [context-assembly-pipeline.md](context-assembly-pipeline.md)
+  cache marker placement 必须服从 assembly pipeline，而不是替代它
 - 与 [context-provider.md](context-provider.md)
   `ContextProvider` 决定上下文来源；`PromptCacheStrategy` 决定这些上下文如何组织成 cache-friendly 输入
 - 与 [context-governance.md](context-governance.md)
@@ -187,16 +143,16 @@ ForkCachePlan
 - 与 [../model-provider/model-capability-routing.md](../model-provider/model-capability-routing.md)
   模型能力路由决定是否启用 provider-native prompt caching；`PromptCacheStrategy` 负责实际组织输入
 
-## 默认实现映射
+## Local Mapping And Cloud-Compatible Mapping
 
-当前仓库中的默认实现映射为：
+### Local Mapping
 
+- 本地 harness 常直接根据 section registry、tool schemas、message plan 放置 cache marker
 
-当前默认实现应视为：
+### Cloud-Compatible Mapping
 
-- `AnthropicNativePromptCacheStrategy`
-
-而不是跨 provider 的唯一标准。
+- prompt cache strategy 仍在 harness 内部执行
+- 云端仅改变 provider transport 和缓存宿主位置，不改变 stable prefix、dynamic suffix、cache break 的语义
 
 ## 规范结论
 

@@ -4,6 +4,12 @@
 
 验证 task 的基础状态机、终态收敛与注册后可观察语义。
 
+当前语义锚点：
+
+- `harness/task/task-lifecycle.md`
+- `harness/task/task-model.md`
+- `harness/task/task-manager.md`
+
 ## Preconditions
 
 - runtime 支持可查询的 task lifecycle
@@ -27,7 +33,7 @@
 ## Expected Runtime Semantics
 
 - task status 变化可被外部观察，而不是只存在于进程内局部对象
-- direct-call 或 convenience API 不得绕开同一 lifecycle 语义
+- direct-call 或 convenience API 不得绕开同一 lifecycle 写入口
 - terminal cause 至少可通过 task state、terminal event 或等价 metadata 追溯
 
 ## Allowed Variance

@@ -4,6 +4,11 @@
 
 验证 task notification 在多 agent 场景下按目标 worker 定向投递，而不是广播。
 
+当前语义锚点：
+
+- `harness/multi-agent/message-routing.md`
+- `harness/multi-agent/README.md`
+
 ## Preconditions
 
 - runtime 支持多个并发 worker
@@ -20,7 +25,8 @@
 
 - 目标 worker 可以消费到该 notification
 - 非目标 worker 不会消费到该 notification
-- main thread 与 worker 的 notification scope 明确区分
+- leader thread 与 worker 的 notification scope 明确区分
+- task notification 与 mailbox、direct view input 不共享同一 delivery 语义
 
 ## Failure Conditions
 

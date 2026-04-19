@@ -4,6 +4,11 @@
 
 验证 task 的 `output_ref + cursor` 语义，以及 restore 后的稳定输出恢复。
 
+当前语义锚点：
+
+- `harness/task/task-lifecycle.md`
+- `session/event-log-schema.md`
+
 ## Preconditions
 
 - task 支持稳定 output reference 或语义等价对象

@@ -156,20 +156,26 @@ Harness
 - 模型 streaming 如何接入 harness
 - provider transport / auth / endpoint 边界如何落在统一 adapter 内
 
-### 3. Context Assembly
+### 3. Context Engineering
 
-- [bootstrap-prompts.md](context-assembly/bootstrap-prompts.md)
-- [context-provider.md](context-assembly/context-provider.md)
-- [context-governance.md](context-assembly/context-governance.md)
-- [prompt-cache-strategy.md](context-assembly/prompt-cache-strategy.md)
+- [context-engineering/README.md](context-engineering/README.md)
+- [bootstrap-prompts.md](context-engineering/bootstrap-prompts.md)
+- [context-input-model.md](context-engineering/context-input-model.md)
+- [context-assembly-pipeline.md](context-engineering/context-assembly-pipeline.md)
+- [context-provider.md](context-engineering/context-provider.md)
+- [attachment-assembly.md](context-engineering/attachment-assembly.md)
+- [startup-and-turn-zero-context.md](context-engineering/startup-and-turn-zero-context.md)
+- [context-governance.md](context-engineering/context-governance.md)
+- [prompt-cache-strategy.md](context-engineering/prompt-cache-strategy.md)
 
 这一组回答：
 
-- bootstrap prompt 骨架如何构建
-- 上下文如何分层装配
-- memory / attachment / delta 如何进入模型输入
-- 上下文预算、compact、治理如何实现
-- Anthropic-native 与 OpenClaw-mediated prompt cache 策略如何挂到 harness
+- context engineering 在 harness 中的职责是什么
+- 模型可见输入有哪些 context planes
+- bootstrap prompt、structured context、attachments、tool surface 如何装配
+- startup、turn-zero、resume、agent-start 的上下文差异是什么
+- memory / attachment / delta / persisted evidence 如何进入模型输入
+- 上下文预算、compact、治理与 prompt cache 如何协同
 
 ### 4. Gateway
 

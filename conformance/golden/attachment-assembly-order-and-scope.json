@@ -1,0 +1,22 @@
+{
+  "artifact_id": "attachment-assembly-order-and-scope.v1",
+  "schema_version": "1.0",
+  "scenario": "attachment-assembly-order-and-scope",
+  "constraints": [
+    "attachments are not treated as an unordered set",
+    "attachment ordering is stable across user_input, all_thread, main_thread_only, and agent_scoped classes or semantic equivalents",
+    "attachment visibility is deterministic by scope",
+    "large attachment payloads may use payload_ref or equivalent external references"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "AttachmentEnvelope",
+      "required_fields": [
+        "source",
+        "audience",
+        "thread_scope",
+        "ordering_class"
+      ]
+    }
+  ]
+}

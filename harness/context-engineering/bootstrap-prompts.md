@@ -2,7 +2,7 @@
 
 ## 职责
 
-`BootstrapPrompts` 定义 harness 在进入主 query loop 前必须建立的 `system prompt skeleton`。
+`BootstrapPrompts` 定义 `Harness.ContextEngineering` 在进入主 query loop 前必须建立的 `system prompt skeleton`。
 
 它负责：
 
@@ -18,18 +18,6 @@
 - attachment context
 - tool result 注入
 - memory recall 结果本身
-
-## 要解决的问题
-
-如果没有独立的 bootstrap prompt 层，系统通常会退化成：
-
-- 把所有 context 混拼成一个大字符串
-- 无法对 system prompt 做 section 级缓存
-- custom prompt 与默认 prompt 语义冲突
-- prompt cache 命中率不稳定
-- 模型行为骨架和动态上下文装配互相污染
-
-因此规范上必须把 `BootstrapPrompts` 从普通 context provider 中独立出来。
 
 ## 稳定接口
 
@@ -53,7 +41,9 @@ PromptSection
   - cache_policy
   - cache_breaking
   - dynamic
+```
 
+```text
 PromptBlocks
   - attribution_prefix?
   - static_blocks[]
@@ -62,17 +52,11 @@ PromptBlocks
 
 ## 规范要求
 
-### 1. Bootstrap prompt 必须是分段对象
+### 1. bootstrap prompt 必须是分段对象
 
 实现不应将 bootstrap prompt 直接建模成单一字符串。
 
-原因：
-
-- 不利于按 section 做缓存
-- 不利于做 static / dynamic 边界切分
-- 不利于 override 和 append 的稳定组合
-
-### 2. 必须支持优先级覆盖
+### 2. 必须支持覆盖与追加语义
 
 至少应支持这些语义层：
 
@@ -91,7 +75,7 @@ PromptBlocks
 
 ### 3. 必须与 structured context 分离
 
-bootstrap prompt 不是 `systemContext` 或 `userContext` 的别名。
+bootstrap prompt 不是 `system_context` 或 `user_context` 的别名。
 
 推荐分层：
 
@@ -111,14 +95,6 @@ bootstrap prompt 不是 `systemContext` 或 `userContext` 的别名。
 - 何时失效
 - 是否会破坏 prompt cache
 
-触发失效的典型原因包括：
-
-- clear
-- compact
-- worktree / cwd 切换
-- integration capability 变化
-- late-bound server instruction 变化
-
 ### 5. 必须支持 static / dynamic boundary
 
 bootstrap prompt 应支持将：
@@ -128,9 +104,9 @@ bootstrap prompt 应支持将：
 
 显式分开。
 
-这个边界不只是优化项，而是 prompt caching 和 API transport block projection 的稳定输入。
+这个边界不只是优化项，而是 prompt caching 和 API projection 的稳定输入。
 
-### 6. 动态 section 必须是显式声明
+### 6. 动态 section 必须显式声明
 
 下列内容通常属于动态 section：
 
@@ -138,12 +114,12 @@ bootstrap prompt 应支持将：
 - memory mechanics prompt
 - environment info
 - output style
-- MCP server instructions
+- server / integration instructions
 - token budget instructions
 
 实现不应把这些动态段偷偷混入静态前缀中。
 
-### 7. 必须区分 agent prompt 与首轮一次性引导
+### 7. 必须区分 agent prompt 与 startup-only briefing
 
 `agent prompt` 是 bootstrap prompt 内的稳定语义层，用来表达：
 
@@ -152,40 +128,7 @@ bootstrap prompt 应支持将：
 - domain-specific behavior contract
 - 与 default prompt 的覆盖或叠加关系
 
-它不应用来承载只在首轮生效的一次性引导，例如：
-
-- session-start 产物
-- agent-start 产物
-- turn-zero briefing
-- 首轮用户 bootstrap 指令
-
-这些语义应通过独立的 startup / initial-turn context 平面进入模型输入，而不是通过变异 agent prompt 本体实现。
-
-### 8. 必须允许 initial user bootstrap 与 bootstrap prompt 分离
-
-部分实现需要在第一轮用户输入前，注入一次性 task kickoff 或 agent-specific briefing。
-
-这类内容应被建模为 `initial user bootstrap`，而不是：
-
-- bootstrap prompt 的一部分
-- agent prompt 的隐式变体
-- durable transcript 的替代物
-
-推荐最小对象：
-
-```text
-InitialUserBootstrap
-  - content
-  - first_turn_only
-  - transcript_visibility
-  - dedup_policy
-```
-
-实现必须明确：
-
-- 它只在首轮或显式 reentry 时注入
-- 它属于用户侧 bootstrap，而不是 system skeleton
-- 它可以与 agent prompt 并存，但二者职责不同
+首轮 kickoff、session-start、agent-start、resume-start 这类内容应走独立 startup context，见 [startup-and-turn-zero-context.md](startup-and-turn-zero-context.md)。
 
 ## 推荐默认策略
 
@@ -194,13 +137,17 @@ InitialUserBootstrap
 - 动态 section 延后解析，并支持独立失效
 - append prompt 永远在最终尾部
 - custom prompt 应是完整替换，除非调用方明确要求 layered merge
-- agent prompt 视为稳定 prompt layer；首轮额外引导默认走 `initial user bootstrap`
+- agent prompt 视为稳定 prompt layer；首轮额外引导默认走 startup context
 - environment summary 可在 bootstrap prompt 中投影为 section，但其归属应先由 structured context 层定义
 
 ## 与其它模块的边界
 
+- 与 [context-input-model.md](context-input-model.md)
+  本页只定义 system prompt skeleton；输入平面见 `ContextInputModel`
 - 与 [context-provider.md](context-provider.md)
-  `BootstrapPrompts` 负责 system prompt skeleton；`ContextProvider` 负责 structured context 和 attachment assembly
+  `BootstrapPrompts` 负责 system prompt skeleton；`ContextProvider` 负责向不同 context plane 提供结构化片段
+- 与 [context-assembly-pipeline.md](context-assembly-pipeline.md)
+  `BootstrapPrompts` 只定义装配前半段的 system skeleton；完整顺序见 `ContextAssemblyPipeline`
 - 与 [prompt-cache-strategy.md](prompt-cache-strategy.md)
   `BootstrapPrompts` 定义 prompt skeleton 的结构；`PromptCacheStrategy` 定义这些结构如何组织成 cache-friendly 输入
 - 与 [context-governance.md](context-governance.md)
@@ -208,10 +155,18 @@ InitialUserBootstrap
 - 与 [../model-provider/model-provider-adapter.md](../model-provider/model-provider-adapter.md)
   `ModelProviderAdapter` 决定如何把 prompt blocks 投影到特定模型协议；不定义 bootstrap prompt 内容
 
-## 默认实现映射
+## Local Mapping And Cloud-Compatible Mapping
 
-当前仓库中的默认实现映射为：
+### Local Mapping
 
+- section registry 常由本地常量、配置和 runtime state 解析得到
+- section cache 常与本地 harness 生命周期协同
+
+### Cloud-Compatible Mapping
+
+- bootstrap prompt 仍在 harness 内部构造
+- runtime state、integration capability、environment context 可来自远程模块接口
+- section 语义与 static/dynamic boundary 不因部署位置改变
 
 ## 规范结论
 
@@ -220,4 +175,3 @@ InitialUserBootstrap
 - bootstrap prompt 应支持优先级覆盖、section 级缓存与边界切分
 - bootstrap prompt 应与 structured context、attachment context、memory recall 分开建模
 - agent prompt 应被建模为稳定语义层，而不是首轮一次性引导容器
-- initial user bootstrap 应与 bootstrap prompt、agent prompt 分开建模

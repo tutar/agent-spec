@@ -76,8 +76,13 @@ ObjectFixture
 - skills discovery precedence
 - skills activation wrapping
 - skills context protection
+- MCP initialize / negotiation
+- MCP auth discovery / scope upgrade
+- prompt cache strategy equivalence
+- context planes and projection
+- attachment assembly order and scope
 
-当前规范目录下的第一批工件样本位于：
+当前规范目录下当前维护中的第一批工件样本位于：
 
 - [conformance/golden/basic-turn.events.json](conformance/golden/basic-turn.events.json)
 - [conformance/golden/tool-call-roundtrip.events.json](conformance/golden/tool-call-roundtrip.events.json)
@@ -92,7 +97,12 @@ ObjectFixture
 - [conformance/golden/skills-discovery-precedence.json](conformance/golden/skills-discovery-precedence.json)
 - [conformance/golden/skills-activation-wrapping.json](conformance/golden/skills-activation-wrapping.json)
 - [conformance/golden/skills-context-protection.json](conformance/golden/skills-context-protection.json)
+- [conformance/golden/mcp-initialize-and-version-negotiation.json](conformance/golden/mcp-initialize-and-version-negotiation.json)
+- [conformance/golden/mcp-sampling-with-tools.json](conformance/golden/mcp-sampling-with-tools.json)
+- [conformance/golden/mcp-auth-discovery-and-scope-upgrade.json](conformance/golden/mcp-auth-discovery-and-scope-upgrade.json)
 - [conformance/golden/cloud-wake-and-reprovision.json](conformance/golden/cloud-wake-and-reprovision.json)
+- [conformance/golden/context-planes-and-projection.json](conformance/golden/context-planes-and-projection.json)
+- [conformance/golden/attachment-assembly-order-and-scope.json](conformance/golden/attachment-assembly-order-and-scope.json)
 - [conformance/golden/prompt-cache-stable-prefix.json](conformance/golden/prompt-cache-stable-prefix.json)
 - [conformance/golden/prompt-cache-dynamic-suffix.json](conformance/golden/prompt-cache-dynamic-suffix.json)
 - [conformance/golden/prompt-cache-fork-sharing.json](conformance/golden/prompt-cache-fork-sharing.json)
@@ -102,7 +112,9 @@ ObjectFixture
 ## 规范结论
 
 - 测试工件应脱离具体语言实现
-- 所有语言 agent 实现 应共享同一套录制样本和重放样本语义
+- 所有语言 agent 实现应共享同一套录制样本和重放样本语义
 - canonical object fixture 应优先覆盖 `PolicyDecision`、`ResumeSnapshot`、`DurableMemoryRecord`、`PersistedToolResultRef`
+- context engineering object fixture 应优先覆盖 `ContextAssemblyInput`、`AttachmentEnvelope`
 - memory injection object fixture 应优先覆盖 `DurableMemoryInjectionSource`、`LoadedMemoryInjection`
 - skills 相关 object fixture 应优先覆盖 `ImportedSkillManifest`、`SkillCatalogEntry`、`SkillActivationResult`
+- MCP 相关 object fixture 应优先覆盖 capability view、request envelope、auth metadata、session handle

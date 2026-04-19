@@ -4,6 +4,12 @@
 
 验证 permission update 的作用域、持久化边界和只读 source 约束。
 
+当前语义锚点：
+
+- `harness/permission/permission-runtime.md`
+- `harness/permission/permission-rules.md`
+- `object-model.md`
+
 ## Preconditions
 
 - runtime 支持结构化 `PermissionUpdate`
