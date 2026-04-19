@@ -98,4 +98,5 @@ ReviewResult
 - 它们的默认执行后端可以是 `Harness` 中的 verifier task / background runtime
 - cloud 托管场景下也可以由 `Orchestration` 负责远端执行
 - verification 输出应结构化，至少包含 verdict 与 evidence
-- 该文档定义 capability surface；本地执行生命周期见 [../../harness/task-driven-runtime/evaluation-and-verification.md](../../harness/task-driven-runtime/evaluation-and-verification.md)
+- capability surface 可以同时覆盖 reflection 与 verification，但 task 子域当前只对 verification 给出默认执行规范
+- 该文档定义 capability surface；本地 verification 执行生命周期见 [../../harness/task/verification.md](../../harness/task/verification.md)

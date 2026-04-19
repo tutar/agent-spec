@@ -172,9 +172,11 @@ AgentError
 
 ### TaskManager
 
-- task terminal state 应与 runtime terminal state 术语兼容
-- `killed` 可视为 task 侧的 `cancelled`
+- task 与 runtime 是不同状态模型
+- task status 不应被当作 runtime terminal taxonomy 的子集
 - task output store 不应吞掉 terminal cause
+- 若 task 需要暴露更细粒度 stop reason，应通过 task metadata 或 task event 表达
+- task 的注册表、通知去重、output cursor 与回收边界，可在 [../task/task-lifecycle.md](../task/task-lifecycle.md) 中具体化
 
 ### Session
 

@@ -6,6 +6,13 @@
 
 权限不应被实现为简单弹窗，而应是一个可组合的策略系统。
 
+本页只定义 `PolicyDecision`、`ask/deny/allow` 与 `requires_action` 的总边界。
+permission runtime、rule system 和 approval/resume 细节见：
+
+- [../../harness/permission/permission-runtime.md](../../harness/permission/permission-runtime.md)
+- [../../harness/permission/permission-rules.md](../../harness/permission/permission-rules.md)
+- [../../harness/permission/approval-and-resume.md](../../harness/permission/approval-and-resume.md)
+
 ## 必须覆盖的判定层
 
 - 工具级 allow/deny
@@ -175,4 +182,4 @@ DenialFallbackPolicy
 - 所有策略判定都必须可追踪、可解释
 - 权限责任不能下放给底层模型
 - policy 产生的 `requires_action` 和 `permission_denied` 应分别映射到 canonical `RequiresAction` 与 `AgentError`
-- `PolicyDecision` 应成为 `Tools` 模块的稳定共享对象之一
+- `PolicyDecision` 应成为 `Tools` 与 `Harness.Permission` 共享的稳定对象之一

@@ -31,7 +31,7 @@
 
 - 代表后台执行对象
 - 承载 shell / agent / transcript branch 输出
-- 替代 runtime task lifecycle
+- 替代 task lifecycle
 
 ### Work Status
 
@@ -110,8 +110,8 @@ DependencyManager
 
 允许但不要求两者建立映射：
 
-- 一个 `WorkItem` 可以触发一个 `RuntimeTask`
-- 一个 `RuntimeTask` 完成后可以更新某个 `WorkItem`
+- 一个 `WorkItem` 可以触发一个 `Task`
+- 一个 `Task` 完成后可以更新某个 `WorkItem`
 - 但两者不应被建模成同一个对象
 
 ## 与本地多 worker 协作的关系
@@ -129,5 +129,5 @@ DependencyManager
 ## 规范结论
 
 - 多 worker 协作建议显式引入 work allocation 层
-- work allocation 与 runtime task 必须分开建模
+- work allocation 与 task 必须分开建模
 - 只有把“执行”与“分工”拆开，many-agent 系统才不会把 task 概念混成一层

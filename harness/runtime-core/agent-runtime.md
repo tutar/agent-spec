@@ -45,6 +45,9 @@ AgentRuntime
 
 这些应分别归属 `Session`、`Sandbox / Hands`、`Security Boundary` 和 `Managed Orchestration`。
 
+另外，task 的注册表、状态、输出、通知、恢复与回收也不属于 `AgentRuntime`；
+这些语义应落在 [../task/README.md](../task/README.md) 对应的 task 子系统中。
+
 ## 状态机要求
 
 - 必须显式记录当前 turn 的 `messages`

@@ -151,7 +151,7 @@ McpBundleHost
 现有 agent runtime 通常会把工具域拆成三条主线：
 
 - declaration / registry
-- policy / execution
+- policy integration / execution
 - ecosystem adaptation
 
 默认执行平面一般会包含 shell、subagent、skill bridge 一类高频能力，但规范只要求这些能力语义可表达，不要求具体工具清单或装配方式一致。
@@ -184,6 +184,7 @@ McpBundleHost
 - executor 不负责 hand 生命周期，只负责调用编排
 - tool result 应支持大结果外存化与恢复
 - batch executor 与 streaming executor 应共享同一终态、错误和 context mutation 语义
+- permission runtime 可以由 harness 持有，但 tool 仍需暴露稳定的 permission integration surface
 - `tool / skill / mcp` 应在能力域内并列建模，再在模型可见能力层汇合
 - `command` 是共享对象模型，不是新的顶层能力模块
 - command-like capability 可以把 harness 作为本地默认执行后端
@@ -222,6 +223,7 @@ McpBundleHost
 - [tool-model/tool-definition.md](tool-model/tool-definition.md)
 - [tool-model/tool-registry.md](tool-model/tool-registry.md)
 - [tool-model/policy-engine.md](tool-model/policy-engine.md)
+- [../harness/permission/README.md](../harness/permission/README.md)
 - [tool-model/tool-executor.md](tool-model/tool-executor.md)
 - [tool-model/tool-streaming-execution.md](tool-model/tool-streaming-execution.md)
 
@@ -230,6 +232,7 @@ McpBundleHost
 - 执行型 tool 如何被定义
 - 如何被 registry 装配
 - 如何被 policy 审查
+- 如何接入 harness permission runtime
 - 如何被 batch / streaming 执行
 - 如何保持可观察与可恢复
 

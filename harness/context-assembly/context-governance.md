@@ -6,6 +6,8 @@
 
 它不是优化项，而是 production agent runtime 的必备模块。
 
+它也承担一部分 anti-hallucination 职责：通过 compact、外存化和 continuity shaping，降低长会话中的 context drift 与 evidence loss。
+
 它负责的是 harness 内部的 context shaping，不等于 durable session storage。
 
 ## 必须覆盖的能力

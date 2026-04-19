@@ -22,6 +22,7 @@
 - 事件语义
 - 终止状态语义
 - tool 权限语义
+- permission mode / rule / approval / degradation 语义
 - requires_action 语义
 - context governance 触发语义
 - 模型能力路由语义
@@ -88,6 +89,7 @@
 - `requires_action` 是结构化状态
 - 非交互环境可自动拒绝
 - 静态规则与运行时审查是两层逻辑
+- permission mode、permission rule 与 approval route 语义稳定
 
 ### 5. Context Governance Semantics
 
@@ -302,6 +304,13 @@
 - [conformance/cases/requires-action-approval.md](conformance/cases/requires-action-approval.md)
 - [conformance/cases/session-resume.md](conformance/cases/session-resume.md)
 - [conformance/cases/background-agent.md](conformance/cases/background-agent.md)
+- [conformance/cases/runtime-task-lifecycle.md](conformance/cases/runtime-task-lifecycle.md)
+- [conformance/cases/task-output-cursor-and-resume.md](conformance/cases/task-output-cursor-and-resume.md)
+- [conformance/cases/task-retention-and-eviction.md](conformance/cases/task-retention-and-eviction.md)
+- [conformance/cases/inter-agent-task-notification-routing.md](conformance/cases/inter-agent-task-notification-routing.md)
+- [conformance/cases/teammate-mailbox-delivery.md](conformance/cases/teammate-mailbox-delivery.md)
+- [conformance/cases/teammate-output-not-auto-routed-to-leader.md](conformance/cases/teammate-output-not-auto-routed-to-leader.md)
+- [conformance/cases/viewed-teammate-direct-input.md](conformance/cases/viewed-teammate-direct-input.md)
 - [conformance/cases/hosting-profile-equivalence.md](conformance/cases/hosting-profile-equivalence.md)
 - [conformance/cases/mcp-tool-adaptation.md](conformance/cases/mcp-tool-adaptation.md)
 - [conformance/cases/mcp-initialize-and-version-negotiation.md](conformance/cases/mcp-initialize-and-version-negotiation.md)
@@ -359,8 +368,12 @@
   通过 prompt cache 相关 golden cases
 - `Harness.Streaming`
   通过 delta / tool streaming / recovery 用例
-- `Harness.TaskDrivenRuntime`
-  通过 background agent 用例
+- `Harness.Task`
+  通过 background agent、task lifecycle、task output cursor/resume、task retention/eviction 用例
+- `Harness.MultiAgent`
+  通过 inter-agent task notification routing、teammate mailbox delivery、teammate output not auto routed to leader、viewed teammate direct input 用例
+- `Harness.Permission`
+  通过 policy ask/deny/allow、permission rule precedence/shadowing、permission mode/headless degradation、permission update/scope 用例
 - `Session.MemoryConsolidation`
   通过 memory recall / consolidation 用例
 - `Orchestration.ManagedControlPlane`

@@ -4,6 +4,10 @@
 
 验证 agent orchestration 中的后台 agent task 语义。
 
+本用例只覆盖“后台 agent 是否被正确 task 化并可被父链路观察”。
+更细粒度的 task lifecycle、output cursor、notification dedupe 与 retention/eviction 语义，
+分别由 `runtime-task-lifecycle`、`task-output-cursor-and-resume`、`task-retention-and-eviction` 覆盖。
+
 ## Preconditions
 
 - runtime 支持 `background agent task`

@@ -20,7 +20,14 @@
 | `TaskManager` | 本地 task-driven runtime 的任务生命周期与恢复接口 | `Harness` | `Session`, `Orchestration` | task 不是 transcript |
 | `BackgroundAgent` | 长于单 turn 生命周期的后台 agent | `Harness` | `Orchestration` | local 默认由 harness 管理生命周期 |
 | `VerifierTask` | 评估/校验型运行时单元 | `Harness` | `Tools` | capability surface 仍可由 tools 暴露 |
-| `WorkAllocator` | 本地多 agent / 多 worker 的分工与阻塞关系接口 | `Harness` | `Session` | 不等于 runtime task lifecycle |
+| `WorkAllocator` | 本地多 agent / 多 worker 的分工与阻塞关系接口 | `Harness` | `Session` | 不等于 task lifecycle |
+| `TeammateExecutor` | teammate worker 的 backend 抽象 | `Harness` | `Gateway`, `Orchestration` | 统一 in-process 与 pane-backed teammate |
+| `Mailbox` | 多 agent 间 durable point-to-point 消息通道 | `Harness` | `Session` | 默认不是共享群聊 transcript |
+| `WorkerAgent` | 被 leader 管理的多 agent 执行单元总称 | `Harness` | `Session` | 可表现为 subagent 或 teammate |
+| `Leader` | 发起委派、管理 worker、接收结果或通知的一方 | `Harness` | `Gateway` | 是 coordination 角色，不是独立模块 |
+| `PermissionSystem` | 统一 execute-time authorization、approval、degradation 与 resume binding 的运行时子系统 | `Harness` | `Sandbox`, `Tools` | tool-specific checks 仍由 tools 提供 |
+| `PermissionContext` | 当前 turn / task / worker 的 permission environment | `Harness` | `Session` | 不等于持久化 settings 文件 |
+| `ApprovalChannel` | permission approval 的显式路由通道 | `Harness` | `Gateway`, `Session` | transport 可变，阻塞语义不可变 |
 
 ## Session Terms
 
@@ -50,6 +57,8 @@
 | `Skill` | 提示词/工作流型能力 | `Tools` | `Harness` | 可由 tool bridge 暴露给模型 |
 | `MCP` | 外部协议接入能力 | `Tools` | `Gateway` | client / adapter 属于 tools 域 |
 | `VerificationCommand` | 对 harness 暴露的 command-like review capability | `Tools` | `Orchestration` | capability surface 在 tools，执行后端可委托 harness 或 orchestration |
+| `PermissionRule` | 结构化 permission rule | shared object model, runtime owned by `Harness`, tool-facing integration by `Tools` | `Sandbox` | rule matching 可由具体工具参与 |
+| `PermissionUpdate` | 结构化 permission 配置更新对象 | shared object model, runtime applied by `Harness` | `Session` | 可落到 session 或持久 source |
 
 ## Sandbox Terms
 

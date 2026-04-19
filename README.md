@@ -67,26 +67,28 @@
 - `skills/`
 - `mcp/`
 
-其中 [harness/README.md](harness/README.md) 已进一步按 6 组子主题组织：
+其中 [harness/README.md](harness/README.md) 已进一步按 7 组子主题组织：
 
 - Runtime Core
 - Model Provider
 - Context Assembly
 - Gateway
 - Extension And Projection
+- Task
+- Multi-Agent
 
 在 `Context Assembly` 子主题下，现已单独补充 bootstrap prompt 规范，用于稳定 system prompt skeleton、section cache 与 static/dynamic boundary。
 
 另外，反思相关能力已按职责拆入现有模块，而不是新增顶层 `reflection` 模块：
 
-- `harness` 下的 task-driven verification / reflection
+- `harness` 下的 verification
 - `harness` 下的 post-turn processing
 - `session` 下的 memory consolidation
 
 此外，规范现在显式面向两种宿主场景：
 
 - `Local`
-  单机部署，模块可 direct-call，本地 session / task-driven runtime / verifier 为主
+  单机部署，模块可 direct-call，本地 session / task / verifier / multi-agent 为主
 - `Cloud`
   托管 control plane + remote execution
 
@@ -94,7 +96,7 @@
 其中：
 
 - `Harness`
-  表达本地 task-driven runtime、background task、verification 等默认运行时语义
+  表达本地 task、background task、verification、multi-agent 等默认运行时语义
 - `Orchestration`
   只表达 cloud 托管控制面与远端可管控编排语义
 

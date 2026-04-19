@@ -34,7 +34,7 @@ Orchestrator
 - 如何在 cloud 部署下保持 session、harness、hand 解耦后的恢复能力
 
 本目录只收拢 cloud 托管控制面语义。
-local 模式下的 task-driven runtime、background task、verification 和 work allocation 见 [../harness/task-driven-runtime/README.md](../harness/task-driven-runtime/README.md)。
+local 模式下的 task、background task、verification、teammate 和消息路由见 [../harness/task/README.md](../harness/task/README.md) 与 [../harness/multi-agent/README.md](../harness/multi-agent/README.md)。
 
 ## 目录内文档
 

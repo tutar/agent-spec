@@ -83,6 +83,8 @@
 
 - `ToolExecutor`
   负责编排调用顺序和取消，不替代 sandbox
+- `PermissionSystem`
+  消费 working-directory、filesystem allowlist 与 escalation 输入，但不等于 sandbox
 - `Session`
   保存 durable state，不等于执行环境
 - `Orchestration`

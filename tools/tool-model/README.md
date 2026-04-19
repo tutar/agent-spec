@@ -9,6 +9,7 @@
 - tool 如何被定义
 - tool 如何被注册与解析
 - tool 如何被授权
+- tool 如何接入统一 permission runtime
 - tool 如何被执行
 - tool 如何以 batch / streaming 模式发射结果
 - tool 的大结果、context mutation 与恢复语义如何闭合
@@ -20,12 +21,14 @@
 1. [tool-definition.md](tool-definition.md)
 2. [tool-registry.md](tool-registry.md)
 3. [policy-engine.md](policy-engine.md)
-4. [tool-executor.md](tool-executor.md)
-5. [tool-streaming-execution.md](tool-streaming-execution.md)
+4. [../../harness/permission/README.md](../../harness/permission/README.md)
+5. [tool-executor.md](tool-executor.md)
+6. [tool-streaming-execution.md](tool-streaming-execution.md)
 
 ## 边界
 
 - 本目录只覆盖执行型 `tool` 主线
+- permission runtime 主规范见 [../../harness/permission/README.md](../../harness/permission/README.md)
 - `command` / `review capability` 见 [../command-surface/README.md](../command-surface/README.md)
 - coding-oriented baseline 工具集合见 [../builtin/README.md](../builtin/README.md)
 - `skills`、`mcp` 仍保留各自子目录

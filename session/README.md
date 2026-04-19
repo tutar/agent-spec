@@ -286,6 +286,8 @@ session 体系必须兼容：
 - restore 时必须恢复引用关系
 - 必须区分 durable sidechain 与 ephemeral fork
 
+这些 branch 引用中的多 agent 角色与消息边界，见 [../harness/multi-agent/README.md](../harness/multi-agent/README.md)。
+
 推荐最小对象：
 
 ```text

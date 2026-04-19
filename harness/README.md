@@ -12,7 +12,7 @@
 - 根据模型能力选择 native path 或 fallback path
 - 组装 prompt / messages / tool surface
 - 驱动一轮或多轮 agent loop
-- 把模型输出路由到 tools、session 和本地 task-driven runtime
+- 把模型输出路由到 tools、session 和本地 task 子系统
 
 它必须对宿主形态保持中立：
 
@@ -75,11 +75,20 @@ Harness
   - reflection
   - summarization
   - observability projection
-- `TaskDrivenRuntime`
+- `Task`
   - background task
-  - runtime task lifecycle
+  - task model and lifecycle
   - local verification runtime
   - local work allocation
+- `Permission`
+  - permission runtime
+  - permission rules
+  - approval and resume
+- `MultiAgent`
+  - agent delegation
+  - teammate execution
+  - inter-agent message routing
+  - viewed transcript projection
 
 这些扩展可以采用不同算法和底层技术，但必须保持触发时机、外部可观察行为和恢复语义一致。
 
@@ -194,20 +203,60 @@ Harness
 - turn 结束后的后处理如何触发和编排
 - runtime state 如何投影给外部 agent client
 
-### 6. Task-Driven Runtime
+### 6. Task
 
-- [task-driven-runtime/README.md](task-driven-runtime/README.md)
-- [task-driven-runtime/task-manager.md](task-driven-runtime/task-manager.md)
-- [task-driven-runtime/background-agent.md](task-driven-runtime/background-agent.md)
-- [task-driven-runtime/evaluation-and-verification.md](task-driven-runtime/evaluation-and-verification.md)
-- [task-driven-runtime/work-allocation.md](task-driven-runtime/work-allocation.md)
+- [task/README.md](task/README.md)
+- [task/task-model.md](task/task-model.md)
+- [task/task-lifecycle.md](task/task-lifecycle.md)
+- [task/task-manager.md](task/task-manager.md)
+- [task/background-agent.md](task/background-agent.md)
+- [task/verification.md](task/verification.md)
+- [task/work-allocation.md](task/work-allocation.md)
 
 这一组回答：
 
-- local task-driven runtime 如何承载后台执行对象
+- task 子系统如何承载后台执行对象
 - background agent 如何被托管、恢复和通知
 - verification 如何作为本地运行时单元进入标准链路
-- 多 worker 协作中的 work allocation 如何与 runtime task 分层
+- 多 worker 协作中的 work allocation 如何与 task 分层
+
+### 7. Multi-Agent
+
+- [multi-agent/README.md](multi-agent/README.md)
+- [multi-agent/agent-delegation.md](multi-agent/agent-delegation.md)
+- [multi-agent/teammate-execution.md](multi-agent/teammate-execution.md)
+- [multi-agent/message-routing.md](multi-agent/message-routing.md)
+- [multi-agent/view-and-transcript-projection.md](multi-agent/view-and-transcript-projection.md)
+
+这一组回答：
+
+- local multi-agent 有哪些执行形态
+- subagent 与 teammate 的区别是什么
+- leader / worker 的消息与结果如何路由
+- viewed transcript 如何作为 UI projection 存在
+
+### 8. Permission
+
+- [permission/README.md](permission/README.md)
+- [permission/permission-runtime.md](permission/permission-runtime.md)
+- [permission/permission-rules.md](permission/permission-rules.md)
+- [permission/approval-and-resume.md](permission/approval-and-resume.md)
+
+这一组回答：
+
+- permission 为什么是 harness runtime 子域
+- permission mode、context、rule 与 automated checks 如何组成统一系统
+- `ask -> requires_action` 如何投影、路由和恢复
+- worker / leader / headless / remote 场景下如何避免不可达审批
+
+### 9. Reliability Guidance
+
+- [hallucination-mitigation.md](hallucination-mitigation.md)
+
+这一页回答：
+
+- agent runtime 应如何从 grounding、validation、context governance 和 verification 角度降低 hallucination
+- 哪些机制主要缓解 completion hallucination、tool hallucination 和 long-context drift
 
 ## 规范结论
 

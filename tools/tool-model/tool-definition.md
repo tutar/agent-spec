@@ -70,6 +70,9 @@ ToolDefinition
 - 若底层模型不支持，agent 应允许用 prompt 协议或 planner 协议模拟工具调用
 - 输入校验失败应优先映射为 validation / protocol error，而不是伪装成业务执行失败
 - `check_permissions()` 应返回策略判定或语义等价对象，而不是只返回 UI 文案
+- `check_permissions()` 只定义 tool-specific permission surface；统一 permission runtime 见 [../../harness/permission/permission-runtime.md](../../harness/permission/permission-runtime.md)
+- `preparePermissionMatcher` 的规则语言与匹配语义见 [../../harness/permission/permission-rules.md](../../harness/permission/permission-rules.md)
+- `validateInput`、strict schema 与 result persistence 也是防 tool hallucination 的重要一层，见 [../../harness/hallucination-mitigation.md](../../harness/hallucination-mitigation.md)
 - 工具成功结果与工具失败结果都必须能映射到 canonical `ToolResult` / `AgentError`
 
 ## 输出语义

@@ -197,6 +197,129 @@ PolicyDecision
 - `ask` 最终应能映射到 canonical `RequiresAction`
 - `deny` 最终应能映射到 canonical `AgentError(permission_denied)`
 
+## PermissionMode
+
+用于表达 permission runtime 的当前授权模式。
+
+推荐最小字段：
+
+```text
+PermissionMode
+  - value: default | accept_edits | plan | bypass_permissions | dont_ask | auto
+```
+
+约束：
+
+- `PermissionMode` 是结构化语义，不应被散落在自由文本配置中
+- `dont_ask` 表示 ask-to-deny 的运行时模式，而不是一个 UI 开关
+- `auto` 表示 automated authorization mode，而不是“默认允许所有动作”
+
+## PermissionRule
+
+用于表达结构化 permission rule。
+
+推荐最小字段：
+
+```text
+PermissionRule
+  - source
+  - behavior: allow | deny | ask
+  - rule_value
+```
+
+```text
+PermissionRuleValue
+  - tool_name
+  - rule_content?
+```
+
+约束：
+
+- `rule_content` 为空时表示 tool-wide rule
+- source、behavior 与 value 必须同时可审计
+- deny / ask / allow 的优先级应由 permission runtime 稳定定义
+
+## PermissionContext
+
+用于表达当前 turn / worker / task 所处的 permission environment。
+
+推荐最小字段：
+
+```text
+PermissionContext
+  - mode
+  - additional_working_directories
+  - always_allow_rules
+  - always_deny_rules
+  - always_ask_rules
+  - should_avoid_permission_prompts
+  - await_automated_checks_before_dialog
+  - pre_plan_mode?
+```
+
+约束：
+
+- `PermissionContext` 是运行时对象，不等于持久化 settings 文件
+- working-directory 与 rule set 必须进入同一 authorization 平面
+- headless / background / worker 场景必须通过 context 显式表达
+
+## PermissionUpdate
+
+用于表达 permission configuration 的结构化变更。
+
+推荐最小字段：
+
+```text
+PermissionUpdate
+  - type
+  - destination
+  - payload
+```
+
+推荐 `type` 至少包括：
+
+- `add_rules`
+- `replace_rules`
+- `remove_rules`
+- `set_mode`
+- `add_directories`
+- `remove_directories`
+
+约束：
+
+- session update 与 persisted update 应能被稳定区分
+- 只读 source 不应被误当成可写 destination
+- `PermissionUpdate` 必须可审计、可序列化
+
+## PermissionDecisionReason
+
+用于表达 permission decision 的解释对象。
+
+推荐最小字段：
+
+```text
+PermissionDecisionReason
+  - type
+  - details
+```
+
+推荐 `type` 至少包括：
+
+- `rule`
+- `mode`
+- `hook`
+- `classifier`
+- `working_dir`
+- `safety_check`
+- `async_agent`
+- `sandbox_override`
+- `other`
+
+约束：
+
+- reason 必须可解释、可审计
+- tool-specific denial、mode transform 与 automated checks 应共享同一解释平面
+
 ## SessionCheckpoint
 
 用于表达 session durable progress 的标准衔接对象。

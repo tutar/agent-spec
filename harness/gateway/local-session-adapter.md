@@ -39,6 +39,7 @@ SessionHandle
 - 它位于 gateway 一侧，不应与 harness 本体混写
 - `SessionHandle` 是 gateway-side carrier，不等于 `HarnessInstance`
 - `HarnessInstance` 是 worker identity，不等于 `AgentRuntime`
+- 多 agent 之间的 inter-agent routing 不属于本适配器，见 [../multi-agent/README.md](../multi-agent/README.md)
 
 ## 默认实现映射
 

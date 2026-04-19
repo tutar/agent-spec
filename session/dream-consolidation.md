@@ -164,7 +164,7 @@ Automatic Dream 的失败不得影响：
   `Dream Consolidation` 主要作用于 durable memory，而不是 short-term session memory
 - 与 [memory/scoped-durable-memory.md](memory/scoped-durable-memory.md)
   dream 可以操作不同 scope 的 durable memory，但 scope 语义不由 dream 定义
-- 与 [../harness/task-driven-runtime/task-manager.md](../harness/task-driven-runtime/task-manager.md)
+- 与 [../harness/task/task-manager.md](../harness/task/task-manager.md)
   `Auto Dream` 可作为后台 task 落地，但 task lifecycle 不等于 dream 语义本身
 - 与 [../tools/command-surface/reflection-and-verification-commands.md](../tools/command-surface/reflection-and-verification-commands.md)
   `Dream` 是 memory reflection，不是 correctness verification

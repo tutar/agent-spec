@@ -15,6 +15,9 @@
 - [cases/basic-turn.md](cases/basic-turn.md)
 - [cases/tool-call-roundtrip.md](cases/tool-call-roundtrip.md)
 - [cases/policy-ask-deny-allow.md](cases/policy-ask-deny-allow.md)
+- [cases/permission-rule-precedence-and-shadowing.md](cases/permission-rule-precedence-and-shadowing.md)
+- [cases/permission-mode-and-headless-degradation.md](cases/permission-mode-and-headless-degradation.md)
+- [cases/permission-update-and-scope.md](cases/permission-update-and-scope.md)
 - [cases/requires-action-approval.md](cases/requires-action-approval.md)
 - [cases/session-resume.md](cases/session-resume.md)
 - [cases/chat-session-binding.md](cases/chat-session-binding.md)
@@ -25,6 +28,13 @@
 - [cases/skills-activation-wrapping.md](cases/skills-activation-wrapping.md)
 - [cases/skills-context-protection.md](cases/skills-context-protection.md)
 - [cases/background-agent.md](cases/background-agent.md)
+- [cases/runtime-task-lifecycle.md](cases/runtime-task-lifecycle.md)
+- [cases/task-output-cursor-and-resume.md](cases/task-output-cursor-and-resume.md)
+- [cases/task-retention-and-eviction.md](cases/task-retention-and-eviction.md)
+- [cases/inter-agent-task-notification-routing.md](cases/inter-agent-task-notification-routing.md)
+- [cases/teammate-mailbox-delivery.md](cases/teammate-mailbox-delivery.md)
+- [cases/teammate-output-not-auto-routed-to-leader.md](cases/teammate-output-not-auto-routed-to-leader.md)
+- [cases/viewed-teammate-direct-input.md](cases/viewed-teammate-direct-input.md)
 - [cases/hosting-profile-equivalence.md](cases/hosting-profile-equivalence.md)
 - [cases/mcp-tool-adaptation.md](cases/mcp-tool-adaptation.md)
 - [cases/mcp-initialize-and-version-negotiation.md](cases/mcp-initialize-and-version-negotiation.md)
@@ -120,6 +130,19 @@
 
 - `background-agent`
 
+若要宣称支持 `Harness.Task` 或 task lifecycle 规范，还应通过：
+
+- `runtime-task-lifecycle`
+- `task-output-cursor-and-resume`
+- `task-retention-and-eviction`
+
+若要宣称支持 `Harness.MultiAgent` 或 local multi-agent 规范，还应通过：
+
+- `inter-agent-task-notification-routing`
+- `teammate-mailbox-delivery`
+- `teammate-output-not-auto-routed-to-leader`
+- `viewed-teammate-direct-input`
+
 若要宣称支持跨宿主一致性，还应通过：
 
 - `hosting-profile-equivalence`
@@ -170,6 +193,13 @@
 若要宣称支持结构化 policy engine，还应通过：
 
 - `policy-ask-deny-allow`
+
+若要宣称支持 `Harness.Permission` 或完整 permission rule system，还应通过：
+
+- `policy-ask-deny-allow`
+- `permission-rule-precedence-and-shadowing`
+- `permission-mode-and-headless-degradation`
+- `permission-update-and-scope`
 
 若要宣称支持大结果外存化与稳定恢复，还应通过：
 

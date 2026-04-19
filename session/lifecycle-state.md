@@ -74,6 +74,8 @@ RequiresAction
 - 恢复具体动作上下文
 - 直接驱动 approval / question / plan-review UI
 
+permission approval 的专门路由与恢复语义见 [../harness/permission/approval-and-resume.md](../harness/permission/approval-and-resume.md)。
+
 `requires_action` 与 `Session restore` 的关系必须明确：
 
 - `requires_action` 是 lifecycle state

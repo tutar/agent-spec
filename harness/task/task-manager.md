@@ -4,7 +4,10 @@
 
 `TaskManager` 负责管理 `Harness` 域内的长生命周期执行对象。
 
-这里的 `task` 指 runtime background task，而不是团队协作里的待办项或任务板条目。
+这里的 `task` 指 harness 托管的执行对象，而不是团队协作里的待办项或任务板条目。
+
+共享对象模型见 [task-model.md](task-model.md)；
+注册、更新、通知、恢复与回收语义见 [task-lifecycle.md](task-lifecycle.md)。
 
 ## 解决的问题
 
@@ -15,7 +18,7 @@
 
 ## 核心模型
 
-`RuntimeTask` 是一个被 harness 托管的执行单元。
+`Task` 是一个被 harness 托管的执行单元。
 
 它至少应具有：
 
@@ -33,27 +36,19 @@
 - 团队任务列表中的待办项
 - cloud control plane 对象
 
-## 推荐标准对象
+## 注册表与分发
 
-```text
-RuntimeTask
-  - id: string
-  - type: string
-  - description: string
-  - status: pending | running | completed | failed | killed
-  - start_time: timestamp
-  - end_time?: timestamp
-  - tool_use_id?: string
-  - output_ref?: output_handle
-  - notified: boolean
-```
+`TaskManager` 至少需要依赖两层注册表：
 
-```text
-TaskOutputHandle
-  - output_ref: string
-  - transport: file | stream | remote_log | transcript_branch
-  - cursor?: string | number
-```
+- `TaskRegistry`
+  保存当前 task state，作为单一事实来源
+- `TaskImplementationRegistry`
+  按 `task.type` 返回对应 adapter，用于 kill / control / type-specific 分发
+
+因此：
+
+- registry 负责“有哪些 task、状态如何”
+- implementation registry 负责“某种 task type 如何被控制”
 
 ## 推荐最小接口
 
@@ -61,12 +56,15 @@ TaskOutputHandle
 TaskManager
   - spawn(task_spec) -> task_handle
   - append_event(task_handle, task_event)
+  - register(task) -> task_handle
+  - update(task_handle, patch_or_event) -> task
   - attach_output(task_handle, output_handle)
   - kill(task_handle)
-  - list(selector?) -> runtime_tasks
-  - get(task_handle) -> runtime_task
+  - list(selector?) -> tasks
+  - get(task_handle) -> task
+  - read_output(task_handle, cursor?) -> task_output_slice
   - read_events(task_handle, cursor?) -> task_event_slice
-  - await(task_handle) -> task_terminal_state
+  - await(task_handle) -> task
 ```
 
 如果宿主希望暴露更直接的过程式操作，
@@ -82,8 +80,8 @@ agent 可以运行在 task 之上，但 agent 不等于 task。
 
 - `agent loop`
   负责推理、tool use、turn continuation
-- `runtime task`
-  负责后台生命周期、输出、通知、恢复
+- `task`
+  负责长生命周期执行对象的注册、状态、输出、通知、恢复与回收
 
 ## 与协作任务列表的边界
 
@@ -98,10 +96,10 @@ agent 可以运行在 task 之上，但 agent 不等于 task。
 
 ## 规范结论
 
-- runtime task 必须是一等 harness 对象
+- task 必须是一等 harness 对象
 - task manager 管的是执行生命周期，不是业务待办
 - 后台任务必须支持状态同步、输出句柄、通知和 kill
+- task registry、output cursor、notification dedupe 与回收边界应统一落在 task 语义中，而不是散落在调用方
 - task 语义必须独立于具体语言线程模型或协程模型
 - `task_handle + task_event + output_handle` 应优先于进程内 task 对象引用
 - direct-call task API 如存在，也必须严格由 task event 语义推导
-- task terminal state 与 retryability 语义应与 [../runtime-core/failure-and-terminal-states.md](../runtime-core/failure-and-terminal-states.md) 对齐

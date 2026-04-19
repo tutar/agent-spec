@@ -8,7 +8,7 @@
 
 - 脱离当前前台 turn 持续运行
 - 挂接到 `TaskManager` 的统一 lifecycle
-- 把 progress、notification、terminal state 投影回 session / gateway
+- 把 progress、notification 与结果投影回 session / gateway
 
 它不负责：
 
@@ -41,4 +41,4 @@ BackgroundAgent
 
 - background agent 是 harness 管理的本地运行时对象，不是 cloud orchestration 对象
 - background agent 应显式映射到 `TaskManager` 的 task lifecycle
-- progress、notification 和 terminal state 应可被外部观察与恢复
+- progress、notification 与结果应可被外部观察与恢复
