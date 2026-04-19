@@ -30,6 +30,10 @@
 - `InteractionLoop`
 - `ModelProviderAdapter`
 - `ContextGovernance`
+- `TaskManager`
+- `BackgroundAgent`
+- `VerifierTask`
+- `WorkAllocator`
 
 ### 不属于该模块
 
@@ -37,7 +41,7 @@
 - session restore store
 - tool registry / policy engine 本体
 - execution sandbox
-- background task orchestration
+- cloud control plane
 
 ## Session
 
@@ -67,7 +71,7 @@
 - gateway control routing
 - tool execution
 - sandbox policy
-- host orchestration policy
+- cloud control plane
 
 ## Tools
 
@@ -100,7 +104,7 @@
 - session transcript
 - gateway projection
 - sandbox isolation
-- background task orchestration
+- background task lifecycle
 
 ## Sandbox
 
@@ -128,28 +132,29 @@
 - tool definition
 - agent turn runtime
 - session restore
-- orchestration scheduling
+- cloud control plane scheduling
 
 ## Orchestration
 
 ### 职责
 
-`Orchestration` 是系统控制面。
+`Orchestration` 是 cloud 托管 agent 的系统控制面。
 
 它负责：
 
-- task lifecycle
-- subagent / teammate / background agent
-- work allocation
-- verification / reflection task
-- hosting profile 下的职责分布
+- cloud control plane lifecycle
+- many brains / many hands
+- lazy provisioning / wake-resume
+- remote hand / execution target routing
+- cloud hosting profile 下的职责分布
 
 ### 核心对象
 
 - `Orchestrator`
-- `TaskManager`
-- `BackgroundAgent`
-- `VerifierTask`
+- `ManagedAgentControlPlane`
+- `WakeCoordinator`
+- `ProvisioningPlanner`
+- `HandRouter`
 - `HostingProfile`
 
 ### 不属于该模块

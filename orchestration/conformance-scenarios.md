@@ -1,8 +1,8 @@
-# Managed-Agent Conformance Scenarios
+# Conformance Scenarios
 
 ## 目标
 
-本文件定义 managed-agent 架构下的关键合规场景。
+本文件定义 `Orchestration` 模块下的 managed-agent 架构关键合规场景。
 
 ## 必测场景
 

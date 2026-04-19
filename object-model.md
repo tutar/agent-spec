@@ -697,7 +697,7 @@ HostingProfile
 
 ## TaskRecord
 
-用于表达 task-first orchestration 中的统一任务对象。
+用于表达 task-driven runtime 中的统一任务对象。
 
 推荐最小字段：
 

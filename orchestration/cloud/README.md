@@ -23,7 +23,7 @@
 - `Session`
   durable remote event log / restore store
 - `Orchestration`
-  many brains / many hands / lazy provisioning / wake-resume
+  managed-agent control plane / many brains / many hands / lazy provisioning / wake-resume
 - `Sandbox`
   以 `Environment Sandbox` 为主，`Execution Sandbox` 为辅
 

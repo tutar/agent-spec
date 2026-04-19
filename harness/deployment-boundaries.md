@@ -200,8 +200,9 @@ Convenience:
 ### TaskManager / Orchestration
 
 - task 的稳定标识应是 `task_handle`，不是进程内对象引用
-- 应支持 detached/background/remote task
-- 应把 resume、reattach、recover 视为标准路径，而不是异常路径
+- `TaskManager` 负责 harness 内的 detached/background task
+- `Orchestration` 负责 cloud control plane 下的 remote wake / reprovision / reattach
+- 二者都应把 resume、reattach、recover 视为标准路径，而不是异常路径
 
 ### Sandbox / Hands
 

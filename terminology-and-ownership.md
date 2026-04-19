@@ -17,6 +17,10 @@
 | `InteractionLoop` | gateway 与 runtime 之间的标准交互循环 | `Harness` | `Session`, `Sandbox` | supplement input 属于当前 interaction |
 | `ModelProviderAdapter` | 吸收模型厂商/API 差异的统一适配层 | `Harness` | `Tools`, `Session` | 是模型差异的唯一主吸收层 |
 | `ContextGovernance` | context budget、compact、overflow recovery 的治理层 | `Harness` | `Session` | 不等于 transcript 或 memory store |
+| `TaskManager` | 本地 task-driven runtime 的任务生命周期与恢复接口 | `Harness` | `Session`, `Orchestration` | task 不是 transcript |
+| `BackgroundAgent` | 长于单 turn 生命周期的后台 agent | `Harness` | `Orchestration` | local 默认由 harness 管理生命周期 |
+| `VerifierTask` | 评估/校验型运行时单元 | `Harness` | `Tools` | capability surface 仍可由 tools 暴露 |
+| `WorkAllocator` | 本地多 agent / 多 worker 的分工与阻塞关系接口 | `Harness` | `Session` | 不等于 runtime task lifecycle |
 
 ## Session Terms
 
@@ -45,7 +49,7 @@
 | `Command` | `Tools` 域内共享对象模型 | `Tools` | top-level module | 不是第六个顶层模块 |
 | `Skill` | 提示词/工作流型能力 | `Tools` | `Harness` | 可由 tool bridge 暴露给模型 |
 | `MCP` | 外部协议接入能力 | `Tools` | `Gateway` | client / adapter 属于 tools 域 |
-| `VerificationCommand` | 对 harness 暴露的 command-like review capability | `Tools` | `Orchestration` | capability surface 在 tools，执行后端可委托 orchestration |
+| `VerificationCommand` | 对 harness 暴露的 command-like review capability | `Tools` | `Orchestration` | capability surface 在 tools，执行后端可委托 harness 或 orchestration |
 
 ## Sandbox Terms
 
@@ -60,14 +64,14 @@
 
 ## Orchestration Terms
 
-`Orchestration` 负责系统级任务编排和控制面。
+`Orchestration` 负责 cloud 托管控制面。
 
 | Term | Meaning | Owned By | Not Owned By | Notes |
 | --- | --- | --- | --- | --- |
-| `TaskManager` | 任务生命周期与恢复的标准接口 | `Orchestration` | `Session` | task 不是 transcript |
-| `BackgroundAgent` | 长于单 turn 生命周期的后台 agent | `Orchestration` | `Harness` | runtime 可执行它，但不拥有其生命周期 |
-| `VerifierTask` | 评估/校验型编排单元 | `Orchestration` | `Tools` | 不等于普通 tool call |
-| `HostingProfile` | Local/Cloud 的职责分布模式 | `Orchestration` | `Harness` | 影响部署位置，不改变五大模块边界 |
+| `ManagedAgentControlPlane` | cloud 托管 agent 的控制面 | `Orchestration` | `Harness` | 负责 wake、resume、provision、route |
+| `WakeCoordinator` | 托管执行恢复与唤醒协调器 | `Orchestration` | `Session` | 不等于 turn runtime |
+| `ProvisioningPlanner` | execution target 的按需创建与替换策略 | `Orchestration` | `Sandbox` | 只管 provision 计划，不等于 sandbox 本体 |
+| `HostingProfile` | Local/Cloud 的职责分布模式 | shared deployment mapping | `Harness` | 影响部署位置，不改变五大模块边界 |
 | `Host Scheduler` | 周期性 tick / due-job 推进器 | host or `Orchestration` | `Gateway` | 不是 gateway 核心职责 |
 
 ## Shared / Cross-Cutting Terms
@@ -104,7 +108,7 @@
   `ToolProgress` 由 `Tools` 产生；由 `Gateway` 投影给 channel/UI。
 
 - `VerificationCommand` vs `VerifierTask`
-  前者是暴露给 harness/agent 的 capability surface；后者是其默认执行后端中的编排对象。
+  前者是暴露给 harness/agent 的 capability surface；后者是其默认执行后端中的本地运行时对象。
 
 - `Orchestration` vs `Host Scheduler`
   orchestration 定义任务与控制面语义；host scheduler 只是推进 due jobs 的宿主执行机制。

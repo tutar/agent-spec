@@ -12,7 +12,7 @@
 - 根据模型能力选择 native path 或 fallback path
 - 组装 prompt / messages / tool surface
 - 驱动一轮或多轮 agent loop
-- 把模型输出路由到 tools、session 和 orchestration
+- 把模型输出路由到 tools、session 和本地 task-driven runtime
 
 它必须对宿主形态保持中立：
 
@@ -75,6 +75,11 @@ Harness
   - reflection
   - summarization
   - observability projection
+- `TaskDrivenRuntime`
+  - background task
+  - runtime task lifecycle
+  - local verification runtime
+  - local work allocation
 
 这些扩展可以采用不同算法和底层技术，但必须保持触发时机、外部可观察行为和恢复语义一致。
 
@@ -188,6 +193,21 @@ Harness
 - lifecycle hook 如何扩展 harness
 - turn 结束后的后处理如何触发和编排
 - runtime state 如何投影给外部 agent client
+
+### 6. Task-Driven Runtime
+
+- [task-driven-runtime/README.md](task-driven-runtime/README.md)
+- [task-driven-runtime/task-manager.md](task-driven-runtime/task-manager.md)
+- [task-driven-runtime/background-agent.md](task-driven-runtime/background-agent.md)
+- [task-driven-runtime/evaluation-and-verification.md](task-driven-runtime/evaluation-and-verification.md)
+- [task-driven-runtime/work-allocation.md](task-driven-runtime/work-allocation.md)
+
+这一组回答：
+
+- local task-driven runtime 如何承载后台执行对象
+- background agent 如何被托管、恢复和通知
+- verification 如何作为本地运行时单元进入标准链路
+- 多 worker 协作中的 work allocation 如何与 runtime task 分层
 
 ## 规范结论
 

@@ -41,7 +41,7 @@
 
 这些能力可以在同一个 command surface 中展示，但其内部来源语义仍需保留。共享规范见 [../capability-surface.md](../capability-surface.md)。
 
-另外，`reflection / verification` 这类 review capability 对 harness 来说也可呈现为 command-like capability，但它们不属于 Agent Skills 生态对象。它们的默认执行后端可以委托给 orchestration 中的 verifier task / subagent。
+另外，`reflection / verification` 这类 review capability 对 harness 来说也可呈现为 command-like capability，但它们不属于 Agent Skills 生态对象。它们的默认执行后端可以委托给 harness 中的 verifier task / background runtime；若需要远端托管执行，再转交给 `orchestration`。
 
 ## 生态兼容要求
 
@@ -171,7 +171,7 @@ McpBundleHost
 - 如何在长会话中处理 tool progress、tool failure、tool result persistence
 - 如何避免把 `skill`、`mcp`、`tool` 三种不同来源混成一个抽象
 - 如何在不新增顶层模块的前提下，把 `command` 这种共享对象模型写清楚
-- 如何让 command-like review capability 通过 orchestration 执行而不混淆模块边界
+- 如何让 command-like review capability 通过 harness 或 orchestration 执行而不混淆模块边界
 - 如何避免 agent 自建一个与 Skills/MCP 生态割裂的封闭工具系统
 - 如何让 lifecycle、transport、auth、server/client capabilities 在不同 host 下保持一致
 - 如何让桌面端把本地 MCP server 分发与安装纳入同一套规范
@@ -186,7 +186,8 @@ McpBundleHost
 - batch executor 与 streaming executor 应共享同一终态、错误和 context mutation 语义
 - `tool / skill / mcp` 应在能力域内并列建模，再在模型可见能力层汇合
 - `command` 是共享对象模型，不是新的顶层能力模块
-- command-like capability 可以把 orchestration 作为默认执行后端
+- command-like capability 可以把 harness 作为本地默认执行后端
+- cloud 托管场景下可以把 orchestration 作为远端执行后端
 - `SkillTool` 是桥接 tool，不是 skill 抽象本身
 - 协议兼容优先于私有扩展
 
@@ -242,7 +243,7 @@ McpBundleHost
 
 - command surface 是什么
 - prompt / local / review capability 如何承载
-- command-like capability 如何与 orchestration 桥接
+- command-like capability 如何与 harness / orchestration 桥接
 
 ### 3. Baseline 与生态接入
 

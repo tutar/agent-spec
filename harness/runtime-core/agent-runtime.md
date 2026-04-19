@@ -6,7 +6,7 @@
 
 它的职责不是调用一次模型，而是维持从“输入消息”到“最终停机状态”的完整推进过程。
 
-这里的 `AgentRuntime` 应明确理解为 `HarnessInstance` 内部的 loop，而不是整个 managed-agent 系统的全部。它依赖 session 提供 durable history，依赖 sandbox/hands 提供执行能力。
+这里的 `AgentRuntime` 应明确理解为 `HarnessInstance` 内部的 loop，而不是整个 cloud 控制面的全部。它依赖 session 提供 durable history，依赖 sandbox/hands 提供执行能力。
 
 ## 标准接口
 

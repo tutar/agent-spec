@@ -1,6 +1,6 @@
 # Managed Orchestration
 
-本文档位于 `cloud/` 目录下，因为它描述的是 Cloud deployment 下的核心控制面风格，而不是所有 hosting profile 的共同主路径。
+本文档位于 `cloud/` 目录下，因为它描述的是 cloud deployment 下的托管控制面风格，而不是所有 hosting profile 的共同主路径。
 
 ## 目标
 
@@ -11,8 +11,7 @@
 ## 要解决的问题
 
 - 如何同时管理多个 brains 和多个 hands
-- 如何把本地、后台、远端、子代理任务统一进一套生命周期
-- 如何在同一系统里同时容纳 sync worker、background task、persistent teammate、remote task
+- 如何管理 wake、reattach、provision 与 remote execution route
 - 如何让 hand 冷启动不拖慢纯推理任务
 - 如何让 harness 与 hands 各自失效后仍可恢复
 
@@ -104,22 +103,6 @@ hands 应是可枚举、可路由的 execution targets。
   提供执行能力
 - `Managed Orchestration`
   处理这些对象在托管系统中的连接、扩展、恢复与分配
-
-## 默认实现
-
-当前代码库中的默认 orchestration 实现是“task-first orchestration”：
-
-  负责汇总当前支持的 task types
-  承担本地子 agent 生命周期
-  承担远端 agent 生命周期
-  作为默认的 subagent orchestration entry
-
-默认模式的特点是：
-
-- orchestration 主要围绕 task registry 展开
-- local shell、local agent、remote agent 是三类主要默认执行对象
-- 已经具备多种 agent orchestration modes 的雏形，只是尚未在规范中显式命名
-- already has the shape of many-brains/many-hands orchestration, but still primarily optimized for a single product runtime
 
 ## 规范结论
 

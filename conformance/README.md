@@ -159,7 +159,7 @@
 - `skills-activation-wrapping`
 - `skills-context-protection`
 
-若要宣称支持 sandbox、memory consolidation、cloud managed-agent profile，还应通过：
+若要宣称支持 sandbox、memory consolidation、cloud orchestration profile，还应通过：
 
 - `sandbox-deny`
 - `memory-recall-and-consolidation`

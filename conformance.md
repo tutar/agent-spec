@@ -359,10 +359,12 @@
   通过 prompt cache 相关 golden cases
 - `Harness.Streaming`
   通过 delta / tool streaming / recovery 用例
+- `Harness.TaskDrivenRuntime`
+  通过 background agent 用例
 - `Session.MemoryConsolidation`
   通过 memory recall / consolidation 用例
-- `Orchestration.BackgroundAgent`
-  通过 background agent / wake-and-reprovision 用例
+- `Orchestration.ManagedControlPlane`
+  通过 wake-and-reprovision 用例
 
 缺少其中任一项，只能称为局部实现。
 

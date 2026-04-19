@@ -2,14 +2,14 @@
 
 ## 职责
 
-`EvaluationAndVerification` 定义 orchestration 层如何执行 verification 这类 review capability，而不是如何把它暴露给 harness。
+`EvaluationAndVerification` 定义 harness 如何执行 verification 这类 review capability，而不是如何把它暴露给工具面。
 
 它负责：
 
-- 将 verification 建模成独立 agent / task
+- 将 verification 建模成独立 verifier task / background runtime
 - 为 verifier 分配 mode、工具边界与生命周期
 - 等待、取消、恢复 verifier 执行
-- 将验证结果 attach 回主编排链
+- 将验证结果 attach 回主运行时链路
 
 它不负责：
 
@@ -39,7 +39,7 @@ VerifierTaskHandle
   - status
   - output_ref?
 
-VerificationOrchestrator
+VerificationRuntime
   - spawn_verifier(request) -> verifier_handle
   - await_verifier(handle) -> verification_result
   - cancel_verifier(handle)
@@ -71,13 +71,13 @@ VerificationResult
 
 代码阅读、推测和口头解释不能替代执行证据。
 
-### 4. orchestration 应允许自动或显式触发 verifier
+### 4. harness 应允许自动或显式触发 verifier
 
-对非平凡改动，编排层应允许自动或半自动进入 verification 阶段。
+对非平凡改动，运行时应允许自动或半自动进入 verification 阶段。
 
 ### 5. verification command 与 verifier task 需要分层
 
-`Tools` 可以把 verification 暴露成 command-like capability，但真正的子 agent / task 生命周期应由 orchestration 承担。
+`Tools` 可以把 verification 暴露成 command-like capability，但真正的 verifier task 生命周期应由 harness 承担。
 
 ## 推荐默认策略
 
@@ -87,12 +87,9 @@ VerificationResult
 - 主 agent 在汇报完成前应等待 verifier 结果
 - capability surface 由 [../../tools/command-surface/reflection-and-verification-commands.md](../../tools/command-surface/reflection-and-verification-commands.md) 定义
 
-## 默认实现映射
-
-
 ## 规范结论
 
 - agent 评估应优先通过独立 verifier 完成
-- verifier task 应作为 orchestration 中的标准模式，而不是临时技巧
+- verifier task 应作为 harness 中的标准运行时模式，而不是临时技巧
 - verification command 与 verifier task 应明确分层
 - 监控与评估必须分开建模

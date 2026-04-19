@@ -2,16 +2,16 @@
 
 ## 目标
 
-本文档定义多 agent 协作中的任务分配模型。
+本文档定义本地多 worker 协作中的任务分配模型。
 
 这里的 `task` 不是 runtime background task，而是团队协作中的待办项、分工项或工作单元。
 
 它解决的是：
 
-- 哪个 agent 负责什么
+- 哪个 worker 负责什么
 - 哪些工作项互相阻塞
 - 团队如何认领、转交和释放工作
-- 多 agent 如何共享一份可持久化的工作板
+- 多 worker 如何共享一份可持久化的工作板
 
 ## 核心概念
 
@@ -30,7 +30,7 @@
 它不负责：
 
 - 代表后台执行对象
-- 承载 shell / agent / remote session 输出
+- 承载 shell / agent / transcript branch 输出
 - 替代 runtime task lifecycle
 
 ### Work Status
@@ -57,7 +57,7 @@
 - `blocks`
 - `blocked_by`
 
-这样 orchestration 才能支持依赖驱动的多 agent 协作。
+这样 harness 才能支持依赖驱动的多 worker 协作。
 
 ## 推荐最小对象
 
@@ -114,33 +114,20 @@ DependencyManager
 - 一个 `RuntimeTask` 完成后可以更新某个 `WorkItem`
 - 但两者不应被建模成同一个对象
 
-## 与 Multi-Agent Orchestration 的关系
+## 与本地多 worker 协作的关系
 
-在多 agent 系统中：
+在本地多 worker 系统中：
 
-- orchestration 决定 agent 如何被编排和寻址
-- work allocation 决定 agent 被分配什么工作
+- harness runtime 决定 worker 如何被启动和跟踪
+- work allocation 决定 worker 被分配什么工作
 
 因此：
 
-- 没有 work allocation，仍然可以有多 agent
+- 没有 work allocation，仍然可以有多 worker
 - 但会缺少明确的协作分工和依赖管理
-
-## 默认实现映射
-
-本仓库当前默认实现映射到：
-
-
-默认实现特征：
-
-- 任务列表按 `taskListId` 落盘
-- 支持团队共享 task list
-- 支持 owner、status、blocks、blockedBy
-- 支持 claim / release / reset / load 检查
-- 与 teammate / team name 解析打通
 
 ## 规范结论
 
-- 多 agent 协作建议显式引入 work allocation 层
+- 多 worker 协作建议显式引入 work allocation 层
 - work allocation 与 runtime task 必须分开建模
 - 只有把“执行”与“分工”拆开，many-agent 系统才不会把 task 概念混成一层

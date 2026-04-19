@@ -10,7 +10,8 @@
 
 - 对 harness 来说，它们像一个可触发的 `command`
 - 触发后不一定在当前线程内直接执行
-- 默认执行后端可以委托给 orchestration 拉起 subagent / task
+- 默认执行后端可以委托给 harness 拉起 verifier task / background runtime
+- 若需要远端托管执行，也可以转交给 orchestration
 - 结果会作为 verdict、findings、critique 或附加上下文回流当前链路
 
 它至少覆盖两类 capability：
@@ -24,7 +25,7 @@
 
 - verification 不等于主 agent 自己再想一遍
 - reflection / verification command 不等于 Agent Skills 生态对象
-- command capability 的默认执行可以由 orchestration 承担，但 capability surface 归属 `Tools`
+- command capability 的默认执行可以由 harness 承担，但 capability surface 归属 `Tools`
 
 ## 稳定接口
 
@@ -94,6 +95,7 @@ ReviewResult
 
 - `reflection / verification` 应首先被建模成 `Tools` 域内的 command-like capability
 - 它们不属于 `tools/skills`，因为 `tools/skills` 只服务 Agent Skills 生态
-- 它们的默认执行后端可以是 `Orchestration` 中的 verifier task / subagent
+- 它们的默认执行后端可以是 `Harness` 中的 verifier task / background runtime
+- cloud 托管场景下也可以由 `Orchestration` 负责远端执行
 - verification 输出应结构化，至少包含 verdict 与 evidence
-- 该文档定义 capability surface；执行生命周期见 [../orchestration/agent-orchestration/evaluation-and-verification.md](../orchestration/agent-orchestration/evaluation-and-verification.md)
+- 该文档定义 capability surface；本地执行生命周期见 [../../harness/task-driven-runtime/evaluation-and-verification.md](../../harness/task-driven-runtime/evaluation-and-verification.md)

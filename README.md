@@ -7,7 +7,7 @@
 
 - 单机运行
 - 模块可以 direct-call
-- 本地 session / tool / sandbox / task 为默认落点
+- 本地 session / tool / sandbox / harness-managed task 为默认落点
 
 同时要求所有核心接口保持 `Cloud-compatible`：
 
@@ -67,7 +67,7 @@
 - `skills/`
 - `mcp/`
 
-其中 [harness/README.md](harness/README.md) 已进一步按 5 组子主题组织：
+其中 [harness/README.md](harness/README.md) 已进一步按 6 组子主题组织：
 
 - Runtime Core
 - Model Provider
@@ -79,18 +79,24 @@
 
 另外，反思相关能力已按职责拆入现有模块，而不是新增顶层 `reflection` 模块：
 
-- `orchestration` 下的 verification / reflection task
+- `harness` 下的 task-driven verification / reflection
 - `harness` 下的 post-turn processing
 - `session` 下的 memory consolidation
 
 此外，规范现在显式面向两种宿主场景：
 
 - `Local`
-  单机部署，模块可 direct-call，本地 session / task / verifier 为主
+  单机部署，模块可 direct-call，本地 session / task-driven runtime / verifier 为主
 - `Cloud`
   托管 control plane + remote execution
 
-这两种场景不改变五个核心模块的边界，但会改变它们的部署位置、职责分布和默认实现映射。相关差异主要通过 `orchestration/local/` 与 `orchestration/cloud/` 表达。
+这两种场景不改变五个核心模块的边界，但会改变它们的部署位置、职责分布和默认实现映射。
+其中：
+
+- `Harness`
+  表达本地 task-driven runtime、background task、verification 等默认运行时语义
+- `Orchestration`
+  只表达 cloud 托管控制面与远端可管控编排语义
 
 ## 共享文档
 
@@ -103,7 +109,7 @@
 - [object-model.md](object-model.md)
 - [schema-serialization.md](schema-serialization.md)
 - [test-artifacts.md](test-artifacts.md)
-- [managed-agent-conformance-scenarios.md](managed-agent-conformance-scenarios.md)
+- [orchestration/conformance-scenarios.md](orchestration/conformance-scenarios.md)
 - [todo.md](todo.md)
 
 ## 设计原则
