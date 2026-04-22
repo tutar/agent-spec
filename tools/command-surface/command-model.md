@@ -4,6 +4,8 @@
 
 `Command` 是 `tools` 域内的共享对象模型。
 
+对 `AgentRuntime` 来说，`Command` 是 turn entry 和 prompt-capability activation 阶段会消费的共享入口对象，而不是执行型 tool contract。
+
 它不是第六个顶层模块，也不是对 `Tool` 的替代。它的作用是为默认实现提供一个统一承载层，用来表达：
 
 - prompt command

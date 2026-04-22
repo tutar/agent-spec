@@ -6,6 +6,8 @@
 
 tool 不是普通函数。它至少同时服务于 prompt、权限、执行、UI 和日志五个子系统。
 
+对 `AgentRuntime` 来说，`ToolDefinition` 是 tool loop 中被消费的稳定执行 contract，而不是 turn lifecycle 本身。
+
 ## 标准接口
 
 ```text

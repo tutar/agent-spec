@@ -6,6 +6,8 @@
 
 这里讨论的是 MCP `2025-11-25` base protocol，而不是本地 `Tool` 封装。
 
+对 `AgentRuntime` 来说，这一页定义的是 protocol session lifecycle，而不是本地 capability object model。
+
 ## 生命周期
 
 一个合规的 MCP client 至少需要闭合以下链路：

@@ -4,6 +4,8 @@
 
 `PolicyEngine` 负责在工具真正执行前做策略判定，并在需要时把会话推进到 `requires_action`。
 
+对 `AgentRuntime` 和 `ToolExecutor` 来说，它是 execute-time gating surface，而不是独立的 turn orchestrator。
+
 权限不应被实现为简单弹窗，而应是一个可组合的策略系统。
 
 本页只定义 `PolicyDecision`、`ask/deny/allow` 与 `requires_action` 的总边界。
@@ -65,7 +67,7 @@ RequiresAction
   - details?
 ```
 
-canonical 字段表见 [../object-model.md](../object-model.md)。
+canonical 字段表应与共享的 runtime / session object model 保持一致。
 
 ## 设计要求
 

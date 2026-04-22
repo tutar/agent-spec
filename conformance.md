@@ -106,6 +106,7 @@
 - context mutation 的 staged / committed / discarded 语义一致
 - `skill`、`tool`、`command`、`mcp` 的角色边界稳定
 - MCP compatibility 不能被简化成“支持一批远端 tools”
+- plugin package / source loading / runtime delegation 与 execution capability 边界稳定
 
 ### Sandbox
 
@@ -217,6 +218,15 @@
 - discovery precedence / shadowing deterministic
 - catalog disclosure 与 activation disclosure 分层一致
 - activation 结果具备可 dedupe、可 compaction-protect 的稳定语义
+
+### Tools.PluginPackaging
+
+若实现宣称支持 plugin package / source loading 语义，还必须保持：
+
+- plugin 是 package / source loading / runtime delegation layer
+- plugin 不得被等同于 tool / skill / command / mcp
+- runtime startup / refresh 时的 plugin discovery、enablement、source precedence 语义稳定
+- commands / skills / hooks / mcp servers / agents / settings 等 component set 必须委托给既有子系统，而不是由 plugin 自行执行
 
 ### Tools.McpClient
 

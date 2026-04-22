@@ -4,6 +4,8 @@
 
 本文件定义 skills 如何向模型或用户披露，以及被激活后如何进入当前 interaction。
 
+对 `AgentRuntime` 来说，这一页定义的是 turn entry、context assembly 和 capability bridge 会调用的 disclosure / activation surface。
+
 它回答的是：
 
 - session start 时模型先看到什么

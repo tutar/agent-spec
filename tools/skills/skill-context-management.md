@@ -4,6 +4,8 @@
 
 本文件定义 skill 激活后的上下文保护、去重、allowlisting 和长期管理语义。
 
+对 `AgentRuntime` 来说，这一页定义的是 skill activation 之后如何在 current interaction 中保持 compaction-safe continuity。
+
 它解决的是：
 
 - skill 激活后如何避免被 compaction 意外清掉

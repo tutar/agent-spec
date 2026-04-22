@@ -4,6 +4,8 @@
 
 本文件定义 MCP `2025-11-25` transport 与 authorization 的稳定要求。
 
+对 `AgentRuntime` 来说，这一页定义的是连接层和认证层，而不是 capability adaptation 本身。
+
 ## Transport
 
 推荐接口：

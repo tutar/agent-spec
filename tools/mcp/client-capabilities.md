@@ -6,6 +6,8 @@
 
 当前规范对齐 MCP `2025-11-25` 的 client features。
 
+对 `AgentRuntime` 来说，这一页定义的是 protocol session 可向远端暴露的 client capability surface。
+
 ## Client Capability View
 
 推荐共享对象：

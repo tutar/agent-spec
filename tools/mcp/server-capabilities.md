@@ -6,6 +6,8 @@
 
 当前规范对齐 MCP `2025-11-25`，不再把 server capability 简化成 `tools / prompts / resources` 三类。
 
+对 `AgentRuntime` 来说，这一页定义的是远端 capability inventory，而不是本地 runtime object model。
+
 ## Server Capability View
 
 推荐共享对象：

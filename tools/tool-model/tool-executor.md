@@ -4,6 +4,8 @@
 
 `ToolExecutor` 负责把模型产出的一个或多个 `tool_use` 安全地变成运行结果。
 
+对 `AgentRuntime` 来说，它是 tool loop 中被调用的 delegated executor。
+
 重点不是“把函数调起来”，而是处理并发、取消、顺序、progress 和上下文一致性。
 
 它描述的是 tool invocation orchestration，不等价于 sandbox lifecycle，也不等价于执行环境本身。
@@ -145,5 +147,5 @@ agent 应至少区分：
 - tool executor 负责编排，不负责定义或承载 hands 本身
 - `execute_stream()` 应是第一性接口
 - direct-call `execute()` 如存在，也必须严格由事件流语义推导
-- tool terminal state 与 error class 应与 [../harness/runtime/core/failure-and-terminal-states.md](../harness/runtime/core/failure-and-terminal-states.md) 对齐
+- tool terminal state 与 error class 应与 [../../harness/runtime/core/failure-and-terminal-states.md](../../harness/runtime/core/failure-and-terminal-states.md) 对齐
 - context modifier 必须具备 staged / committed / discarded 的事务语义

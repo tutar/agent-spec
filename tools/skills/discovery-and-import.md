@@ -4,6 +4,8 @@
 
 本文件定义 Agent Skills 的发现、扫描、导入、去重和信任边界。
 
+对 `AgentRuntime` 来说，这一页定义的是 startup / refresh / context assembly 前会调用的 skill import surface。
+
 它回答的是：
 
 - 从哪里发现 skills
@@ -48,7 +50,7 @@ DiscoveredSkillRef
 
 为兼容现有生态，宿主可额外支持：
 
-- `.claude/skills/`
+- `.openagent/skills/`
 - 祖先目录逐级发现
 - bundled / managed / provisioned skill source
 
@@ -132,7 +134,7 @@ project-level skills 不应在不可信仓库中默认静默启用。
 
 - 支持 `skills / plugin / managed / bundled / mcp` 多来源
 - 支持去重和同文件 shadowing 处理
-- 支持 `.claude/skills` 与 managed/user/project 范围
+- 支持 `.openagent/skills` 与 managed/user/project 范围
 
 ## 规范结论
 

@@ -4,6 +4,8 @@
 
 本文件定义 Agent Skills 的目录结构、`SKILL.md` 解析规则和 manifest 兼容语义。
 
+对 `AgentRuntime` 来说，这一页定义的是 skill import 之后可被 registry / activator 消费的稳定 definition semantics。
+
 它解决的是：
 
 - skill 文件长什么样

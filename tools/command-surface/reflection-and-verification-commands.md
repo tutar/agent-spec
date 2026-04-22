@@ -4,6 +4,8 @@
 
 `Reflection And Verification Commands` 定义一类 command-like capability：对当前任务、已有结果或已收集证据再做一轮 review、critique、reflection 或 verification。
 
+对 `AgentRuntime` 来说，它们是可触发的 review capability surface；默认执行后端可以委托给 harness task / background runtime 或 orchestration。
+
 它们不是 Agent Skills 规范中的 `skill`，也不是普通 `ToolDefinition`。
 
 它们的特点是：

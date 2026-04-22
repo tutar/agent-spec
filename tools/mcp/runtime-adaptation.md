@@ -6,6 +6,8 @@
 
 这里讨论的是适配语义，不是协议本体。
 
+对 `AgentRuntime` 来说，这一页定义的是 capability adaptation surface。
+
 ## 默认映射
 
 推荐默认落点：

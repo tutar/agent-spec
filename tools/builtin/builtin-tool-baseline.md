@@ -4,6 +4,8 @@
 
 本文件定义跨语言、跨宿主实现中推荐保留的 `built-in tool baseline`。
 
+对 `AgentRuntime` 来说，这份 baseline 描述的是默认 capability surface，而不是完整工具注册表或插件扩展面。
+
 这里的重点不是“宿主里存在一些内置工具”，而是：
 
 - 哪些工具构成 agent coding/runtime 的最小闭环
@@ -274,7 +276,7 @@
 
 为什么必须：
 
-- skills 是 Claude Code/Agent Skills 生态的重要入口
+- skills 是 Agent Skills 生态的重要入口
 - 不保留 `Skill`，skill registry 很难无损进入 runtime
 
 等价实现要求：

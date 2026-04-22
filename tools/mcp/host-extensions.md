@@ -6,6 +6,8 @@
 
 这些扩展可以很实用，但不属于 MCP `2025-11-25` core conformance。
 
+对 `AgentRuntime` 来说，这一页定义的是可选 host-facing extensions，而不是 MCP core lifecycle。
+
 ## Host Extension 范围
 
 典型扩展包括：

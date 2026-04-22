@@ -2,14 +2,13 @@
 
 ## 职责
 
-本目录定义 coding-oriented host 推荐保留的 built-in tool baseline。
+本目录定义 coding-oriented host 推荐保留的 built-in capability baseline。
 
-它回答的是：
+对 `AgentRuntime` 来说，这一组文档回答的是：
 
-- 哪些内置工具构成默认最小闭环
-- 每类工具要解决什么问题
-- baseline 工具的 policy / persistence / context mutation 边界是什么
-- `Local / Cloud` 如何提供等价实现
+- 默认至少应装配哪一组 builtin capabilities
+- 哪些 builtin family 构成 coding/runtime baseline
+- baseline capability surface 与完整 tool registry 的边界是什么
 
 ## 目录
 
@@ -18,4 +17,5 @@
 ## 边界
 
 - 本目录是 baseline catalog，不是完整工具注册表
-- 执行主线规范见 [../tool-model/README.md](../tool-model/README.md)
+- 执行型工具主线见 [../tool-model/README.md](../tool-model/README.md)
+- plugin- or protocol-contributed capabilities 不在本目录建模

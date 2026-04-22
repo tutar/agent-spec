@@ -4,6 +4,8 @@
 
 `ToolRegistry` 负责把不同来源的执行型能力装配成当前 runtime 可见的 tool 集合。
 
+对 `AgentRuntime` 来说，`ToolRegistry` 是 startup / refresh / per-turn assembly 阶段会调用的 capability assembly interface。
+
 它不是简单数组，也不是 UI 展示列表。它至少同时服务于：
 
 - model-visible tool surface
