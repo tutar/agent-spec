@@ -1,0 +1,10 @@
+{
+  "artifact_id": "mcp-tool-adaptation.v1",
+  "schema_version": "1.0",
+  "scenario": "mcp-tool-adaptation",
+  "constraints": [
+    "protocol-native tool descriptions can be adapted into the local tool surface without changing their callable semantics",
+    "adapted tools remain distinguishable from built-in and package-contributed source families",
+    "runtime calls adapted tools through the same canonical tool object model"
+  ]
+}

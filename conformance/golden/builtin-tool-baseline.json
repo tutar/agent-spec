@@ -1,0 +1,10 @@
+{
+  "artifact_id": "builtin-tool-baseline.v1",
+  "schema_version": "1.0",
+  "scenario": "builtin-tool-baseline-and-gating",
+  "constraints": [
+    "runtime exposes a built-in capability baseline before optional source families are merged",
+    "gating changes capability exposure rather than redefining the tool object model",
+    "built-in baseline is modeled as capability families rather than a separate top-level module"
+  ]
+}

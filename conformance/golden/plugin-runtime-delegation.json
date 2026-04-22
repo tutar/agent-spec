@@ -1,0 +1,16 @@
+{
+  "artifact_id": "plugin-runtime-delegation.v1",
+  "schema_version": "1.0",
+  "scenario": "plugin-source-loading-and-runtime-delegation",
+  "constraints": [
+    "plugin loading merges source families before delegated components enter their target subsystems",
+    "commands skills hooks mcp servers agents and settings remain delegated component families",
+    "plugin runtime value is source management and delegation rather than direct component execution"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "PluginDelegationMap",
+      "required_fields": ["commands", "skills", "hooks", "mcp_servers", "agents", "settings"]
+    }
+  ]
+}

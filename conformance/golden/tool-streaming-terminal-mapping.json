@@ -1,0 +1,10 @@
+{
+  "artifact_id": "tool-streaming-terminal-mapping.v1",
+  "schema_version": "1.0",
+  "scenario": "tool-streaming-fallback-and-terminal-mapping",
+  "constraints": [
+    "streaming and fallback paths map to one stable terminal or error surface",
+    "abort reasons remain distinguishable after mapping",
+    "runtime callers do not need transport-specific logic to understand final outcome"
+  ]
+}

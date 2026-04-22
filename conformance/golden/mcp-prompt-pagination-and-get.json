@@ -1,0 +1,10 @@
+{
+  "artifact_id": "mcp-prompt-pagination-and-get.v1",
+  "schema_version": "1.0",
+  "scenario": "mcp-prompt-pagination-and-get",
+  "constraints": [
+    "prompt discovery supports pagination without losing stable prompt identity",
+    "get operations resolve a prompt by stable prompt reference rather than page position",
+    "paginated prompt discovery and prompt retrieval remain protocol-visible operations"
+  ]
+}

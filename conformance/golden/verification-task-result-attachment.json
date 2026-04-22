@@ -1,0 +1,17 @@
+{
+  "artifact_id": "verification-task-result-attachment.v1",
+  "schema_version": "1.0",
+  "scenario": "verification-task-result-attachment",
+  "constraints": [
+    "verification runs as an independent verifier task rather than a self-asserted completion step",
+    "verification produces a structured verdict with evidence and findings",
+    "verification results can be attached back to a session or task without collapsing verifier identity",
+    "restore can still recover verifier terminal state verdict and evidence references"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "VerificationResult",
+      "required_fields": ["verdict", "evidence", "findings", "verifier_id"]
+    }
+  ]
+}

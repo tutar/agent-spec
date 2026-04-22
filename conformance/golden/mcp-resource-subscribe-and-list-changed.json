@@ -1,0 +1,10 @@
+{
+  "artifact_id": "mcp-resource-subscribe-and-list-changed.v1",
+  "schema_version": "1.0",
+  "scenario": "mcp-resource-subscribe-and-list-changed",
+  "constraints": [
+    "resource subscription and list-changed notifications remain separate but composable protocol surfaces",
+    "subscribed observers can detect changed resources without rescanning the full resource set",
+    "list-changed semantics do not require collapsing resources into prompt or tool objects"
+  ]
+}

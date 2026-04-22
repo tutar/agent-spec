@@ -161,6 +161,20 @@
 - restore 后可恢复 task status、output handle、terminal-like stop reason
 - retention / eviction 不得破坏既有 terminal 事实与输出追溯
 
+若实现宣称支持 task 子系统内的 verification runtime，还必须保持：
+
+- verification 由独立 verifier task 或语义等价执行单元完成
+- verifier verdict 至少可区分 `PASS / FAIL / PARTIAL`
+- verification result 可附着回 session、task 或等价主链路对象
+- restore 后 verifier terminal state、verdict 与 evidence ref 仍可追溯
+
+若实现宣称支持 task 子系统内的 work allocation，还必须保持：
+
+- `WorkItem` 与 runtime `Task` 分层建模
+- work allocation 支持 owner、status 与 blocking graph
+- ready item 计算遵守 `blocks / blocked_by` 关系
+- task terminal 不会覆盖协作层 work item identity
+
 ### Harness.MultiAgent
 
 若实现宣称支持 local multi-agent coordination，还必须保持：
@@ -218,6 +232,32 @@
 - discovery precedence / shadowing deterministic
 - catalog disclosure 与 activation disclosure 分层一致
 - activation 结果具备可 dedupe、可 compaction-protect 的稳定语义
+- `inline` / `fork` 等 invocation mode 影响 execution boundary，但不改写 skill definition 本体
+
+### Tools.ToolModel
+
+若实现宣称支持完整的 `Tools.ToolModel`，还必须保持：
+
+- `ToolRegistry` 是 runtime capability assembly 的结果，而不是单一来源私有清单
+- built-in、protocol-adapted 与 package-contributed tool 能进入统一 tool surface
+- policy、executor 与 runtime tool loop 分层
+- streaming、fallback 与 abort reason 可映射到统一 terminal/error 语义
+
+### Tools.BuiltinBaseline
+
+若实现宣称支持 `Tools.BuiltinBaseline`，还必须保持：
+
+- runtime 至少暴露一组 built-in capability family
+- gating 调整 exposure，而不重写 canonical tool object model
+- built-in baseline 是默认 capability surface，不是新的顶层模块
+
+### Tools.CommandSurface
+
+若实现宣称支持 `Tools.CommandSurface`，还必须保持：
+
+- command surface 是 runtime 的 non-tool invocation surface
+- `local / local-jsx / prompt` 等 command kind 边界稳定
+- verification command-like capability 只是 trigger surface，不等于 verifier task lifecycle
 
 ### Tools.PluginPackaging
 
@@ -291,6 +331,8 @@
   - [conformance/cases/runtime-task-lifecycle.md](conformance/cases/runtime-task-lifecycle.md)
   - [conformance/cases/task-output-cursor-and-resume.md](conformance/cases/task-output-cursor-and-resume.md)
   - [conformance/cases/task-retention-and-eviction.md](conformance/cases/task-retention-and-eviction.md)
+  - [conformance/cases/verification-task-lifecycle-and-verdict-attachment.md](conformance/cases/verification-task-lifecycle-and-verdict-attachment.md)
+  - [conformance/cases/work-allocation-vs-runtime-task-boundary.md](conformance/cases/work-allocation-vs-runtime-task-boundary.md)
 - `Harness.MultiAgent`
   - [conformance/cases/inter-agent-task-notification-routing.md](conformance/cases/inter-agent-task-notification-routing.md)
   - [conformance/cases/teammate-mailbox-delivery.md](conformance/cases/teammate-mailbox-delivery.md)
@@ -323,6 +365,19 @@
   - [conformance/cases/skills-discovery-precedence.md](conformance/cases/skills-discovery-precedence.md)
   - [conformance/cases/skills-activation-wrapping.md](conformance/cases/skills-activation-wrapping.md)
   - [conformance/cases/skills-context-protection.md](conformance/cases/skills-context-protection.md)
+  - [conformance/cases/skill-invocation-mode-and-context-boundary.md](conformance/cases/skill-invocation-mode-and-context-boundary.md)
+- `Tools.ToolModel`
+  - [conformance/cases/tool-registry-and-capability-assembly.md](conformance/cases/tool-registry-and-capability-assembly.md)
+  - [conformance/cases/tool-policy-and-execution-boundary.md](conformance/cases/tool-policy-and-execution-boundary.md)
+  - [conformance/cases/tool-streaming-fallback-and-terminal-mapping.md](conformance/cases/tool-streaming-fallback-and-terminal-mapping.md)
+- `Tools.BuiltinBaseline`
+  - [conformance/cases/builtin-tool-baseline-and-gating.md](conformance/cases/builtin-tool-baseline-and-gating.md)
+- `Tools.CommandSurface`
+  - [conformance/cases/command-surface-routing-and-kind-boundary.md](conformance/cases/command-surface-routing-and-kind-boundary.md)
+  - [conformance/cases/verification-command-vs-verifier-task-boundary.md](conformance/cases/verification-command-vs-verifier-task-boundary.md)
+- `Tools.PluginPackaging`
+  - [conformance/cases/plugin-package-vs-runtime-capability-boundary.md](conformance/cases/plugin-package-vs-runtime-capability-boundary.md)
+  - [conformance/cases/plugin-source-loading-and-runtime-delegation.md](conformance/cases/plugin-source-loading-and-runtime-delegation.md)
 - `Tools.McpClient`
   - [conformance/cases/mcp-tool-adaptation.md](conformance/cases/mcp-tool-adaptation.md)
   - [conformance/cases/mcp-initialize-and-version-negotiation.md](conformance/cases/mcp-initialize-and-version-negotiation.md)

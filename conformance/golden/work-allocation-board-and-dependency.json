@@ -1,0 +1,21 @@
+{
+  "artifact_id": "work-allocation-board-and-dependency.v1",
+  "schema_version": "1.0",
+  "scenario": "work-allocation-board-and-dependency",
+  "constraints": [
+    "work allocation uses a board and work-item model distinct from runtime task lifecycle",
+    "work items express owner status blocks and blocked_by relationships",
+    "ready-item computation respects blocking dependencies rather than only task status",
+    "task completion may update a work item but does not collapse the two identities"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "WorkItem",
+      "required_fields": ["id", "subject", "status", "blocks", "blocked_by"]
+    },
+    {
+      "object_name": "WorkBoard",
+      "required_fields": ["board_id", "items"]
+    }
+  ]
+}

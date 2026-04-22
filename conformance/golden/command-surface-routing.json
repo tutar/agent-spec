@@ -1,0 +1,16 @@
+{
+  "artifact_id": "command-surface-routing.v1",
+  "schema_version": "1.0",
+  "scenario": "command-surface-routing-and-kind-boundary",
+  "constraints": [
+    "command surface routes local local-jsx and prompt commands through distinct invocation paths",
+    "prompt commands remain part of the command surface rather than being collapsed into tool calls",
+    "command and tool keep separate object-layer boundaries"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "Command",
+      "required_fields": ["name", "kind"]
+    }
+  ]
+}

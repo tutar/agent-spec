@@ -1,0 +1,21 @@
+{
+  "artifact_id": "runtime-task-lifecycle.events.v1",
+  "schema_version": "1.0",
+  "scenario": "runtime-task-lifecycle",
+  "constraints": [
+    "task lifecycle supports pending running and a single terminal status",
+    "task output remains addressable through a stable output_ref and cursor-like interface",
+    "terminal notification is deduplicated and remains recoverable after restore",
+    "retention and eviction do not erase terminal facts before restore boundaries are satisfied"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "Task",
+      "required_fields": ["id", "type", "status", "output_ref", "notified"]
+    },
+    {
+      "object_name": "TaskOutputHandle",
+      "required_fields": ["output_ref", "transport"]
+    }
+  ]
+}

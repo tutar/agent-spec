@@ -1,0 +1,16 @@
+{
+  "artifact_id": "plugin-package-boundary.v1",
+  "schema_version": "1.0",
+  "scenario": "plugin-package-vs-runtime-capability-boundary",
+  "constraints": [
+    "plugins are package and delegation objects rather than executable tool or skill objects",
+    "plugin manifest semantics identify source component-set and enablement state",
+    "plugin identity does not replace the identities of delegated capabilities"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "PluginManifest",
+      "required_fields": ["name", "source", "components"]
+    }
+  ]
+}

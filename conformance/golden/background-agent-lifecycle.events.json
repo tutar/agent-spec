@@ -1,0 +1,17 @@
+{
+  "artifact_id": "background-agent-lifecycle.events.v1",
+  "schema_version": "1.0",
+  "scenario": "background-agent-lifecycle",
+  "constraints": [
+    "background agent execution does not require the parent turn to remain blocked",
+    "background agent is mapped to an independently observable task-like handle",
+    "progress and terminal facts remain externally visible while the parent session continues",
+    "background agent output remains durably traceable through an output reference or transcript branch"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "BackgroundAgentHandle",
+      "required_fields": ["agent_id", "task_id", "status"]
+    }
+  ]
+}

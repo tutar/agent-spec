@@ -1,0 +1,16 @@
+{
+  "artifact_id": "tool-registry-capability-assembly.v1",
+  "schema_version": "1.0",
+  "scenario": "tool-registry-and-capability-assembly",
+  "constraints": [
+    "tool registry is an assembled capability surface rather than a single-source private list",
+    "built-in protocol-adapted and package-contributed tools can coexist in one registry",
+    "source-family boundaries do not change the canonical tool object model"
+  ],
+  "object_fixtures": [
+    {
+      "object_name": "ToolRegistry",
+      "required_fields": ["tools"]
+    }
+  ]
+}

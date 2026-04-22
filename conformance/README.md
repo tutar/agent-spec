@@ -39,6 +39,14 @@
 - [cases/task-output-cursor-and-resume.md](cases/task-output-cursor-and-resume.md)
 - [cases/task-retention-and-eviction.md](cases/task-retention-and-eviction.md)
 
+### Harness.Task.Verification
+
+- [cases/verification-task-lifecycle-and-verdict-attachment.md](cases/verification-task-lifecycle-and-verdict-attachment.md)
+
+### Harness.Task.WorkAllocation
+
+- [cases/work-allocation-vs-runtime-task-boundary.md](cases/work-allocation-vs-runtime-task-boundary.md)
+
 ### Harness.Runtime
 
 - [cases/runtime-state-projection-and-task-boundary.md](cases/runtime-state-projection-and-task-boundary.md)
@@ -94,6 +102,22 @@
 - [cases/skills-discovery-precedence.md](cases/skills-discovery-precedence.md)
 - [cases/skills-activation-wrapping.md](cases/skills-activation-wrapping.md)
 - [cases/skills-context-protection.md](cases/skills-context-protection.md)
+- [cases/skill-invocation-mode-and-context-boundary.md](cases/skill-invocation-mode-and-context-boundary.md)
+
+### Tools.ToolModel
+
+- [cases/tool-registry-and-capability-assembly.md](cases/tool-registry-and-capability-assembly.md)
+- [cases/tool-policy-and-execution-boundary.md](cases/tool-policy-and-execution-boundary.md)
+- [cases/tool-streaming-fallback-and-terminal-mapping.md](cases/tool-streaming-fallback-and-terminal-mapping.md)
+
+### Tools.BuiltinBaseline
+
+- [cases/builtin-tool-baseline-and-gating.md](cases/builtin-tool-baseline-and-gating.md)
+
+### Tools.CommandSurface
+
+- [cases/command-surface-routing-and-kind-boundary.md](cases/command-surface-routing-and-kind-boundary.md)
+- [cases/verification-command-vs-verifier-task-boundary.md](cases/verification-command-vs-verifier-task-boundary.md)
 
 ### Tools.PluginPackaging
 
@@ -140,15 +164,29 @@
 - [golden/session-resume.event-log.json](golden/session-resume.event-log.json)
 - [golden/sandbox-deny.events.json](golden/sandbox-deny.events.json)
 - [golden/policy-ask-deny-allow.json](golden/policy-ask-deny-allow.json)
+- [golden/runtime-task-lifecycle.events.json](golden/runtime-task-lifecycle.events.json)
+- [golden/background-agent-lifecycle.events.json](golden/background-agent-lifecycle.events.json)
+- [golden/verification-task-result-attachment.json](golden/verification-task-result-attachment.json)
+- [golden/work-allocation-board-and-dependency.json](golden/work-allocation-board-and-dependency.json)
 - [golden/persisted-tool-result-resume.json](golden/persisted-tool-result-resume.json)
+- [golden/command-surface-routing.json](golden/command-surface-routing.json)
+- [golden/builtin-tool-baseline.json](golden/builtin-tool-baseline.json)
+- [golden/tool-registry-capability-assembly.json](golden/tool-registry-capability-assembly.json)
+- [golden/tool-streaming-terminal-mapping.json](golden/tool-streaming-terminal-mapping.json)
 - [golden/instruction-markdown-loading-precedence.json](golden/instruction-markdown-loading-precedence.json)
 - [golden/memory-recall-and-consolidation.json](golden/memory-recall-and-consolidation.json)
 - [golden/memory-consolidation-background-safety.json](golden/memory-consolidation-background-safety.json)
 - [golden/skills-discovery-precedence.json](golden/skills-discovery-precedence.json)
 - [golden/skills-activation-wrapping.json](golden/skills-activation-wrapping.json)
 - [golden/skills-context-protection.json](golden/skills-context-protection.json)
+- [golden/skill-invocation-mode.json](golden/skill-invocation-mode.json)
+- [golden/plugin-package-boundary.json](golden/plugin-package-boundary.json)
+- [golden/plugin-runtime-delegation.json](golden/plugin-runtime-delegation.json)
 - [golden/mcp-initialize-and-version-negotiation.json](golden/mcp-initialize-and-version-negotiation.json)
+- [golden/mcp-tool-adaptation.json](golden/mcp-tool-adaptation.json)
 - [golden/mcp-sampling-with-tools.json](golden/mcp-sampling-with-tools.json)
+- [golden/mcp-prompt-pagination-and-get.json](golden/mcp-prompt-pagination-and-get.json)
+- [golden/mcp-resource-subscribe-and-list-changed.json](golden/mcp-resource-subscribe-and-list-changed.json)
 - [golden/mcp-auth-discovery-and-scope-upgrade.json](golden/mcp-auth-discovery-and-scope-upgrade.json)
 - [golden/cloud-wake-and-reprovision.json](golden/cloud-wake-and-reprovision.json)
 - [golden/context-planes-and-projection.json](golden/context-planes-and-projection.json)
@@ -228,6 +266,14 @@ golden 只保留当前正文仍有明确稳定对象或稳定事件输出的场�
 - `task-output-cursor-and-resume`
 - `task-retention-and-eviction`
 
+若要宣称支持 `Harness.Task.Verification`，还应通过：
+
+- `verification-task-lifecycle-and-verdict-attachment`
+
+若要宣称支持 `Harness.Task.WorkAllocation`，还应通过：
+
+- `work-allocation-vs-runtime-task-boundary`
+
 若要宣称支持 `Harness.Runtime` 的完整 state projection 语义，还应通过：
 
 - `runtime-state-projection-and-task-boundary`
@@ -283,6 +329,22 @@ golden 只保留当前正文仍有明确稳定对象或稳定事件输出的场�
 - `skills-discovery-precedence`
 - `skills-activation-wrapping`
 - `skills-context-protection`
+- `skill-invocation-mode-and-context-boundary`
+
+若要宣称支持 `Tools.ToolModel` 的完整语义，还应通过：
+
+- `tool-registry-and-capability-assembly`
+- `tool-policy-and-execution-boundary`
+- `tool-streaming-fallback-and-terminal-mapping`
+
+若要宣称支持 `Tools.BuiltinBaseline`，还应通过：
+
+- `builtin-tool-baseline-and-gating`
+
+若要宣称支持 `Tools.CommandSurface`，还应通过：
+
+- `command-surface-routing-and-kind-boundary`
+- `verification-command-vs-verifier-task-boundary`
 
 若要宣称支持 `Tools.PluginPackaging`，还应通过：
 

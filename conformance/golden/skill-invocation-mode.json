@@ -1,0 +1,10 @@
+{
+  "artifact_id": "skill-invocation-mode.v1",
+  "schema_version": "1.0",
+  "scenario": "skill-invocation-mode-and-context-boundary",
+  "constraints": [
+    "skill invocation supports at least an inline-like and a fork-like execution boundary",
+    "skill bridge surfaces remain distinct from skill definition objects",
+    "fork-like invocation exposes an observable derived execution boundary"
+  ]
+}
